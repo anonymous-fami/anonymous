@@ -20,7 +20,7 @@ namespace anonymous
             IMatrix A = new Matrix();
             A.test();
             ////////////////////////   
-            /////test Q2 from Q
+            /////test Q2 to Q
         }
     }
 
