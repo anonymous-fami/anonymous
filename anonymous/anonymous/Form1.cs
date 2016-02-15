@@ -15,7 +15,7 @@ namespace anonymous
         public Form1()
         {
             InitializeComponent();
-
+            int i;i = 0;i++;
             /////////////////////////
             IMatrix A = new Matrix();
             A.test();
@@ -39,6 +39,19 @@ namespace anonymous
         static IVector operator *(double v1, IVector v2);
         */
         double Norm();
+    }
+    interface IInputOutput
+    {
+        //Ввод плотной матрицы
+        void InputMatrix(int Flag, string FileName, double[][] Plot);
+        //Ввод матрицы в профильном формате
+        void InputMatrix(int Flag, string FileName, int[] ia, double[] gg, double[] diag);
+        //Ввод матрицы в разреженном формате
+
+        //Ввод матрицы
+
+        //Ввод матрицы
+
     }
 
     interface ISLAE
