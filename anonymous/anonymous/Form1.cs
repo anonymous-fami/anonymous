@@ -47,11 +47,14 @@ namespace anonymous
         //Ввод матрицы в профильном формате
         void InputMatrix(int Flag, string FileName, int[] ia, double[] gg, double[] diag);
         //Ввод матрицы в разреженном формате
+        void InputMatrix(int Flag, string FileName, int[] ia, int[] ja, double[] gg, double[] diag);
+        //Ввод матрицы в диагональном формате
+        //void InputMatrix(int Flag, string FileName, double[] gg, double[] diag);
+        //Ввод матрицы в ленточном формате
+        void InputMatrix(int Flag, string FileName, double[] gg, double[] diag);
 
-        //Ввод матрицы
-
-        //Ввод матрицы
-
+        //ввод вектора правой части
+        void InputRightPart(string FileName, double[] pr);
     }
 
     interface ISLAE
