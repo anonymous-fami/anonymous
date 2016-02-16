@@ -14,12 +14,21 @@ namespace anonymous
     {
         public Form1()
         {
+            int type;
+
             InitializeComponent();
-            int i;i = 0;i++;
+
             /////////////////////////
             IMatrix A = new Matrix();
             A.test();
-            ////////////////////////   
+            //////////////////////// 
+
+            /*
+            A.Input();
+            A.LU();
+            A.Solve();
+            A.Output();
+            */             
         }
     }
 
@@ -86,6 +95,8 @@ namespace anonymous
 
     class Matrix : IMatrix // Реализация интерфейса IMatrix
     {
+        
+
         public IVector Multiply(IVector x)
         {
             return null;
