@@ -16,10 +16,28 @@ namespace anonymous
         {
             InitializeComponent();
 
+            comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
+            comboBox1.SelectedItem = comboBox1.Items[0];
+
             /////////////////////////
+            //IMatrix A = new Matrix();
+            //A.test();
+            //////////////////////// 
+
+            /*
+            A.Input();
+            A.LU();
+            A.Solve();
+            A.Output();
+            */             
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InputOutput.formattype = comboBox1.SelectedIndex;
+
             IMatrix A = new Matrix();
             A.test();
-            ////////////////////////   
         }
     }
 
@@ -70,6 +88,8 @@ namespace anonymous
 
     class Matrix : IMatrix // Реализация интерфейса IMatrix
     {
+        
+
         public IVector Multiply(IVector x)
         {
             return null;
@@ -82,7 +102,7 @@ namespace anonymous
 
         public void test()
         {
-            MessageBox.Show("test msg");
+            MessageBox.Show(InputOutput.formattype.ToString());
         }
     }
 
