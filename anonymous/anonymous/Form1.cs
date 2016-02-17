@@ -14,13 +14,14 @@ namespace anonymous
     {
         public Form1()
         {
-            int type;
-
             InitializeComponent();
 
+            comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
+            comboBox1.SelectedItem = comboBox1.Items[0];
+
             /////////////////////////
-            IMatrix A = new Matrix();
-            A.test();
+            //IMatrix A = new Matrix();
+            //A.test();
             //////////////////////// 
 
             /*
@@ -29,6 +30,14 @@ namespace anonymous
             A.Solve();
             A.Output();
             */             
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InputOutput.formattype = comboBox1.SelectedIndex;
+
+            IMatrix A = new Matrix();
+            A.test();
         }
     }
 
@@ -49,8 +58,10 @@ namespace anonymous
         */
         double Norm();
     }
+
     public static class InputOutput
     {
+        public static int formattype;
         //Ввод плотной матрицы
         public static void InputMatrix(int Flag, string FileName,out double[,] Plot) { Plot = new double[10,10]; }
         //Ввод матрицы в профильном формате
@@ -127,7 +138,7 @@ namespace anonymous
 
         public void test()
         {
-            MessageBox.Show("test msg");
+            MessageBox.Show(InputOutput.formattype.ToString());
         }
     }
 
