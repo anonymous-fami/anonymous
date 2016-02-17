@@ -87,17 +87,15 @@ namespace anonymous
     }
 
     class Matrix : IMatrix // Реализация интерфейса IMatrix
-    {
-        
-
+    {      
         public IVector Multiply(IVector x)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public IVector TMultiply(IVector x)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public void test()
@@ -110,27 +108,27 @@ namespace anonymous
     {
         public double Norm()
         {
-            return 0;
+            throw new NotImplementedException();
         }
 
         public static double operator *(Vector v1, Vector v2)
         {
-            return 0;
+            throw new NotImplementedException();
         }
 
         public static IVector operator +(Vector v1, Vector v2)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public static IVector operator *(Vector v1, double v2)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public static IVector operator *(double v1, Vector v2)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 
@@ -138,14 +136,26 @@ namespace anonymous
     {
         public IMatrix Matrix
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public IVector RightPart
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 
@@ -153,26 +163,50 @@ namespace anonymous
     {
         public int IterationNumber
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public IVector Residual
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public IVector CurrentSolution
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public ISolver CurrentSolver
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 
