@@ -40,5 +40,6 @@ namespace anonymous
         {
             pr = new double[10];
         }
+        //самый нужный комент
     }
 }
