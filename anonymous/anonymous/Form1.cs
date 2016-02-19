@@ -73,7 +73,8 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
-    interface IPreconditioner : IMatrix
+    interface IPreconditioner //: IMatrix  
+        //если интерфейс наследуется от iMatrix, то класс, реализующий наследника должен реализовывать интерфейс класса родитиля..
     {
         string Name { get; }
         void Create(IMatrix matrix);
@@ -210,7 +211,7 @@ namespace anonymous
         }
     }
 
-    /*
+
     class Preconditioner : IPreconditioner // Реализация интерфейса IPreconditioner
     {
         public string Name
@@ -220,10 +221,10 @@ namespace anonymous
 
         public void Create(IMatrix matrix)
         {
-            
+
         }
     }
-    */
+
 
     /*
     class Solver : ISolver // Реализация интерфейса ISolver
