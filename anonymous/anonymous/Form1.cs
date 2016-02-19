@@ -16,11 +16,11 @@ namespace anonymous
         {
             InitializeComponent();
 
-            comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
+            comboBox1.Items.AddRange(new string[] { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" });
             comboBox1.SelectedItem = comboBox1.Items[0];
 
             /////////////////////////
-            //IMatrix A = new Matrix();
+            IMatrix A = new Matrix();
             //A.test();
             //////////////////////// 
 
@@ -29,7 +29,7 @@ namespace anonymous
             A.LU();
             A.Solve();
             A.Output();
-            */             
+            */
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,20 +43,19 @@ namespace anonymous
 
     interface IMatrix
     {
-        IVector Multiply(IVector x);
-        IVector TMultiply(IVector x);
+        IVector Multiply(IVector x); //перемножение матрицы на вектор
+        IVector TMultiply(IVector x);//перемножает транспонированную матрицу на вектор
+                                     //   IMatrix SumMatr();
         void test();
     }
 
     interface IVector
     {
-        /*
-        static double operator *(IVector v1, IVector v2);
-        static IVector operator +(IVector v1, IVector v2);
-        static IVector operator *(IVector v1, double v2);
-        static IVector operator *(double v1, IVector v2);
-        */
-        double Norm();
+        double Norm(Vector x);
+        // double Scalar();
+        // double SumVec(IVector x, IVector y);
+        //IVector aMultVec(double a,IVector x);
+
     }
 
     interface ISLAE
@@ -87,14 +86,92 @@ namespace anonymous
     }
 
     class Matrix : IMatrix // Реализация интерфейса IMatrix
-    {      
+    {
+
+        public Matrix()//конструктор
+        {
+            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
+            {
+                case 0://плотный
+                    break;
+                case 1://профильный
+
+                    double[] di, au, al;
+                    int[] ia;
+                    int n;//размерность
+
+                    break;
+                case 2://ленточный
+                    break;
+                case 3://диагональный
+                    break;
+                case 4://разреженный строчно-столбцовый
+                    break;
+
+            }
+        }
         public IVector Multiply(IVector x)
         {
+            IVector res;
+            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
+            {
+                case 0://плотный
+                    break;
+                case 1://профильный
+
+
+                    for (int i = 0; i < n; i++)
+                        res[i] = di[i] * x[i];
+
+                    for (int i = 0; i < n; i++)
+                        for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
+                        {
+                            res[i] += al[j] * x[k];
+                            res[k] += au[j] * x[i];
+                        }
+
+                    break;
+
+                case 2://ленточный
+                    break;
+                case 3://диагональный
+                    break;
+                case 4://разреженный строчно-столбцовый
+                    break;
+
+
+            }
             throw new NotImplementedException();
+            return res;
         }
 
         public IVector TMultiply(IVector x)
         {
+            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
+            {
+                case 0://плотный
+                    break;
+                case 1://профильный
+
+                    for (int i = 0; i < n; i++)
+                        res[i] = di[i] * b[i];
+
+                    for (int i = 0; i < n; i++)
+                        for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
+                        {
+                            res[i] += au[j] * b[k];
+                            res[k] += al[j] * b[i];
+                        }
+
+                    break;
+                case 2://ленточный
+                    break;
+                case 3://диагональный
+                    break;
+                case 4://разреженный строчно-столбцовый
+                    break;
+
+            }
             throw new NotImplementedException();
         }
 
@@ -102,13 +179,24 @@ namespace anonymous
         {
             MessageBox.Show(InputOutput.formattype.ToString());
         }
+
+
     }
 
     class Vector : IVector // Реализация интерфейса IVector
     {
-        public double Norm()
+
+        public Vector()
         {
-            throw new NotImplementedException();
+            double[] vec;
+        }
+        public double Norm(Vector x)
+        {
+            double norm = 0;
+            for (int i = 0; i < n; i++)
+                norm += x[i] * x[i];
+            norm = Math.Sqrt(norm);
+            return norm;
         }
 
         public static double operator *(Vector v1, Vector v2)
@@ -126,10 +214,7 @@ namespace anonymous
             throw new NotImplementedException();
         }
 
-        public static IVector operator *(double v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 
     class SLAE : ISLAE // Реализация интерфейса ISLAE
