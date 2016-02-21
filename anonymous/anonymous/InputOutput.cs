@@ -132,6 +132,7 @@ namespace anonymous
         // n - размерность матрицы
         // m - количество ненулевых диагоналей
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
+        // Пока не доделано
         //
         public static bool InputMatrix(out int n, out int m, string FileName, double[] gg, double[] diag)
         {
@@ -159,8 +160,8 @@ namespace anonymous
         //Ввод матрицы в ленточном формате
         // n - размерность матрицы
         // m - ширина ленты
-        // al - 
-        // au - 
+        // al - массив для нижнего треугольника
+        // au - массив для верхнего треугольника
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         //
         public static bool InputMatrix(out int n, out int m, string FileName, out double[,] al, out double[,] au, out double[] diag)
@@ -230,6 +231,5 @@ namespace anonymous
                 return false;
             }
         }
-        //самый нужный комент
     }
 }
