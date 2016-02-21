@@ -61,12 +61,12 @@ namespace anonymous
         }
     }
 
-    interface IMatrix
-    {
-        IVector Multiply(IVector x);
-        IVector TMultiply(IVector x);
-        void test();
-    }
+    //interface IMatrix
+    //{
+    //    IVector Multiply(IVector x);
+    //    IVector TMultiply(IVector x);
+    //    void test();
+    //}
 
     interface IVector
     {
@@ -106,51 +106,51 @@ namespace anonymous
         IPreconditioner Preconditioner { get; set; }
     }
 
-    class Matrix : IMatrix // Реализация интерфейса IMatrix
-    {      
-        public IVector Multiply(IVector x)
-        {
-            throw new NotImplementedException();
-        }
+    //class Matrix : IMatrix // Реализация интерфейса IMatrix
+    //{      
+    //    public IVector Multiply(IVector x)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public IVector TMultiply(IVector x)
-        {
-            throw new NotImplementedException();
-        }
+    //    public IVector TMultiply(IVector x)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public void test()
-        {
-            MessageBox.Show(InputOutput.formattype.ToString());
-        }
-    }
+    //    public void test()
+    //    {
+    //        MessageBox.Show(InputOutput.formattype.ToString());
+    //    }
+    //}
 
-    class Vector : IVector // Реализация интерфейса IVector
-    {
-        public double Norm()
-        {
-            throw new NotImplementedException();
-        }
+    //class Vector : IVector // Реализация интерфейса IVector
+    //{
+    //    public double Norm()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public static double operator *(Vector v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
+    //    public static double operator *(Vector v1, Vector v2)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public static IVector operator +(Vector v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
+    //    public static IVector operator +(Vector v1, Vector v2)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public static IVector operator *(Vector v1, double v2)
-        {
-            throw new NotImplementedException();
-        }
+    //    public static IVector operator *(Vector v1, double v2)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public static IVector operator *(double v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //    public static IVector operator *(double v1, Vector v2)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
     class SLAE : ISLAE // Реализация интерфейса ISLAE
     {
