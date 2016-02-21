@@ -22,7 +22,7 @@ namespace anonymous
             comboBox1.SelectedItem = comboBox1.Items[0];
 
             //для предобуславливателя
-            string[] formats_preconditioner = { "Диагональный", "Разложение Холесского", };
+            string[] formats_preconditioner = { "Диагональный", "Разложение Холесского" };
             comboBox3.Items.AddRange(formats_preconditioner);
             comboBox3.SelectedItem = comboBox3.Items[0];
         }
@@ -62,18 +62,26 @@ namespace anonymous
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //Запуск решения
+            preconditioner_profil pp = new preconditioner_profil(comboBox3.Text);
 
-            //запуск предобуславливателя
+            //зададим какую-нибудь плотную матрицу
+            int razm = 9;
+            //
+            int[] ia = { 1, 1, 1, 2, 4, 6, 9, 12, 15, 19 };
+            //
+            double[] di = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            //
+            double[] al = { 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0 };
 
-            //switch (InputOutput.formattype)
-            //{
-                //case 1:
-                    profile_preconditioner pp = new profile_preconditioner(comboBox3.Text);
-            string s = pp.Name;
-                    //pp.Create(???);
-                //break; 
-            //}
+            int size_al = ia[razm] - 1;
+
+
+            //
+            ProfileMatrix m = new ProfileMatrix(al, al, di, ia, size_al, razm, razm + 1);
+            ProfileMatrix new_m;
+            //
+           // preconditioner_profil pr = new preconditioner_profil("Диагональный");
+            pp.Create(m, out new_m);
         }
     }
 
@@ -115,7 +123,7 @@ namespace anonymous
     {
         IVector Solve(ISLAE slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
         string Name { get; }
-        IPreconditioner Preconditioner { get; set; }
+      //  IPreconditioner Preconditioner { get; set; }  временно убрано, по всем вопросам к Тонхоноеву А.А. (amashtay)
     }
 
     //class Matrix : IMatrix // Реализация интерфейса IMatrix
