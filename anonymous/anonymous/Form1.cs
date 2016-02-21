@@ -16,7 +16,9 @@ namespace anonymous
         {
             InitializeComponent();
 
-            comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
+            string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
+
+            comboBox1.Items.AddRange(formats);
             comboBox1.SelectedItem = comboBox1.Items[0];           
         }
 
@@ -27,20 +29,33 @@ namespace anonymous
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            OpenFileDialog OFD = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
+            OFD.InitialDirectory = "c:\\";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (OFD.ShowDialog() == DialogResult.OK)
             {
-                textBox1.Text = openFileDialog1.FileName;
+                textBox1.Text = OFD.FileName;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.InitialDirectory = "c:\\";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                textBox2.Text = OFD.FileName;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
         {
             //Запуск решения
         }
