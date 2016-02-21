@@ -18,45 +18,34 @@ namespace anonymous
 
             comboBox1.Items.AddRange(new string[] { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" });
             comboBox1.SelectedItem = comboBox1.Items[0];
-
-            /////////////////////////
-            IMatrix A = new Matrix();
-            //A.test();
-            //////////////////////// 
-
-            /*
-            A.Input();
-            A.LU();
-            A.Solve();
-            A.Output();
-            */
+            IMatrix A = new ProfileMatrix();
+ 
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InputOutput.formattype = comboBox1.SelectedIndex;
-
-            IMatrix A = new Matrix();
-            A.test();
+            IMatrix A = new ProfileMatrix();
+           
         }
     }
 
-    interface IMatrix
+   /* interface IMatrix
     {
         IVector Multiply(IVector x); //перемножение матрицы на вектор
         IVector TMultiply(IVector x);//перемножает транспонированную матрицу на вектор
                                      //   IMatrix SumMatr();
         void test();
-    }
+    }*/
 
-    interface IVector
+   /* interface IVector
     {
         double Norm(Vector x);
         // double Scalar();
         // double SumVec(IVector x, IVector y);
         //IVector aMultVec(double a,IVector x);
 
-    }
+    }*/
 
     interface ISLAE
     {
@@ -84,8 +73,8 @@ namespace anonymous
         string Name { get; }
         IPreconditioner Preconditioner { get; set; }
     }
-
-    class Matrix : IMatrix // Реализация интерфейса IMatrix
+  
+  /*  class Matrix : IMatrix // Реализация интерфейса IMatrix
     {
 
         public Matrix()//конструктор
@@ -215,7 +204,7 @@ namespace anonymous
         }
 
 
-    }
+    }*/
 
     class SLAE : ISLAE // Реализация интерфейса ISLAE
     {
