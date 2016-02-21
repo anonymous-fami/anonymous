@@ -16,17 +16,60 @@ namespace anonymous
         {
             InitializeComponent();
 
+<<<<<<< HEAD
             comboBox1.Items.AddRange(new string[] { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" });
             comboBox1.SelectedItem = comboBox1.Items[0];
             IMatrix A = new ProfileMatrix();
  
+=======
+            string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
+
+            comboBox1.Items.AddRange(formats);
+            comboBox1.SelectedItem = comboBox1.Items[0];           
+>>>>>>> a0f84a8a96df7b911bdcc0ec4aa8bb9e7e7a636f
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InputOutput.formattype = comboBox1.SelectedIndex;
+<<<<<<< HEAD
             IMatrix A = new ProfileMatrix();
            
+=======
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.InitialDirectory = "c:\\";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                textBox1.Text = OFD.FileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.InitialDirectory = "c:\\";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                textBox2.Text = OFD.FileName;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //Запуск решения
+>>>>>>> a0f84a8a96df7b911bdcc0ec4aa8bb9e7e7a636f
         }
     }
 
@@ -47,11 +90,11 @@ namespace anonymous
 
     }*/
 
-    interface ISLAE
+  /*  interface ISLAE
     {
         IMatrix Matrix { get; set; }
         IVector RightPart { get; set; }
-    }
+    }*/
 
     interface IIterationLogger
     {
@@ -206,7 +249,7 @@ namespace anonymous
 
     }*/
 
-    class SLAE : ISLAE // Реализация интерфейса ISLAE
+  /*  class SLAE : ISLAE // Реализация интерфейса ISLAE
     {
         public IMatrix Matrix
         {
@@ -231,7 +274,7 @@ namespace anonymous
                 throw new NotImplementedException();
             }
         }
-    }
+    }*/
 
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
     {

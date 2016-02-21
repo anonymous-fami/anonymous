@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Construction.cs" />
-    <Compile Include="IConstruction.cs" />
+    <Compile Include="SLAE.cs" />
+    <Compile Include="ISLAE.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

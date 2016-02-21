@@ -13,30 +13,27 @@ namespace anonymous
         public double[] au;
         public double[] di;
         public int[] ia;
-        public int size_au_al;
-        public int size_di;
-        public int size_ia;
+        public int n;
 
-   
-        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int size_au_al, int size_di, int size_ia)//конструктор
+    
+
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор
         {
             this.au = au;
             this.al = al;
             this.di = di;
             this.ia = ia;
-            this.size_au_al = size_au_al;
-            this.size_di = size_di;
-            this.size_ia = size_ia;
+            this.n = n;
         }
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
             double[] values_res = new double[x.size];
             var res = new Vector(x.size, values_res);
 
-            for (int i = 0; i < size_di; i++)
+            for (int i = 0; i < n; i++)
                   res.values[i] = di[i] * x.values[i];
 
-            for (int i = 0; i < size_di; i++)
+            for (int i = 0; i < n; i++)
                 for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
                 {
                     res.values[i] += al[j] * x.values[k];
@@ -51,10 +48,10 @@ namespace anonymous
             double[] values_res = new double[x.size];
             var res = new Vector(x.size, values_res);
 
-            for (int i = 0; i < size_di; i++)
+            for (int i = 0; i < n; i++)
                 res.values[i] = di[i] * x.values[i];
 
-            for (int i = 0; i < size_di; i++)
+            for (int i = 0; i < n; i++)
                 for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
                 {
                     res.values[i] += au[j] * x.values[k];
@@ -66,22 +63,22 @@ namespace anonymous
 
         public IMatrix Sum(ProfileMatrix B)//сумма матриц
         {
-            double[] al_res=new double[size_au_al];
-            double[] au_res=new double[size_au_al];
-            double[] di_res=new double[size_di];
-            for (int i = 0; i < size_au_al; i++)
+            double[] al_res=new double[ia[n+1]-1];
+            double[] au_res=new double[ia[n + 1] - 1];
+            double[] di_res=new double[n];
+            for (int i = 0; i < ia[n + 1] - 1; i++)
             {
                 al_res[i] = 0;
                 au_res[i] = 0;
 
             }
 
-            for (int i = 0; i < size_di; i++)
+            for (int i = 0; i < n; i++)
                 di_res[i] = 0;
 
-            var res = new ProfileMatrix(au_res, al_res, di_res, ia, size_au_al, size_di, size_ia);
+            var res = new ProfileMatrix(au_res, al_res, di_res, ia, n);
 
-            for (int i = 0; i < size_au_al; i++)
+            for (int i = 0; i < ia[n + 1] - 1; i++)
             {
                 res.al[i] += this.al[i];
                 res.al[i] += B.al[i];
@@ -89,7 +86,7 @@ namespace anonymous
                 res.au[i] += B.au[i];
             }
 
-            for (int i = 0; i < size_di; i++)
+            for (int i = 0; i < n; i++)
             {
                 res.di[i] += this.di[i];
                 res.di[i] += B.di[i];
