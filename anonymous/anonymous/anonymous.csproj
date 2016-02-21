@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="IMatrix.cs" />
     <Compile Include="InputOutput.cs" />
+    <Compile Include="Plot_matrix.cs" />
     <Compile Include="Preconditioner.cs" />
     <Compile Include="ProfileMatrix.cs" />
     <Compile Include="Program.cs" />

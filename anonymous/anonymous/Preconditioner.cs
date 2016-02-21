@@ -34,7 +34,7 @@ namespace anonymous
         public void Create(ProfileMatrix matrix, out ProfileMatrix out_m)
         {
             //switch (this.Name)
-
+            #region диагональный
             //НАРУШЕНИЕ ИНКАПСУЛЯЦИИ? попросить описать как параметры(свойства) внутреннее представление класса ProfileMatrix
             int[] ia = matrix.ia;
 
@@ -48,8 +48,47 @@ namespace anonymous
             double[] al = new double[size_au_al];
 
             out_m = new ProfileMatrix(al, al, matrix.di, ia, size_au_al, matrix.size_di, matrix.size_ia);
+            #endregion
+
+        }
+    }
+
+    class preconditioner_plotted: IPreconditioner<Plot_matrix>
+    {
+        string name;
 
 
+        public preconditioner_plotted()
+        {
+            name = "Диагональный";
+        }
+        public preconditioner_plotted(string txt)
+        {
+            name = txt;
+        }
+
+        //реализация интерфейса
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+        public void Create(Plot_matrix matrix, out Plot_matrix out_m)
+        {
+            #region диагональный
+            out_m = new Plot_matrix(matrix.N, matrix.M);
+            out_m.setmatrix(matrix);
+
+            int i, j;
+            for (i=0; i<out_m.N; i++)
+                for (j = 0; j < out_m.M; j++)
+                {
+                    if (i != j)
+                        out_m.Mas[i, j] = 0;
+                }
+            #endregion
         }
     }
 }

@@ -82,6 +82,20 @@ namespace anonymous
             //
            // preconditioner_profil pr = new preconditioner_profil("Диагональный");
             pp.Create(m, out new_m);
+
+
+            //зададим плотную матрицу
+            int i,j,q = 5;
+            Plot_matrix pm = new Plot_matrix(q);
+            for (i = 0; i < pm.N; i++)
+                for (j = 0; j < pm.M; j++)
+                {
+                    pm.Mas[i, j] = 10;
+                }
+            preconditioner_plotted p_plotted = new preconditioner_plotted(comboBox3.Text);
+
+            Plot_matrix result_pm;
+            p_plotted.Create(pm, out result_pm);
         }
     }
 
