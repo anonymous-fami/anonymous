@@ -19,7 +19,12 @@ namespace anonymous
             string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
 
             comboBox1.Items.AddRange(formats);
-            comboBox1.SelectedItem = comboBox1.Items[0];           
+            comboBox1.SelectedItem = comboBox1.Items[0];
+
+            //для предобуславливателя
+            string[] formats_preconditioner = { "Диагональный", "Разложение Холесского", };
+            comboBox3.Items.AddRange(formats_preconditioner);
+            comboBox3.SelectedItem = comboBox3.Items[0];
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -58,6 +63,17 @@ namespace anonymous
         private void button3_Click(object sender, EventArgs e)
         {
             //Запуск решения
+
+            //запуск предобуславливателя
+
+            //switch (InputOutput.formattype)
+            //{
+                //case 1:
+                    profile_preconditioner pp = new profile_preconditioner(comboBox3.Text);
+            string s = pp.Name;
+                    //pp.Create(???);
+                //break; 
+            //}
         }
     }
 
@@ -93,11 +109,7 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
-    interface IPreconditioner : IMatrix
-    {
-        string Name { get; }
-        void Create(IMatrix matrix);
-    }
+
 
     interface ISolver
     {
