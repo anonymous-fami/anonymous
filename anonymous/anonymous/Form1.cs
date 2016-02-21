@@ -17,27 +17,32 @@ namespace anonymous
             InitializeComponent();
 
             comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
-            comboBox1.SelectedItem = comboBox1.Items[0];
-
-            /////////////////////////
-            //IMatrix A = new Matrix();
-            //A.test();
-            //////////////////////// 
-
-            /*
-            A.Input();
-            A.LU();
-            A.Solve();
-            A.Output();
-            */             
+            comboBox1.SelectedItem = comboBox1.Items[0];           
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InputOutput.formattype = comboBox1.SelectedIndex;
+        }
 
-            IMatrix A = new Matrix();
-            A.test();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                textBox1.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Запуск решения
         }
     }
 
