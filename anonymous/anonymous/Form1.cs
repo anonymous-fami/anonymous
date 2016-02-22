@@ -22,7 +22,7 @@ namespace anonymous
             comboBox1.SelectedItem = comboBox1.Items[0];
 
             //для предобуславливателя
-            string[] formats_preconditioner = { "Диагональный", "Разложение Холесского" };
+            string[] formats_preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского" };
             comboBox3.Items.AddRange(formats_preconditioner);
             comboBox3.SelectedItem = comboBox3.Items[0];
         }
