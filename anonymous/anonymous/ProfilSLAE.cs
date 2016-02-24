@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class SLAE : ISLAE
+    public class ProfilSLAE : ISLAE <ProfileMatrix>
     {
-        public IMatrix MakeProfile(double[] au, double[] al, double[] di, int[] ia, int n)
+        public IMatrix <ProfileMatrix> MakeProfile(double[] au, double[] al, double[] di, int[] ia, int n)
         {
-            return new ProfileMatrix(au, al, di, ia, n);
+            return new ProfileMatrix(out au, out al, out di, out ia, out n);
         }
         public Vector MakeVector(int size, double[] values)
         {

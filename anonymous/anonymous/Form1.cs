@@ -16,26 +16,22 @@ namespace anonymous
         {
             InitializeComponent();
 
-<<<<<<< HEAD
-            comboBox1.Items.AddRange(new string[] { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" });
-            comboBox1.SelectedItem = comboBox1.Items[0];
-            IMatrix A = new ProfileMatrix();
- 
-=======
             string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
 
             comboBox1.Items.AddRange(formats);
-            comboBox1.SelectedItem = comboBox1.Items[0];           
->>>>>>> a0f84a8a96df7b911bdcc0ec4aa8bb9e7e7a636f
+            comboBox1.SelectedItem = comboBox1.Items[0];  
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InputOutput.formattype = comboBox1.SelectedIndex;
-<<<<<<< HEAD
-            IMatrix A = new ProfileMatrix();
-           
-=======
+            double[] au;
+            double[] al;
+            double[] di;
+            int[] ia;
+            int n;
+            IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -69,7 +65,6 @@ namespace anonymous
         private void button3_Click(object sender, EventArgs e)
         {
             //Запуск решения
->>>>>>> a0f84a8a96df7b911bdcc0ec4aa8bb9e7e7a636f
         }
     }
 
@@ -81,14 +76,14 @@ namespace anonymous
         void test();
     }*/
 
-   /* interface IVector
+    interface IVector
     {
         double Norm(Vector x);
         // double Scalar();
         // double SumVec(IVector x, IVector y);
         //IVector aMultVec(double a,IVector x);
 
-    }*/
+    }
 
   /*  interface ISLAE
     {
@@ -104,15 +99,15 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
-    interface IPreconditioner : IMatrix
+    interface IPreconditioner : IMatrix <ProfileMatrix>
     {
         string Name { get; }
-        void Create(IMatrix matrix);
+        void Create(IMatrix<ProfileMatrix> matrix);
     }
 
     interface ISolver
     {
-        IVector Solve(ISLAE slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
+        IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
         string Name { get; }
         IPreconditioner Preconditioner { get; set; }
     }
@@ -249,7 +244,7 @@ namespace anonymous
 
     }*/
 
-  /*  class SLAE : ISLAE // Реализация интерфейса ISLAE
+  /*  class ProfilSLAE : ISLAE // Реализация интерфейса ISLAE
     {
         public IMatrix Matrix
         {

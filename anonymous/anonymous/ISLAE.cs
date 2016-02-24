@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public interface ISLAE
+    public interface ISLAE <Type>
     {
-        IMatrix MakeProfile(double[] au, double[] al, double[] di, int[] ia, int n);
         Vector MakeVector(int size, double[] values);
     }
 }

@@ -7,24 +7,30 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class ProfileMatrix : IMatrix
+    public class ProfileMatrix : IMatrix <ProfileMatrix>
     {
-        public double[] al;
-        public double[] au;
-        public double[] di;
-        public int[] ia;
-        public int n;
+        private double[] al; 
+        private double[] au;
+        private double[] di;
+        private int[] ia;
+        private int n;
 
-    
 
-        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор
+
+        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор
         {
+            String FileName = "test.txt";
+            InputOutput.InputMatrix(out n, FileName, out ia, out al, out au, out di);
             this.au = au;
             this.al = al;
             this.di = di;
             this.ia = ia;
             this.n = n;
         }
+
+
+    
+
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -61,7 +67,7 @@ namespace anonymous
             return res;
         }
 
-        public IMatrix Sum(ProfileMatrix B)//сумма матриц
+        public IMatrix<ProfileMatrix> Sum(ProfileMatrix B)//сумма матриц
         {
             double[] al_res=new double[ia[n+1]-1];
             double[] au_res=new double[ia[n + 1] - 1];
@@ -76,7 +82,7 @@ namespace anonymous
             for (int i = 0; i < n; i++)
                 di_res[i] = 0;
 
-            var res = new ProfileMatrix(au_res, al_res, di_res, ia, n);
+            var res = new ProfileMatrix(out au_res, out al_res, out di_res, out ia, out n);
 
             for (int i = 0; i < ia[n + 1] - 1; i++)
             {
@@ -118,6 +124,22 @@ namespace anonymous
             double norm_F = F.Norm();
             double norm_Ax_F = this.abs_discrepancy(x, F);
             return res = norm_Ax_F / norm_F;
+        }
+
+        public bool setMatrix(ProfileMatrix matrix)
+        {
+            this.al = matrix.al;
+            this.au = matrix.au;
+            this.di = matrix.di;
+            this.ia = matrix.ia;
+            this.n = matrix.n;
+            return true;
+        }
+
+        public ProfileMatrix getMatrix()
+        {
+             return this;    
+         
         }
     }
 }
