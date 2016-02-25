@@ -18,13 +18,9 @@ namespace anonymous
 
             comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
             comboBox1.SelectedItem = comboBox1.Items[0];
-
-            double[] t = new double[3];
-            t[0] = 1;
-            t[1] = 1;
-            t[2] = 1;
-
-            InputOutput.OutputVector("test.txt", t);
+      
+            
+            
             /////////////////////////
             //IMatrix A = new Matrix();
             //A.test();
