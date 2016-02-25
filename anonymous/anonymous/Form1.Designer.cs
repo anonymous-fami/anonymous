@@ -200,7 +200,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBox3;
-        public System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

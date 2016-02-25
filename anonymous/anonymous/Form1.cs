@@ -40,12 +40,12 @@ namespace anonymous
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Data.preconditioner = comboBox2.SelectedIndex;
+            Data.preconditioner = comboBox2.SelectedIndex;  //Предобуславливатель
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Data.solver = comboBox3.SelectedIndex;
+            Data.solver = comboBox3.SelectedIndex;  //Решатель
         }
 
         private void button1_Click(object sender, EventArgs e)
