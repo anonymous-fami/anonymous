@@ -40,6 +40,19 @@ namespace anonymous
         {
             pr = new double[10];
         }
-        //самый нужный комент
+        public static bool OutputVector(string FileName, double[] vector)
+        {
+            try
+            {
+                
+                //System.IO.File.WriteAllLines(FileName, vector);
+                return true;
+            }
+            catch(Exception error)
+            {
+                return false;
+            }
+
+        }
     }
 }
