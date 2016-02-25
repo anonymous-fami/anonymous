@@ -19,12 +19,19 @@ namespace anonymous
             string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
 
             comboBox1.Items.AddRange(formats);
-            comboBox1.SelectedItem = comboBox1.Items[0];           
+            comboBox1.SelectedItem = comboBox1.Items[0];  
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             InputOutput.formattype = comboBox1.SelectedIndex;
+            double[] au;
+            double[] al;
+            double[] di;
+            int[] ia;
+            int n;
+            IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -61,29 +68,28 @@ namespace anonymous
         }
     }
 
-    interface IMatrix
+   /* interface IMatrix
     {
-        IVector Multiply(IVector x);
-        IVector TMultiply(IVector x);
+        IVector Multiply(IVector x); //перемножение матрицы на вектор
+        IVector TMultiply(IVector x);//перемножает транспонированную матрицу на вектор
+                                     //   IMatrix SumMatr();
         void test();
-    }
+    }*/
 
     interface IVector
     {
-        /*
-        static double operator *(IVector v1, IVector v2);
-        static IVector operator +(IVector v1, IVector v2);
-        static IVector operator *(IVector v1, double v2);
-        static IVector operator *(double v1, IVector v2);
-        */
-        double Norm();
+        double Norm(Vector x);
+        // double Scalar();
+        // double SumVec(IVector x, IVector y);
+        //IVector aMultVec(double a,IVector x);
+
     }
 
-    interface ISLAE
+  /*  interface ISLAE
     {
         IMatrix Matrix { get; set; }
         IVector RightPart { get; set; }
-    }
+    }*/
 
     interface IIterationLogger
     {
@@ -93,28 +99,106 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
-    interface IPreconditioner : IMatrix
+    interface IPreconditioner : IMatrix <ProfileMatrix>
     {
         string Name { get; }
-        void Create(IMatrix matrix);
+        void Create(IMatrix<ProfileMatrix> matrix);
     }
 
     interface ISolver
     {
-        IVector Solve(ISLAE slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
+        IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
         string Name { get; }
         IPreconditioner Preconditioner { get; set; }
     }
+  
+  /*  class Matrix : IMatrix // Реализация интерфейса IMatrix
+    {
 
-    class Matrix : IMatrix // Реализация интерфейса IMatrix
-    {      
+        public Matrix()//конструктор
+        {
+            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
+            {
+                case 0://плотный
+                    break;
+                case 1://профильный
+
+                    double[] di, au, al;
+                    int[] ia;
+                    int n;//размерность
+
+                    break;
+                case 2://ленточный
+                    break;
+                case 3://диагональный
+                    break;
+                case 4://разреженный строчно-столбцовый
+                    break;
+
+            }
+        }
         public IVector Multiply(IVector x)
         {
+            IVector res;
+            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
+            {
+                case 0://плотный
+                    break;
+                case 1://профильный
+
+
+                    for (int i = 0; i < n; i++)
+                        res[i] = di[i] * x[i];
+
+                    for (int i = 0; i < n; i++)
+                        for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
+                        {
+                            res[i] += al[j] * x[k];
+                            res[k] += au[j] * x[i];
+                        }
+
+                    break;
+
+                case 2://ленточный
+                    break;
+                case 3://диагональный
+                    break;
+                case 4://разреженный строчно-столбцовый
+                    break;
+
+
+            }
             throw new NotImplementedException();
+            return res;
         }
 
         public IVector TMultiply(IVector x)
         {
+            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
+            {
+                case 0://плотный
+                    break;
+                case 1://профильный
+
+                    for (int i = 0; i < n; i++)
+                        res[i] = di[i] * b[i];
+
+                    for (int i = 0; i < n; i++)
+                        for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
+                        {
+                            res[i] += au[j] * b[k];
+                            res[k] += al[j] * b[i];
+                        }
+
+                    break;
+                case 2://ленточный
+                    break;
+                case 3://диагональный
+                    break;
+                case 4://разреженный строчно-столбцовый
+                    break;
+
+            }
             throw new NotImplementedException();
         }
 
@@ -122,13 +206,24 @@ namespace anonymous
         {
             MessageBox.Show(InputOutput.formattype.ToString());
         }
+
+
     }
 
     class Vector : IVector // Реализация интерфейса IVector
     {
-        public double Norm()
+
+        public Vector()
         {
-            throw new NotImplementedException();
+            double[] vec;
+        }
+        public double Norm(Vector x)
+        {
+            double norm = 0;
+            for (int i = 0; i < n; i++)
+                norm += x[i] * x[i];
+            norm = Math.Sqrt(norm);
+            return norm;
         }
 
         public static double operator *(Vector v1, Vector v2)
@@ -146,13 +241,10 @@ namespace anonymous
             throw new NotImplementedException();
         }
 
-        public static IVector operator *(double v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
-    class SLAE : ISLAE // Реализация интерфейса ISLAE
+    }*/
+
+  /*  class ProfilSLAE : ISLAE // Реализация интерфейса ISLAE
     {
         public IMatrix Matrix
         {
@@ -177,7 +269,7 @@ namespace anonymous
                 throw new NotImplementedException();
             }
         }
-    }
+    }*/
 
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
     {

@@ -10,8 +10,8 @@ namespace anonymous
 {
     public static class InputOutput
     {
-        public static int formattype;
 
+        public static int formattype;
         //
         //Ввод плотной матрицы
         // n - размерность матрицы
@@ -231,5 +231,6 @@ namespace anonymous
                 return false;
             }
         }
+
     }
 }
