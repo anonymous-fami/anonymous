@@ -17,6 +17,11 @@ namespace anonymous
             this.values = values;
         }
 
+        public Vector()//конструктор
+        {
+            InputOutput.InputRightPart(out this.size, Data.vectorPath, out this.values);
+        }
+
         public double Norm()//норма вектора
         {
             double res = 0;

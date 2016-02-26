@@ -16,20 +16,36 @@ namespace anonymous
         {
             InitializeComponent();
 
-            string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
+            //Формат матрицы
+            string[] matrixformats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
 
-            comboBox1.Items.AddRange(formats);
+            comboBox1.Items.AddRange(matrixformats);
             comboBox1.SelectedItem = comboBox1.Items[0];
 
-            //для предобуславливателя
-            string[] formats_preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского" };
-            comboBox3.Items.AddRange(formats_preconditioner);
+            //Предобуславливатель
+            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского" };
+            comboBox2.Items.AddRange(preconditioner);
+            comboBox2.SelectedItem = comboBox2.Items[0];
+
+            //Решатель
+            string[] solver = { "МСГ" };
+            comboBox3.Items.AddRange(solver);
             comboBox3.SelectedItem = comboBox3.Items[0];
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InputOutput.formattype = comboBox1.SelectedIndex;
+            Data.matrixformat = comboBox1.SelectedIndex;   //Формат матрицы           
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Data.preconditioner = comboBox2.SelectedIndex;  //Предобуславливатель
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Data.solver = comboBox3.SelectedIndex;  //Решатель
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -42,7 +58,9 @@ namespace anonymous
 
             if (OFD.ShowDialog() == DialogResult.OK)
             {
-                textBox1.Text = OFD.FileName;
+                textBox1.Text = OFD.FileName;   //Путь файла с матрицей
+
+                Data.matrixPath = textBox1.Text;
             }
         }
 
@@ -56,72 +74,52 @@ namespace anonymous
 
             if (OFD.ShowDialog() == DialogResult.OK)
             {
-                textBox2.Text = OFD.FileName;
+                textBox2.Text = OFD.FileName;   //Путь файла правой части
+
+                Data.vectorPath = textBox2.Text;
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            preconditioner_profil pp = new preconditioner_profil(comboBox3.Text);
+            //Запуск решения
 
-            //зададим какую-нибудь плотную матрицу
-            int razm = 9;
-            //
-            int[] ia = { 1, 1, 1, 2, 4, 6, 9, 12, 15, 19 };
-            //
-            double[] di = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            //
-            double[] al = { 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0 };
-
-            int size_al = ia[razm] - 1;
-
-
-            //
-            ProfileMatrix m = new ProfileMatrix(al, al, di, ia, size_al, razm, razm + 1);
-            ProfileMatrix new_m;
-            //
-           // preconditioner_profil pr = new preconditioner_profil("Диагональный");
-            pp.Create(m, out new_m);
-
-
-            //зададим плотную матрицу
-            int i,j,q = 5;
-            Plot_matrix pm = new Plot_matrix(q);
-            for (i = 0; i < pm.N; i++)
-                for (j = 0; j < pm.M; j++)
-                {
-                    pm.Mas[i, j] = 10;
-                }
-            preconditioner_plotted p_plotted = new preconditioner_plotted(comboBox3.Text);
-
-            Plot_matrix result_pm;
-            p_plotted.Create(pm, out result_pm);
-        }
+            /*
+            double[] au;
+            double[] al;
+            double[] di;
+            int[] ia;
+            int n;
+            IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
+            Vector V = new Vector();  
+            */
+        }        
     }
 
-    //interface IMatrix
-    //{
-    //    IVector Multiply(IVector x);
-    //    IVector TMultiply(IVector x);
-    //    void test();
-    //}
-
+    public static class Data
+    {
+        public static int matrixformat;     //Выбранный формат матрицы
+        public static string matrixPath;    //Путь файла с матрицей
+        public static string vectorPath;    //Путь файла с вектором
+        public static int preconditioner;   //Выбранный предобуславливатель
+        public static int solver;           //Выбранный решатель
+    }
+   
     interface IVector
     {
-        /*
-        static double operator *(IVector v1, IVector v2);
-        static IVector operator +(IVector v1, IVector v2);
-        static IVector operator *(IVector v1, double v2);
-        static IVector operator *(double v1, IVector v2);
-        */
-        double Norm();
-    }
+        double Norm(Vector x);
+        // double Scalar();
+        // double SumVec(IVector x, IVector y);
+        //IVector aMultVec(double a,IVector x);
 
-    interface ISLAE
-    {
-        IMatrix Matrix { get; set; }
-        IVector RightPart { get; set; }
     }
+    
+
+    /*  interface ISLAE
+      {
+          IMatrix Matrix { get; set; }
+          IVector RightPart { get; set; }
+      }*/
 
     interface IIterationLogger
     {
@@ -131,86 +129,17 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
-
+    interface IPreconditioner : IMatrix <ProfileMatrix>
+    {
+        string Name { get; }
+        void Create(IMatrix<ProfileMatrix> matrix);
+    }
 
     interface ISolver
     {
-        IVector Solve(ISLAE slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
+        IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
         string Name { get; }
-      //  IPreconditioner Preconditioner { get; set; }  временно убрано, по всем вопросам к Тонхоноеву А.А. (amashtay)
-    }
-
-    //class Matrix : IMatrix // Реализация интерфейса IMatrix
-    //{      
-    //    public IVector Multiply(IVector x)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public IVector TMultiply(IVector x)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public void test()
-    //    {
-    //        MessageBox.Show(InputOutput.formattype.ToString());
-    //    }
-    //}
-
-    //class Vector : IVector // Реализация интерфейса IVector
-    //{
-    //    public double Norm()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public static double operator *(Vector v1, Vector v2)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public static IVector operator +(Vector v1, Vector v2)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public static IVector operator *(Vector v1, double v2)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public static IVector operator *(double v1, Vector v2)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
-
-    class SLAE : ISLAE // Реализация интерфейса ISLAE
-    {
-        public IMatrix Matrix
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IVector RightPart
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        IPreconditioner Preconditioner { get; set; }
     }
 
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
