@@ -15,7 +15,7 @@ namespace anonymous
         private int[] ia;
         private int n;
 
-        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор
+        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор  
         {
             InputOutput.InputMatrix(out n, Data.matrixPath, out ia, out al, out au, out di);
             this.au = au;
@@ -23,7 +23,18 @@ namespace anonymous
             this.di = di;
             this.ia = ia;
             this.n = n;
-        }    
+        }
+
+        //добавлен обычный конструктор без считывания с файла
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор  
+        {
+
+            this.au = au;
+            this.al = al;
+            this.di = di;
+            this.ia = ia;
+            this.n = n;
+        }
 
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
@@ -134,5 +145,68 @@ namespace anonymous
         {
              return this;             
         }
+
+        //почему-то не были добавлены описания параметров
+
+        //описание параметров класса
+        //описание непосредственно элементов матрицы (описание параметра)
+        public double[] Al
+        {
+            get
+            {
+                return al;
+            }
+            set
+            {
+               al = value;
+            }
+        }
+        public double[] Au
+        {
+            get
+            {
+                return au;
+            }
+            set
+            {
+                au = value;
+            }
+        }
+        public double[] Di
+        {
+            get
+            {
+                return di;
+            }
+            set
+            {
+                di = value;
+            }
+        }
+
+        public int[] Ia
+        {
+            get
+            {
+                return ia;
+            }
+            set
+            {
+                ia = value;
+            }
+        }
+
+        public int N
+        {
+            get
+            {
+                return n;
+            }
+            set
+            {
+                n = value;
+            }
+        }
+
     }
 }

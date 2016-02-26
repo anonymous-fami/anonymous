@@ -84,7 +84,7 @@ namespace anonymous
         {
             //Запуск решения
 
-            /*
+            
             double[] au;
             double[] al;
             double[] di;
@@ -92,7 +92,7 @@ namespace anonymous
             int n;
             IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
             Vector V = new Vector();  
-            */
+            
         }        
     }
 
@@ -129,17 +129,19 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
+    //убрано! по всем вопросам к Тонхоноеву А.А. (amashtay)
+    /*
     interface IPreconditioner : IMatrix <ProfileMatrix>
     {
         string Name { get; }
         void Create(IMatrix<ProfileMatrix> matrix);
     }
-
+    */
     interface ISolver
     {
         IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
         string Name { get; }
-        IPreconditioner Preconditioner { get; set; }
+        //IPreconditioner Preconditioner { get; set; }
     }
 
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger

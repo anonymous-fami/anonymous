@@ -8,87 +8,92 @@ namespace anonymous
 {
     interface IPreconditioner<T>//интерфейс не наследует iMatrix, было убрано чтобы избежать реализацию интерфейса предка.
     {
-        string Name { get; }
-        void Create(T matrix, out T out_m); //out будет убрано, добавлено чисто для теста.
+        string Type { get; }
+        //диагональное предобуславливание
+        void createDiag(T matrix, out T out_m); //out будет убрано, добавлено чисто для теста.
+        //LU разложение
+        void createLU(T matrix, out T out_l, out T out_u);
+        //LLT разложение
+        void createLLT(T matrix, out T out_l);
+        //LU(sq) разложение
+        //void createLUsq();
     }
+    #region Профильный формат(1)
 
-    class preconditioner_profil : IPreconditioner<ProfileMatrix>
+    class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
-        string name;
-        public preconditioner_profil()
+        string type;
+
+        public ProfilePreconditioner()
         {
-            name = "Диагональный";
+            type = "Профильный";
         }
-        public preconditioner_profil(string txt)
+        public ProfilePreconditioner(string txt)
         {
-            name = txt;
+            type = txt;
         }
         //возвращение предобуславливателя.
-        public string Name
+        public string Type
         {
             get
             {
-                return name;
+                return type;
             }
         }
-        public void Create(ProfileMatrix matrix, out ProfileMatrix out_m)
-        {
-            //switch (this.Name)
-            #region диагональный
-            //НАРУШЕНИЕ ИНКАПСУЛЯЦИИ? попросить описать как параметры(свойства) внутреннее представление класса ProfileMatrix
-            int[] ia = matrix.ia;
 
-            for (int i = 0; i < matrix.size_ia; i++)
+
+        public void createDiag(ProfileMatrix matrix, out ProfileMatrix out_m)
+        {
+
+            int[] ia = new int[matrix.N+1];
+            for (int i = 0; i <matrix.N+1; i++)
             {
                 ia[i] = 1;
             }
-
             //т.к. все кроме диагонали 0
             int size_au_al = 0;
             double[] al = new double[size_au_al];
+            out_m = new ProfileMatrix(al, al, matrix.Di, ia, matrix.N+1);
 
-            out_m = new ProfileMatrix(al, al, matrix.di, ia, size_au_al, matrix.size_di, matrix.size_ia);
-            #endregion
+            throw new NotImplementedException();
+        }
 
+
+        public void createLLT(ProfileMatrix matrix, out ProfileMatrix out_l)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public void createLU(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)
+        {
+            throw new NotImplementedException();
         }
     }
+    #endregion
+    #region Разреженный формат(4)
+    #endregion
+    #region Ленточный формат(2)
+    #endregion
+    #region Плотный формат(0)
 
-    class preconditioner_plotted: IPreconditioner<Plot_matrix>
-    {
-        string name;
 
+    //    public void Create(PlotMatrix matrix, out PlotMatrix out_m)
+    //    {
+    //       
+    //        out_m = new PlotMatrix(matrix.N, matrix.M);
+    //        out_m.setmatrix(matrix);
 
-        public preconditioner_plotted()
-        {
-            name = "Диагональный";
-        }
-        public preconditioner_plotted(string txt)
-        {
-            name = txt;
-        }
-
-        //реализация интерфейса
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
-        public void Create(Plot_matrix matrix, out Plot_matrix out_m)
-        {
-            #region диагональный
-            out_m = new Plot_matrix(matrix.N, matrix.M);
-            out_m.setmatrix(matrix);
-
-            int i, j;
-            for (i=0; i<out_m.N; i++)
-                for (j = 0; j < out_m.M; j++)
-                {
-                    if (i != j)
-                        out_m.Mas[i, j] = 0;
-                }
-            #endregion
-        }
-    }
+    //        int i, j;
+    //        for (i=0; i<out_m.N; i++)
+    //            for (j = 0; j < out_m.M; j++)
+    //            {
+    //                if (i != j)
+    //                    out_m.Mas[i, j] = 0;
+    //            }
+    //       
+    //    }
+    //}
+    #endregion
 }
