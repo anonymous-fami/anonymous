@@ -66,9 +66,64 @@ namespace anonymous
 
 
 
-        public void createLU(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)
+        public void createLU(IMatrix<ProfileMatrix> b, out IMatrix<ProfileMatrix> out_matrix)
         {
-            throw new NotImplementedException();
+            int i, j; //индексы в полной матрице
+            int ii;  //индекс в массиве ia
+            int k;  //счетчик
+            int jbeg, jend, beg, end; //вспомогательные переменые
+            int j0; //первый ненулевой элемент в строке
+            int i0; //первый ненулевой элемент в столбце
+            int ial, iau; //индексы элементов в массивах al и au
+            double tl, tu, tdi; //накопительные переменные, используются в циклах
+            ProfileMatrix a = b.getMatrix();
+            int n = a.N;
+            double[] au = a.Au;
+            double[] al = a.Al;
+            double[] di = a.Di;
+            int[] ia = a.Ia;
+
+            for (i = 1; i < n; i++)     //пробегаем все строки матрицы
+            {
+                tdi = 0;
+                j0 = i - ia[i + 1] + ia[i];   //первый ненулевой элемент в строке i
+                for (ii = ia[i]; ii < ia[i + 1]; ii++)    //пробегаем по ненулевым элементиам i-ой строки
+                {
+                    j = ii - ia[i] + j0;           //находим индекс очередного элемента профиля в полной матрице
+                    jbeg = ia[j];
+                    jend = ia[j + 1];
+                    if (jbeg < jend)        //если в j-ом столбце есть элементы
+                    {
+                        i0 = j - jend + jbeg;//индекс первого ненулевого элемента в столбце j
+                        if (i0 < j0)//находим с какого элемента умножение строки на cтолбец
+                            beg = j0;//даст ненулевой результат
+                        else
+                            beg = i0;
+                        if (j < i - 1)  //находим по какой элемент
+                            end = j;
+                        else
+                            end = i - 1;
+                        tl = 0;
+                        tu = 0;
+                        for (k = 0; k < end - beg; k++) //вычисляем сумму в формуле для Lij
+                        {
+                            //a.ia[i] - начало i-ой строки в массиве ia
+                            //beg - i0(beg - j0) - кол-во элементов ia, которые следует пропустить
+                            //так как кол-во элементов в строке и столбце может быть разным. k - смещение
+                            ial = ia[i] + beg - j0 + k;
+                            iau = ia[j] + beg - i0 + k;
+                            tl += al[ial] * au[iau];
+                            tu += al[iau] * au[ial];
+                        }
+                        al[ii] -= tl;
+                        au[ii] -= tu;
+                    }
+                    al[ii] = al[ii] / di[j];
+                    tdi += al[ii] * au[ii];       // вычисление диагонали
+                }
+                di[i] -= tdi;
+            }
+            out_matrix = new ProfileMatrix(au, al, di, ia, n);
         }
 
         public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)  //внимание работает не правильно!
