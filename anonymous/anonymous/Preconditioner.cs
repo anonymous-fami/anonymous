@@ -12,11 +12,12 @@ namespace anonymous
         //диагональное предобуславливание
         void createDiag(T matrix, out T out_m); //out будет убрано, добавлено чисто для теста.
         //LU разложение
+                                                // void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         //LLT разложение
         void createLLT(T matrix, out T out_l);
         //LU(sq) разложение
-        void createLUsq(T matrix, out T out_l, out T out_u);
+        void createLUsq(T matrix, out T out_matrix);
     }
     #region Профильный формат(1)
 
@@ -65,7 +66,7 @@ namespace anonymous
         }
 
 
-
+        
         public void createLU(IMatrix<ProfileMatrix> b, out IMatrix<ProfileMatrix> out_matrix)
         {
             int i, j; //индексы в полной матрице
@@ -82,6 +83,18 @@ namespace anonymous
             double[] al = a.Al;
             double[] di = a.Di;
             int[] ia = a.Ia;
+            bool start_with_zero = false;
+            
+            // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
+            if (ia[0] == 0) start_with_zero = true;
+            if (!start_with_zero)
+            for (i = 0; i < n + 1; i++)
+            {
+                ia[i]--;
+            }
+
+            //данный код подразумевает, что ia[0]=0 а не 1.
+
 
             for (i = 1; i < n; i++)     //пробегаем все строки матрицы
             {
@@ -126,56 +139,94 @@ namespace anonymous
             out_matrix = new ProfileMatrix(au, al, di, ia, n);
         }
 
-        public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)  //внимание работает не правильно!
+        public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_matrix)  //внимание работает не правильно!
         {
-            int i, j,k,ind, num_elem_i, num_elem_j, ind1, ind2;
-            double sum_, sum_l, sum_u;
+            int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
+            double sumDiag, sumL, sumU;
+
 
             bool start_with_zero = false;
             // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
             if (matrix.Ia[0] == 0) start_with_zero = true;
 
+            //нужно быть внимательным при копировании массива, иначе можно испортить входные данные.
+            int n = matrix.N;
             int[] ia=new int[matrix.N+1];
-            Array.Copy(matrix.Ia, ia, matrix.N+1); //нужно быть внимательным при копировании массива, иначе можно испортить входные данные.
+            Array.Copy(matrix.Ia, ia, matrix.N+1); 
 
+            double[] al = new double[ia[n] - 1];
+            Array.Copy(matrix.Al, al, ia[n] - 1);
+
+            double[] au = new double[ia[n] - 1];
+            Array.Copy(matrix.Au, au, ia[n] - 1);
+
+            double[] di = new double[n];
+            Array.Copy(matrix.Di, di, n);
+
+
+            //Если ia[0]=1, делаем его равным 0
             if (!start_with_zero)
             for (i=0; i<matrix.N+1; i++)
             {
                 ia[i]--;
             }
 
-            out_l = null;
-            out_u = null;
-            for (i=0; i< matrix.N; i++)
+           
+            //LU(sq)
+
+            for (i = 0; i < n; i++)
             {
-                num_elem_i = ia[i + 1] - ia[i]; //количество элементов в i строке/столбце
-                ind = ia[i]; //индекс в массиве al
-               
-
-                sum_ = 0; //сумма для диагонали
-                for (j=i-num_elem_i; j< i; j++)
+                i0 = ia[i];
+                i1 = ia[i + 1];
+                j = i - (i1 - i0);
+                sumDiag = 0;
+                for (int m = i0; m < i1; m++, j++)
                 {
-                    sum_l = 0;
-                    sum_u = 0;
-                    num_elem_j = ia[j + 1] - ia[j]; //количество элементов в j строке
-                    k = Math.Max(i - num_elem_i, j - num_elem_j);
+                    sumL = 0;
+                    sumU = 0;
 
-                    ind1 = ia[i] - (i - num_elem_i) + k;
-                    ind2 = ia[j] - (j - num_elem_j) + k;
-                    k = j - 1 - k + ind1;
-                    for (ind1=ind1; ind1< k; ind1++)
+                    j0 = ia[j];
+                    j1 = ia[j + 1];
+
+                    mi = i0;
+                    mj = j0;
+
+                    kol_i = m - i0;
+                    kol_j = j1 - j0;
+                    kol_r = kol_i - kol_j;
+                    if (kol_r < 0) mj -= kol_r;
+                    else mi += kol_r;
+
+
+
+                    for (mi = mi; mi < m; mi++, mj++)
                     {
-                        sum_l += matrix.Al[ind1] * matrix.Au[ind2];
-                        sum_u += matrix.Au[ind1] * matrix.Al[ind2];
-                        ind2++;
+                        sumL += al[mi] * au[mj];
+                        sumU += au[mi] * al[mj];
                     }
-                    matrix.Al[ind] = (matrix.Al[ind] - sum_l) / matrix.Di[j];
-                    matrix.Au[ind] = (matrix.Au[ind] - sum_u) / matrix.Di[j];
-                    sum_ += matrix.Al[ind] * matrix.Au[ind];
-                    ind++;
+
+
+                    al[m] = (al[m] - sumL)/di[j];
+                    au[m] = (au[m] - sumU) / di[j];
+                    sumDiag += al[m] * au[m];
                 }
-                matrix.Di[i] = Math.Sqrt(matrix.Di[i] - sum_);
+
+                //необходимо добавить какой-нибудь экспешн.
+                di[i] = Math.Sqrt(di[i] - sumDiag);
+
+
             }
+
+            //делаем снова ia[0]=1, если необходимо
+            if (!start_with_zero)
+                for (i = 0; i < matrix.N + 1; i++)
+                {
+                    ia[i]++;
+                }
+
+
+            out_matrix = new ProfileMatrix(au, al,di, ia,n);
+
         }
     }
     #endregion
