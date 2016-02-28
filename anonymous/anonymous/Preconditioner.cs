@@ -16,7 +16,7 @@ namespace anonymous
         //LLT разложение
         void createLLT(T matrix, out T out_l);
         //LU(sq) разложение
-        //void createLUsq();
+        void createLUsq(T matrix, out T out_l, out T out_u);
     }
     #region Профильный формат(1)
 
@@ -55,7 +55,7 @@ namespace anonymous
             double[] al = new double[size_au_al];
             out_m = new ProfileMatrix(al, al, matrix.Di, ia, matrix.N+1);
 
-            throw new NotImplementedException();
+            
         }
 
 
@@ -69,6 +69,58 @@ namespace anonymous
         public void createLU(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)
         {
             throw new NotImplementedException();
+        }
+
+        public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)
+        {
+            int i, j,k,ind, num_elem_i, num_elem_j, ind1, ind2;
+            double sum_, sum_l, sum_u;
+
+            bool start_with_zero = false;
+            // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
+            if (matrix.Ia[0] == 0) start_with_zero = true;
+
+            int[] ia=new int[matrix.N+1];
+            Array.Copy(matrix.Ia, ia, matrix.N+1); //нужно быть внимательным при копировании массива, иначе можно испортить входные данные.
+
+            if (!start_with_zero)
+            for (i=0; i<matrix.N+1; i++)
+            {
+                ia[i]--;
+            }
+
+            out_l = null;
+            out_u = null;
+            for (i=0; i< matrix.N; i++)
+            {
+                num_elem_i = ia[i + 1] - ia[i]; //количество элементов в i строке/столбце
+                ind = ia[i]; //индекс в массиве al
+               
+
+                sum_ = 0; //сумма для диагонали
+                for (j=i-num_elem_i; j< i; j++)
+                {
+                    sum_l = 0;
+                    sum_u = 0;
+                    num_elem_j = ia[j + 1] - ia[j]; //количество элементов в j строке
+                    k = Math.Max(i - num_elem_i, j - num_elem_j);
+
+                    ind1 = ia[i] - (i - num_elem_i) + k;
+                    ind2 = ia[j] - (j - num_elem_j) + k;
+                    k = j - 1 - k + ind1;
+                    for (ind1=ind1; ind1< k; ind1++)
+                    {
+                        sum_l += matrix.Al[ind1] * matrix.Au[ind2];
+                        sum_u += matrix.Au[ind1] * matrix.Al[ind2];
+                        ind2++;
+                    }
+                    matrix.Al[ind] = (matrix.Al[ind] - sum_l) / matrix.Di[j];
+                    matrix.Au[ind] = (matrix.Au[ind] - sum_u) / matrix.Di[j];
+                    sum_ += matrix.Al[ind] * matrix.Au[ind];
+                    ind++;
+                }
+                matrix.Di[i] = Math.Sqrt(matrix.Di[i] - sum_);
+            }
         }
     }
     #endregion

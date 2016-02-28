@@ -23,7 +23,7 @@ namespace anonymous
             comboBox1.SelectedItem = comboBox1.Items[0];
 
             //Предобуславливатель
-            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского" };
+            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского", "LU", "LU(sq)"};
             comboBox2.Items.AddRange(preconditioner);
             comboBox2.SelectedItem = comboBox2.Items[0];
 
@@ -84,7 +84,7 @@ namespace anonymous
         {
             //Запуск решения
 
-            
+            /*
             double[] au;
             double[] al;
             double[] di;
@@ -92,7 +92,21 @@ namespace anonymous
             int n;
             IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
             Vector V = new Vector();  
+            */
+
+            //Проверка работоспособности предобуславливателя.
+
+            double[] al = { 4, 5, 47};
+            double[] au = { 7, 8, 50};
+            double[] di = { 1, 32, 103 };
+            int[] ia= { 1, 1, 2, 4};
+            int n = 3;
+            ProfileMatrix A = new ProfileMatrix(au, al, di, ia, n);
+            IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner("Профильный");
             
+            ProfileMatrix out_res, l_res, u_res;
+            P.createDiag(A, out out_res);
+            P.createLUsq(A, out l_res, out u_res);
         }        
     }
 
