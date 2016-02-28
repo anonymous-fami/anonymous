@@ -12,7 +12,7 @@ namespace anonymous
         //диагональное предобуславливание
         void createDiag(T matrix, out T out_m); //out будет убрано, добавлено чисто для теста.
         //LU разложение
-        void createLU(T matrix, out T out_l, out T out_u);
+        void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         //LLT разложение
         void createLLT(T matrix, out T out_l);
         //LU(sq) разложение
