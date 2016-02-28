@@ -96,6 +96,8 @@ namespace anonymous
 
             //Проверка работоспособности предобуславливателя.
 
+
+            /*
             double[] al = { 4, 5, 47};
             double[] au = { 7, 8, 50};
             double[] di = { 1, 32, 103 };
@@ -107,6 +109,7 @@ namespace anonymous
             ProfileMatrix out_res, l_res, u_res;
             P.createDiag(A, out out_res);
             P.createLUsq(A, out l_res, out u_res);
+            */
         }        
     }
 

@@ -71,7 +71,7 @@ namespace anonymous
             throw new NotImplementedException();
         }
 
-        public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)
+        public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_l, out ProfileMatrix out_u)  //внимание работает не правильно!
         {
             int i, j,k,ind, num_elem_i, num_elem_j, ind1, ind2;
             double sum_, sum_l, sum_u;
