@@ -17,21 +17,10 @@ namespace anonymous
 
 
 
-    
-
-        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор  
-        {
-            String FileName = "test.txt";
-            InputOutput.InputMatrix(out n, FileName, out ia, out al, out au, out di);
-            this.au = au;
-            this.al = al;
-            this.di = di;
-            this.ia = ia;
-            this.n = n;
-        }
+ 
 
        
-        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор без считывания с файла
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор 
         {
 
             this.au = au;
@@ -138,39 +127,7 @@ namespace anonymous
             return res;
         }
 
-        public IMatrix<ProfileMatrix> Sum(ProfileMatrix B)//сумма матриц
-        {
-            double[] al_res=new double[ia[n+1]-1];
-            double[] au_res=new double[ia[n + 1] - 1];
-            double[] di_res=new double[n];
-            for (int i = 0; i < ia[n + 1] - 1; i++)
-            {
-                al_res[i] = 0;
-                au_res[i] = 0;
-
-            }
-
-            for (int i = 0; i < n; i++)
-                di_res[i] = 0;
-
-            var res = new ProfileMatrix(out au_res, out al_res, out di_res, out ia, out n);
-
-            for (int i = 0; i < ia[n + 1] - 1; i++)
-            {
-                res.al[i] += this.al[i];
-                res.al[i] += B.al[i];
-                res.au[i] += this.au[i];
-                res.au[i] += B.au[i];
-            }
-
-            for (int i = 0; i < n; i++)
-            {
-                res.di[i] += this.di[i];
-                res.di[i] += B.di[i];
-            }
-            return res;
-            
-        }
+        
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
@@ -197,14 +154,14 @@ namespace anonymous
             return res = norm_Ax_F / norm_F;
         }
 
-        public bool setMatrix(ProfileMatrix matrix)
+        public void setMatrix(ProfileMatrix matrix)
         {
             this.al = matrix.al;
             this.au = matrix.au;
             this.di = matrix.di;
             this.ia = matrix.ia;
             this.n = matrix.n;
-            return true;
+          
         }
 
         public ProfileMatrix getMatrix()
