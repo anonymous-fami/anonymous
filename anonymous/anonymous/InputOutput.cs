@@ -211,10 +211,10 @@ namespace anonymous
         }
 
         //
-        //Ввод вектора правой части
+        //Ввод вектора
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         // в файле FileName в первой строке указывается длина вектора, во второй строке весь вектор.
-        public static bool InputRightPart(out int n, string FileName, out double[] pr)
+        public static bool InputVector(out int n, string FileName, out double[] vector)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace anonymous
                 StreamReader str = new StreamReader(FileName);
                 n = Convert.ToInt32(str.ReadLine());
 
-                pr = new double[n];
+                vector = new double[n];
                 int ch = str.Read();
                 for (int i = 0; i < n && ch != -1;)
                 {
@@ -231,7 +231,7 @@ namespace anonymous
                     if(ch == ' ' || ch == '\n' || ch == -1)
                     {
                         line = line.Replace('.', ',');
-                        pr[i] = Convert.ToDouble(line);
+                        vector[i] = Convert.ToDouble(line);
                         i++;
                         line = null;
                         do
@@ -248,7 +248,7 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
-                pr = new double[0];
+                vector = new double[0];
                 return false;
             }
         }
