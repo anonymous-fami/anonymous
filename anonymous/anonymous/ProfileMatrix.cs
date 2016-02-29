@@ -35,7 +35,7 @@ namespace anonymous
 
             this.ia = new int[Original.n + 1];
             Array.Copy(Original.ia, this.ia, Original.n + 1);
-
+    
             this.al = new double[this.ia[this.n] - 1];
             Array.Copy(Original.al, this.al, this.ia[this.n] - 1);
 
@@ -84,39 +84,7 @@ namespace anonymous
             return res;
         }
 
-        public IMatrix<ProfileMatrix> Sum(ProfileMatrix B)//сумма матриц
-        {
-            double[] al_res=new double[ia[n+1]-1];
-            double[] au_res=new double[ia[n + 1] - 1];
-            double[] di_res=new double[n];
-            for (int i = 0; i < ia[n + 1] - 1; i++)
-            {
-                al_res[i] = 0;
-                au_res[i] = 0;
 
-            }
-
-            for (int i = 0; i < n; i++)
-                di_res[i] = 0;
-
-            var res = new ProfileMatrix(au_res, al_res, di_res, ia, n);
-
-            for (int i = 0; i < ia[n + 1] - 1; i++)
-            {
-                res.al[i] += this.al[i];
-                res.al[i] += B.al[i];
-                res.au[i] += this.au[i];
-                res.au[i] += B.au[i];
-            }
-
-            for (int i = 0; i < n; i++)
-            {
-                res.di[i] += this.di[i];
-                res.di[i] += B.di[i];
-            }
-            return res;
-            
-        }
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
@@ -143,19 +111,19 @@ namespace anonymous
             return res = norm_Ax_F / norm_F;
         }
 
-        public bool setMatrix(ProfileMatrix matrix)
+        public void setMatrix(ProfileMatrix matrix)
         {
             this.al = matrix.al;
             this.au = matrix.au;
             this.di = matrix.di;
             this.ia = matrix.ia;
             this.n = matrix.n;
-            return true;
+          
         }
 
         public ProfileMatrix getMatrix()
         {
-             return this;             
+             return this;    
         }
 
         public double[] AL
@@ -191,7 +159,7 @@ namespace anonymous
                 di = value;
             }
         }
-
+         
         public int[] IA
         {
             get
