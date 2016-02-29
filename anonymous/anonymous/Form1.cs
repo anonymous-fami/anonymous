@@ -19,7 +19,6 @@ namespace anonymous
             comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
             comboBox1.SelectedItem = comboBox1.Items[0];
 
-
             
             /////////////////////////
             //IMatrix A = new Matrix();
