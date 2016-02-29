@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class DisperseSLAE : ISLAE<DisperseMatrix>
+    public class DiagonalSLAE : ISLAE<DiagonalMatrix>
     {
-        public IMatrix<DisperseMatrix> MakeDisperse(double[] au, double[] al, double[] di, int[] ia, int[] ja, int n)
+        public IMatrix<DiagonalMatrix> MakeProfile(double[,] au, double[,] al, double[] di, int[] ia, int[] ja, int n, int nd)
         {
-            return new DisperseMatrix(au, al, di, ia,ja, n);
+            return new DiagonalMatrix(au, al, di, ia, ja, n, nd);
         }
         public Vector MakeVector(int size, double[] values)
         {
