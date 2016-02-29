@@ -293,30 +293,20 @@ namespace anonymous
             //Проверка работоспособности предобуславливателя.
 
 
-
-            //double[] al = { 4, 5, 47};
-            //double[] au = { 7, 8, 50};
-            //double[] di = { 1, 32, 103 };
-            //int[] ia= { 1, 1, 2, 4};
-            //int n = 3;
-
-            double[] al = { 5, 47 };
-            double[] au = { 8, 50 };
+            
+            double[] al = { 4, 5, 47 };
+            double[] au = { 7, 8, 50 };
             double[] di = { 1, 32, 103 };
-            int[] ia = { 0, 0, 0, 2 };
+            int[] ia = { 0, 0, 1, 3 };
             int n = 3;
 
             IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
-            ProfileMatrix Ap = new ProfileMatrix(au, al, di, ia, n);
-
-            IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner("Профильный");
-            //ProfilePreconditioner P=new ProfilePreconditioner();
             IMatrix<ProfileMatrix> B;
-            ProfileMatrix out_res;
-            //P.createDiag(Ap, out out_res);
-            //P.createLUsq(Ap, out out_res);
-            //P.createLU(A,out B);
-            P.createLLT(Ap, out out_res);
+            IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
+            
+            P.createDiag(A, out B);
+            P.createLUsq(A, out B);
+  
         }        
     }
 
@@ -357,14 +347,7 @@ namespace anonymous
         ISolver CurrentSolver { get; set; }
     }
 
-    //убрано! по всем вопросам к Тонхоноеву А.А. (amashtay)
-    /*
-    interface IPreconditioner : IMatrix <ProfileMatrix>
-    {
-        string Name { get; }
-        void Create(IMatrix<ProfileMatrix> matrix);
-    }
-    */
+   
     interface ISolver
     {
         IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
@@ -422,21 +405,6 @@ namespace anonymous
             }
         }
     }
-
-    /*
-    class Preconditioner : IPreconditioner // Реализация интерфейса IPreconditioner
-    {
-        public string Name
-        {
-            get;
-        }
-
-        public void Create(IMatrix matrix)
-        {
-            
-        }
-    }
-    */
 
     /*
     class Solver : ISolver // Реализация интерфейса ISolver

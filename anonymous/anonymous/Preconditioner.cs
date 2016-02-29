@@ -3,60 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace anonymous
 {
     interface IPreconditioner<T>//интерфейс не наследует iMatrix, было убрано чтобы избежать реализацию интерфейса предка.
     {
-        string Type { get; }
         //диагональное предобуславливание
-        void createDiag(T matrix, out T out_m); //out будет убрано, добавлено чисто для теста.
+        void createDiag(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         //LU разложение
-                                                // void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         //LLT разложение
         void createLLT(T matrix, out T out_l);
         //LU(sq) разложение
-        void createLUsq(T matrix, out T out_matrix);
+        void createLUsq(IMatrix<T> matrix, out IMatrix<T> out_matrix);
     }
     #region Профильный формат(1)
 
     class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
-        string type;
 
-        public ProfilePreconditioner()
+        public void createDiag(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
         {
-            type = "Профильный";
-        }
-        public ProfilePreconditioner(string txt)
-        {
-            type = txt;
-        }
-        //возвращение предобуславливателя.
-        public string Type
-        {
-            get
-            {
-                return type;
-            }
-        }
+            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
 
-
-        public void createDiag(ProfileMatrix matrix, out ProfileMatrix out_m)
-        {
-
-            int[] ia = new int[matrix.N+1];
-            for (int i = 0; i <matrix.N+1; i++)
-            {
-                ia[i] = 1;
-            }
-            //т.к. все кроме диагонали 0
-            int size_au_al = 0;
-            double[] al = new double[size_au_al];
-            out_m = new ProfileMatrix(al, al, matrix.DI, ia, matrix.N+1);
+            int[] ia = new int[temp.N+1];
 
             
+            for (int i = 0; i <temp.N+1; i++)
+            {
+                ia[i] = 0;  // подразумевает что ia[0] начинается  с 0, как и во всем проекте.
+            }
+            //т.к. все кроме диагонали 0
+             double[] al = null;
+            out_matrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);
+                   
         }
 
 
@@ -192,93 +173,85 @@ namespace anonymous
             out_matrix = new ProfileMatrix(au, al, di, ia, n);
         }
 
-        public void createLUsq(ProfileMatrix matrix, out ProfileMatrix out_matrix)  //внимание работает не правильно!
+        public void createLUsq(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)  //внимание работает не правильно!
         {
+
+            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
+           
+
             int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
             double sumDiag, sumL, sumU;
 
-
-            bool start_with_zero = false;
-            // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
-            if (matrix.IA[0] == 0) start_with_zero = true;
-
-            //нужно быть внимательным при копировании массива, иначе можно испортить входные данные.
-            int n = matrix.N;
-            int[] ia=new int[matrix.N+1];
-            Array.Copy(matrix.IA, ia, matrix.N+1); 
-
-            double[] al = new double[ia[n] - 1];
-            Array.Copy(matrix.AL, al, ia[n] - 1);
-
-            double[] au = new double[ia[n] - 1];
-            Array.Copy(matrix.AU, au, ia[n] - 1);
-
-            double[] di = new double[n];
-            Array.Copy(matrix.DI, di, n);
-
-
-            //Если ia[0]=1, делаем его равным 0
-            if (!start_with_zero)
-            for (i=0; i<matrix.N+1; i++)
+            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
+            out_matrix = null;
+            //обработка исключений
+            try
             {
-                ia[i]--;
-            }
-
-           
-            //LU(sq)
-
-            for (i = 0; i < n; i++)
-            {
-                i0 = ia[i];
-                i1 = ia[i + 1];
-                j = i - (i1 - i0);
-                sumDiag = 0;
-                for (int m = i0; m < i1; m++, j++)
+                foreach (double x in temp.DI)
                 {
-                    sumL = 0;
-                    sumU = 0;
-
-                    j0 = ia[j];
-                    j1 = ia[j + 1];
-
-                    mi = i0;
-                    mj = j0;
-
-                    kol_i = m - i0;
-                    kol_j = j1 - j0;
-                    kol_r = kol_i - kol_j;
-                    if (kol_r < 0) mj -= kol_r;
-                    else mi += kol_r;
+                    if (x==0)
+                    throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                
 
 
+                //LU(sq)
+                for (i = 0; i < temp.N; i++)
+                {
+                    i0 = temp.IA[i];
+                    i1 = temp.IA[i + 1];
+                    j = i - (i1 - i0);
+                    sumDiag = 0;
 
-                    for (; mi < m; mi++, mj++)
+                    for (int ind = i0; ind < i1; ind++, j++)
                     {
-                        sumL += al[mi] * au[mj];
-                        sumU += au[mi] * al[mj];
+                        sumL = 0;
+                        sumU = 0;
+
+                        j0 = temp.IA[j];
+                        j1 = temp.IA[j + 1];
+
+                        mi = i0;
+                        mj = j0;
+
+                        kol_i = ind - i0;
+                        kol_j = j1 - j0;
+                        kol_r = kol_i - kol_j;
+                        if (kol_r < 0) mj -= kol_r;
+                        else mi += kol_r;
+
+
+
+                        for (; mi < ind; ++mi, ++mj)
+                        {
+                            sumL += temp.AL[mi] * temp.AU[mj];
+                            sumU += temp.AU[mi] * temp.AL[mj];
+                        }
+
+
+                        temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[j];
+                        temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[j];
+                        sumDiag += temp.AL[ind] * temp.AU[ind];
                     }
 
-
-                    al[m] = (al[m] - sumL)/di[j];
-                    au[m] = (au[m] - sumU) / di[j];
-                    sumDiag += al[m] * au[m];
+                    //необходимо добавить какой-нибудь экспешн.
+                    if ((temp.DI[i] - sumDiag)<0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDiag);
+                        out_matrix = temp;
+                    }
                 }
-
-                //необходимо добавить какой-нибудь экспешн.
-                di[i] = Math.Sqrt(di[i] - sumDiag);
-
-
             }
-
-            //делаем снова ia[0]=1, если необходимо
-            if (!start_with_zero)
-                for (i = 0; i < matrix.N + 1; i++)
-        {
-                    ia[i]++;
-                }
-
-
-            out_matrix = new ProfileMatrix(au, al,di, ia,n);
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                out_matrix = null;
+            }
+            
 
         }
     }
