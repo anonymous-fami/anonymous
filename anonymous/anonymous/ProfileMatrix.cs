@@ -15,26 +15,38 @@ namespace anonymous
         private int[] ia;
         private int n;
 
-        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор  
+        public ProfileMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
-            InputOutput.InputMatrix(out n, Data.matrixPath, out ia, out al, out au, out di);
+            InputOutput.InputMatrix(out this.n, FilePath, out this.ia, out this.al, out this.au, out this.di);
+        }
+
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n) //Конструктор, получает данные на вход
+        {
             this.au = au;
             this.al = al;
             this.di = di;
             this.ia = ia;
             this.n = n;
-        }
+        }    
 
-        //добавлен обычный конструктор без считывания с файла
-        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор  
+        public ProfileMatrix(ProfileMatrix Original) //Конструктор копий 
         {
+            this.n = Original.n;
 
-            this.au = au;
-            this.al = al;
-            this.di = di;
-            this.ia = ia;
-            this.n = n;
+            this.ia = new int[Original.n + 1];
+            Array.Copy(Original.ia, this.ia, Original.n + 1);
+
+            this.al = new double[this.ia[this.n] - 1];
+            Array.Copy(Original.al, this.al, this.ia[this.n] - 1);
+
+            this.au = new double[this.ia[this.n] - 1];
+            Array.Copy(Original.au, this.au, this.ia[this.n] - 1);
+
+            this.di = new double[this.n];
+            Array.Copy(Original.di, this.di, this.n);
         }
+
+        //public ProfileMatrix() { }
 
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
@@ -87,7 +99,7 @@ namespace anonymous
             for (int i = 0; i < n; i++)
                 di_res[i] = 0;
 
-            var res = new ProfileMatrix(out au_res, out al_res, out di_res, out ia, out n);
+            var res = new ProfileMatrix(au_res, al_res, di_res, ia, n);
 
             for (int i = 0; i < ia[n + 1] - 1; i++)
             {
@@ -146,11 +158,7 @@ namespace anonymous
              return this;             
         }
 
-        //почему-то не были добавлены описания параметров
-
-        //описание параметров класса
-        //описание непосредственно элементов матрицы (описание параметра)
-        public double[] Al
+        public double[] AL
         {
             get
             {
@@ -158,10 +166,10 @@ namespace anonymous
             }
             set
             {
-               al = value;
+                al = value;
             }
         }
-        public double[] Au
+        public double[] AU
         {
             get
             {
@@ -172,7 +180,7 @@ namespace anonymous
                 au = value;
             }
         }
-        public double[] Di
+        public double[] DI
         {
             get
             {
@@ -184,7 +192,7 @@ namespace anonymous
             }
         }
 
-        public int[] Ia
+        public int[] IA
         {
             get
             {
@@ -207,6 +215,5 @@ namespace anonymous
                 n = value;
             }
         }
-
     }
 }

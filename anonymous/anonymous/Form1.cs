@@ -16,6 +16,10 @@ namespace anonymous
         {
             InitializeComponent();
 
+            textBox1.ReadOnly = true;
+            textBox1.ReadOnly = true;
+            textBox3.ReadOnly = true;
+
             //Формат матрицы
             string[] matrixformats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
 
@@ -23,12 +27,12 @@ namespace anonymous
             comboBox1.SelectedItem = comboBox1.Items[0];
 
             //Предобуславливатель
-            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского", "LU", "LU(sq)"};
+            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского", "LU", "LU(sq)" };
             comboBox2.Items.AddRange(preconditioner);
             comboBox2.SelectedItem = comboBox2.Items[0];
 
             //Решатель
-            string[] solver = { "МСГ" };
+            string[] solver = { "МСГ", "ЛОС" ,"$$$"};
             comboBox3.Items.AddRange(solver);
             comboBox3.SelectedItem = comboBox3.Items[0];
         }
@@ -45,6 +49,15 @@ namespace anonymous
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if ((comboBox3.SelectedIndex == 0) || (comboBox3.SelectedIndex == 1))
+            {
+                button3.Enabled = true;
+            }
+            else
+            {
+                button3.Enabled = false;
+            }
+
             Data.solver = comboBox3.SelectedIndex;  //Решатель
         }
 
@@ -52,7 +65,7 @@ namespace anonymous
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            OFD.InitialDirectory = "c:\\";
+            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
@@ -68,7 +81,7 @@ namespace anonymous
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            OFD.InitialDirectory = "c:\\";
+            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
@@ -82,16 +95,199 @@ namespace anonymous
 
         private void button3_Click(object sender, EventArgs e)
         {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            //OFD.InitialDirectory = "c:\\";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                textBox3.Text = OFD.FileName;   //Путь файла с начальным приближением
+
+                Data.initialPath = textBox3.Text;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
             //Запуск решения
+            /*
+            switch (Data.matrixformat)
+            {
+                case 0:
+                    {
+                        //Плотная
+                        switch(Data.preconditioner)
+                        {
+                            case 0:
+                                {
+                                    //Diag
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    //LU
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    //LLT
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    //LUsq
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        //Профильная
+                        IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
+                        switch (Data.preconditioner)
+                        {
+                            case 0:
+                                {
+                                    //Diag
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ
+                                                ProfileMatrix A1 = new ProfileMatrix(Matrix.getMatrix());
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    //LU
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС                                                
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    //LLT
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    //LUsq
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+            }
+            */
 
             /*
-            double[] au;
-            double[] al;
-            double[] di;
-            int[] ia;
-            int n;
-            IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
-            Vector V = new Vector();  
+            IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
+            ProfileMatrix MatrixCopy = new ProfileMatrix(Matrix.getMatrix());
+
+            MatrixCopy.AU[0] = 888;
+            MatrixCopy.N = 888;
+
+            int a = 0;
             */
 
             //Проверка работоспособности предобуславливателя.
@@ -129,13 +325,17 @@ namespace anonymous
         public static int matrixformat;     //Выбранный формат матрицы
         public static string matrixPath;    //Путь файла с матрицей
         public static string vectorPath;    //Путь файла с вектором
+        public static string initialPath;   //Путь файла с начальным приближением
         public static int preconditioner;   //Выбранный предобуславливатель
         public static int solver;           //Выбранный решатель
     }
    
     interface IVector
     {
-        double Norm(Vector x);
+        double Norm();
+        Vector Sum(Vector B);
+        Vector Mult(double A);
+        Vector Scalar(Vector A);
         // double Scalar();
         // double SumVec(IVector x, IVector y);
         //IVector aMultVec(double a,IVector x);

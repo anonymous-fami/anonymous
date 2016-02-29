@@ -54,7 +54,7 @@ namespace anonymous
             //т.к. все кроме диагонали 0
             int size_au_al = 0;
             double[] al = new double[size_au_al];
-            out_m = new ProfileMatrix(al, al, matrix.Di, ia, matrix.N+1);
+            out_m = new ProfileMatrix(al, al, matrix.DI, ia, matrix.N+1);
 
             
         }
@@ -65,23 +65,23 @@ namespace anonymous
             int[] ia = new int[matrix.N + 1];
             for (int i = 0; i < matrix.N + 1; i++)
             {
-                ia[i] = matrix.Ia[i];
+                ia[i] = matrix.IA[i];
             }
             double[] L = new double[ia[matrix.N] - 1];
             double[] Di = new double[matrix.N];
             double epsForFirstElem = 1e-5;
-            if(Math.Abs(matrix.Di[0])< epsForFirstElem)
+            if(Math.Abs(matrix.DI[0])< epsForFirstElem)
             {
                 for (int i = 0; i < matrix.N; i++)
                 {
-                    Di[i] = matrix.Di[i] + epsForFirstElem;
+                    Di[i] = matrix.DI[i] + epsForFirstElem;
                 }
             }
             else
             {
                 for (int i = 0; i < matrix.N; i++)
                 {
-                    Di[i] = matrix.Di[i];
+                    Di[i] = matrix.DI[i];
                 }
             }
             for (int i = 0; i < matrix.N; i++)
@@ -109,7 +109,7 @@ namespace anonymous
                         if (ia[stolb + 1] - ia[stolb] == 0) continue;
                         sumL += L[ia[i] + k] * L[ia[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
                     }
-                    L[j] = (matrix.Al[j] - sumL) / Di[stolb] ;
+                    L[j] = (matrix.AL[j] - sumL) / Di[stolb] ;
                     sumDi += L[j] * L[j];
                 }
                 Di[i] = Math.Sqrt(Di[i] - sumDi);
@@ -132,10 +132,10 @@ namespace anonymous
             double tl, tu, tdi; //накопительные переменные, используются в циклах
             ProfileMatrix a = b.getMatrix();
             int n = a.N;
-            double[] au = a.Au;
-            double[] al = a.Al;
-            double[] di = a.Di;
-            int[] ia = a.Ia;
+            double[] au = a.AU;
+            double[] al = a.AL;
+            double[] di = a.DI;
+            int[] ia = a.IA;
             bool start_with_zero = false;
             
             // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
@@ -200,21 +200,21 @@ namespace anonymous
 
             bool start_with_zero = false;
             // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
-            if (matrix.Ia[0] == 0) start_with_zero = true;
+            if (matrix.IA[0] == 0) start_with_zero = true;
 
             //нужно быть внимательным при копировании массива, иначе можно испортить входные данные.
             int n = matrix.N;
             int[] ia=new int[matrix.N+1];
-            Array.Copy(matrix.Ia, ia, matrix.N+1); 
+            Array.Copy(matrix.IA, ia, matrix.N+1); 
 
             double[] al = new double[ia[n] - 1];
-            Array.Copy(matrix.Al, al, ia[n] - 1);
+            Array.Copy(matrix.AL, al, ia[n] - 1);
 
             double[] au = new double[ia[n] - 1];
-            Array.Copy(matrix.Au, au, ia[n] - 1);
+            Array.Copy(matrix.AU, au, ia[n] - 1);
 
             double[] di = new double[n];
-            Array.Copy(matrix.Di, di, n);
+            Array.Copy(matrix.DI, di, n);
 
 
             //Если ia[0]=1, делаем его равным 0
@@ -252,7 +252,7 @@ namespace anonymous
 
 
 
-                    for (mi = mi; mi < m; mi++, mj++)
+                    for (; mi < m; mi++, mj++)
                     {
                         sumL += al[mi] * au[mj];
                         sumU += au[mi] * al[mj];
