@@ -36,11 +36,11 @@ namespace anonymous
             this.ia = new int[Original.n + 1];
             Array.Copy(Original.ia, this.ia, Original.n + 1);
     
-            this.al = new double[this.ia[this.n] - 1];
-            Array.Copy(Original.al, this.al, this.ia[this.n] - 1);
+            this.al = new double[this.ia[this.n]];
+            Array.Copy(Original.al, this.al, this.ia[this.n]);
 
-            this.au = new double[this.ia[this.n] - 1];
-            Array.Copy(Original.au, this.au, this.ia[this.n] - 1);
+            this.au = new double[this.ia[this.n]];
+            Array.Copy(Original.au, this.au, this.ia[this.n]);
 
             this.di = new double[this.n];
             Array.Copy(Original.di, this.di, this.n);
