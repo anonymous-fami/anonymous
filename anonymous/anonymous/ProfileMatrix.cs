@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 
 namespace anonymous
 {
@@ -15,14 +15,13 @@ namespace anonymous
         private int[] ia;
         private int n;
 
-
-
- 
-
-       
-        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор 
+        public ProfileMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
+            InputOutput.InputMatrix(out this.n, FilePath, out this.ia, out this.al, out this.au, out this.di);
+        }
 
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n) //Конструктор, получает данные на вход
+        {
             this.au = au;
             this.al = al;
             this.di = di;
@@ -30,66 +29,24 @@ namespace anonymous
             this.n = n;
         }
 
+        public ProfileMatrix(ProfileMatrix Original) //Конструктор копий 
+        {
+            this.n = Original.n;
 
-        public double[] Al
-        {
-            get
-            {
-                return al;
-            }
-            set
-            {
-                al = value;
-            }
-        }
-        public double[] Au
-        {
-            get
-            {
-                return au;
-            }
-            set
-            {
-                au = value;
-            }
-        }
-        public double[] Di
-        {
-            get
-            {
-                return di;
-            }
-            set
-            {
-                di = value;
-            }
+            this.ia = new int[Original.n + 1];
+            Array.Copy(Original.ia, this.ia, Original.n + 1);
+    
+            this.al = new double[this.ia[this.n]];
+            Array.Copy(Original.al, this.al, this.ia[this.n]);
+
+            this.au = new double[this.ia[this.n]];
+            Array.Copy(Original.au, this.au, this.ia[this.n]);
+
+            this.di = new double[this.n];
+            Array.Copy(Original.di, this.di, this.n);
         }
 
-        public int[] Ia
-        {
-            get
-            {
-                return ia;
-            }
-            set
-            {
-                ia = value;
-            }
-        }
-
-        public int N
-        {
-            get
-            {
-                return n;
-            }
-            set
-            {
-                n = value;
-            }
-        }
-
-
+        //public ProfileMatrix() { }
 
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
@@ -127,7 +84,7 @@ namespace anonymous
             return res;
         }
 
-        
+
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
@@ -167,7 +124,64 @@ namespace anonymous
         public ProfileMatrix getMatrix()
         {
              return this;    
+        }
+
+        public double[] AL
+        {
+            get
+            {
+                return al;
+            }
+            set
+            {
+                al = value;
+            }
+        }
+        public double[] AU
+        {
+            get
+            {
+                return au;
+            }
+            set
+            {
+                au = value;
+            }
+        }
+        public double[] DI
+        {
+            get
+            {
+                return di;
+            }
+            set
+            {
+                di = value;
+            }
+        }
          
+        public int[] IA
+        {
+            get
+            {
+                return ia;
+            }
+            set
+            {
+                ia = value;
+            }
+        }
+
+        public int N
+        {
+            get
+            {
+                return n;
+            }
+            set
+            {
+                n = value;
+            }
         }
     }
 }

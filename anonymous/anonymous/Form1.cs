@@ -16,35 +16,64 @@ namespace anonymous
         {
             InitializeComponent();
 
-            string[] formats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
+            textBox1.ReadOnly = true;
+            textBox1.ReadOnly = true;
+            textBox3.ReadOnly = true;
 
-            comboBox1.Items.AddRange(formats);
-            comboBox1.SelectedItem = comboBox1.Items[0];  
+            //Формат матрицы
+            string[] matrixformats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
+
+            comboBox1.Items.AddRange(matrixformats);
+            comboBox1.SelectedItem = comboBox1.Items[0];
+
+            //Предобуславливатель
+            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского", "LU", "LU(sq)" };
+            comboBox2.Items.AddRange(preconditioner);
+            comboBox2.SelectedItem = comboBox2.Items[0];
+
+            //Решатель
+            string[] solver = { "МСГ", "ЛОС" ,"$$$"};
+            comboBox3.Items.AddRange(solver);
+            comboBox3.SelectedItem = comboBox3.Items[0];
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InputOutput.formattype = comboBox1.SelectedIndex;
-            double[] au;
-            double[] al;
-            double[] di;
-            int[] ia;
-            int n;
-            IMatrix<ProfileMatrix> A = new ProfileMatrix(out au, out al, out di,out ia,out n);
+            Data.matrixformat = comboBox1.SelectedIndex;   //Формат матрицы           
+        }
 
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Data.preconditioner = comboBox2.SelectedIndex;  //Предобуславливатель
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((comboBox3.SelectedIndex == 0) || (comboBox3.SelectedIndex == 1))
+            {
+                button3.Enabled = true;
+            }
+            else
+            {
+                button3.Enabled = false;
+            }
+
+            Data.solver = comboBox3.SelectedIndex;  //Решатель
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            OFD.InitialDirectory = "c:\\";
+            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
             if (OFD.ShowDialog() == DialogResult.OK)
             {
-                textBox1.Text = OFD.FileName;
+                textBox1.Text = OFD.FileName;   //Путь файла с матрицей
+
+                Data.matrixPath = textBox1.Text;
             }
         }
 
@@ -52,44 +81,245 @@ namespace anonymous
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            OFD.InitialDirectory = "c:\\";
+            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
             if (OFD.ShowDialog() == DialogResult.OK)
             {
-                textBox2.Text = OFD.FileName;
+                textBox2.Text = OFD.FileName;   //Путь файла правой части
+
+                Data.vectorPath = textBox2.Text;
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            //OFD.InitialDirectory = "c:\\";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                textBox3.Text = OFD.FileName;   //Путь файла с начальным приближением
+
+                Data.initialPath = textBox3.Text;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
             //Запуск решения
+            /*
+            switch (Data.matrixformat)
+            {
+                case 0:
+                    {
+                        //Плотная
+                        switch(Data.preconditioner)
+                        {
+                            case 0:
+                                {
+                                    //Diag
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    //LU
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    //LLT
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    //LUsq
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        //Профильная
+                        IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
+                        switch (Data.preconditioner)
+                        {
+                            case 0:
+                                {
+                                    //Diag
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ
+                                                ProfileMatrix A1 = new ProfileMatrix(Matrix.getMatrix());
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    //LU
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС                                                
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    //LLT
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    //LUsq
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+            }
+            */
+
+            /*
+            IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
+            ProfileMatrix MatrixCopy = new ProfileMatrix(Matrix.getMatrix());
+
+            MatrixCopy.AU[0] = 888;
+            MatrixCopy.N = 888;
+
+            int a = 0;
+            */            
         }
     }
 
-   /* interface IMatrix
+    public static class Data
     {
-        IVector Multiply(IVector x); //перемножение матрицы на вектор
-        IVector TMultiply(IVector x);//перемножает транспонированную матрицу на вектор
-                                     //   IMatrix SumMatr();
-        void test();
-    }*/
-
+        public static int matrixformat;     //Выбранный формат матрицы
+        public static string matrixPath;    //Путь файла с матрицей
+        public static string vectorPath;    //Путь файла с вектором
+        public static string initialPath;   //Путь файла с начальным приближением
+        public static int preconditioner;   //Выбранный предобуславливатель
+        public static int solver;           //Выбранный решатель
+    }
+   
     interface IVector
     {
-        double Norm(Vector x);
+        double Norm();
+        Vector Sum(Vector B);
+        Vector Mult(double A);
+        Vector Scalar(Vector A);
         // double Scalar();
         // double SumVec(IVector x, IVector y);
         //IVector aMultVec(double a,IVector x);
 
     }
+    
 
-  /*  interface ISLAE
-    {
-        IMatrix Matrix { get; set; }
-        IVector RightPart { get; set; }
-    }*/
+    /*  interface ISLAE
+      {
+          IMatrix Matrix { get; set; }
+          IVector RightPart { get; set; }
+      }*/
 
     interface IIterationLogger
     {
@@ -111,165 +341,6 @@ namespace anonymous
         string Name { get; }
         IPreconditioner Preconditioner { get; set; }
     }
-  
-  /*  class Matrix : IMatrix // Реализация интерфейса IMatrix
-    {
-
-        public Matrix()//конструктор
-        {
-            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
-            {
-                case 0://плотный
-                    break;
-                case 1://профильный
-
-                    double[] di, au, al;
-                    int[] ia;
-                    int n;//размерность
-
-                    break;
-                case 2://ленточный
-                    break;
-                case 3://диагональный
-                    break;
-                case 4://разреженный строчно-столбцовый
-                    break;
-
-            }
-        }
-        public IVector Multiply(IVector x)
-        {
-            IVector res;
-            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
-            {
-                case 0://плотный
-                    break;
-                case 1://профильный
-
-
-                    for (int i = 0; i < n; i++)
-                        res[i] = di[i] * x[i];
-
-                    for (int i = 0; i < n; i++)
-                        for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
-                        {
-                            res[i] += al[j] * x[k];
-                            res[k] += au[j] * x[i];
-                        }
-
-                    break;
-
-                case 2://ленточный
-                    break;
-                case 3://диагональный
-                    break;
-                case 4://разреженный строчно-столбцовый
-                    break;
-
-
-            }
-            throw new NotImplementedException();
-            return res;
-        }
-
-        public IVector TMultiply(IVector x)
-        {
-            switch (InputOutput.formattype)//formattype-тип формата хранения матрицы 
-            {
-                case 0://плотный
-                    break;
-                case 1://профильный
-
-                    for (int i = 0; i < n; i++)
-                        res[i] = di[i] * b[i];
-
-                    for (int i = 0; i < n; i++)
-                        for (int j = ia[i], k = i - (ia[i + 1] - ia[i]); j < ia[i + 1]; j++, k++)
-                        {
-                            res[i] += au[j] * b[k];
-                            res[k] += al[j] * b[i];
-                        }
-
-                    break;
-                case 2://ленточный
-                    break;
-                case 3://диагональный
-                    break;
-                case 4://разреженный строчно-столбцовый
-                    break;
-
-            }
-            throw new NotImplementedException();
-        }
-
-        public void test()
-        {
-            MessageBox.Show(InputOutput.formattype.ToString());
-        }
-
-
-    }
-
-    class Vector : IVector // Реализация интерфейса IVector
-    {
-
-        public Vector()
-        {
-            double[] vec;
-        }
-        public double Norm(Vector x)
-        {
-            double norm = 0;
-            for (int i = 0; i < n; i++)
-                norm += x[i] * x[i];
-            norm = Math.Sqrt(norm);
-            return norm;
-        }
-
-        public static double operator *(Vector v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static IVector operator +(Vector v1, Vector v2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static IVector operator *(Vector v1, double v2)
-        {
-            throw new NotImplementedException();
-        }
-
-
-    }*/
-
-  /*  class ProfilSLAE : ISLAE // Реализация интерфейса ISLAE
-    {
-        public IMatrix Matrix
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IVector RightPart
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }*/
 
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
     {
