@@ -306,7 +306,8 @@ namespace anonymous
             
             P.createDiag(A, out B);
             P.createLUsq(A, out B);
-  
+            P.createLU(A, out B);
+
         }        
     }
 

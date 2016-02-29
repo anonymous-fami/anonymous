@@ -100,77 +100,70 @@ namespace anonymous
         }
 
 
-        
-        public void createLU(IMatrix<ProfileMatrix> b, out IMatrix<ProfileMatrix> out_matrix)
+
+        public void createLU(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
         {
-            int i, j; //индексы в полной матрице
-            int ii;  //индекс в массиве ia
-            int k;  //счетчик
-            int jbeg, jend, beg, end; //вспомогательные переменые
-            int j0; //первый ненулевой элемент в строке
-            int i0; //первый ненулевой элемент в столбце
-            int ial, iau; //индексы элементов в массивах al и au
-            double tl, tu, tdi; //накопительные переменные, используются в циклах
-            ProfileMatrix a = b.getMatrix();
-            int n = a.N;
-            double[] au = a.AU;
-            double[] al = a.AL;
-            double[] di = a.DI;
-            int[] ia = a.IA;
-            bool start_with_zero = false;
-            
-            // здесь смотрим как задана нумерация в массиве ia, с нуля или с единицы.
-            if (ia[0] == 0) start_with_zero = true;
-            if (!start_with_zero)
-            for (i = 0; i < n + 1; i++)
+            int i, j, ii, k, jbeg, jend, beg, end, j0, i0, ial, iau;
+            double tl, tu, tdi; 
+            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
+            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
+            out_matrix = null;
+            //обработка исключений
+            try
             {
-                ia[i]--;
-            }
-
-            //данный код подразумевает, что ia[0]=0 а не 1.
-
-
-            for (i = 1; i < n; i++)     //пробегаем все строки матрицы
-            {
-                tdi = 0;
-                j0 = i - ia[i + 1] + ia[i];   //первый ненулевой элемент в строке i
-                for (ii = ia[i]; ii < ia[i + 1]; ii++)    //пробегаем по ненулевым элементиам i-ой строки
+                foreach (double x in temp.DI)
                 {
-                    j = ii - ia[i] + j0;           //находим индекс очередного элемента профиля в полной матрице
-                    jbeg = ia[j];
-                    jend = ia[j + 1];
-                    if (jbeg < jend)        //если в j-ом столбце есть элементы
-                    {
-                        i0 = j - jend + jbeg;//индекс первого ненулевого элемента в столбце j
-                        if (i0 < j0)//находим с какого элемента умножение строки на cтолбец
-                            beg = j0;//даст ненулевой результат
-                        else
-                            beg = i0;
-                        if (j < i - 1)  //находим по какой элемент
-                            end = j;
-                        else
-                            end = i - 1;
-                        tl = 0;
-                        tu = 0;
-                        for (k = 0; k < end - beg; k++) //вычисляем сумму в формуле для Lij
-                        {
-                            //a.ia[i] - начало i-ой строки в массиве ia
-                            //beg - i0(beg - j0) - кол-во элементов ia, которые следует пропустить
-                            //так как кол-во элементов в строке и столбце может быть разным. k - смещение
-                            ial = ia[i] + beg - j0 + k;
-                            iau = ia[j] + beg - i0 + k;
-                            tl += al[ial] * au[iau];
-                            tu += al[iau] * au[ial];
-                        }
-                        al[ii] -= tl;
-                        au[ii] -= tu;
-                    }
-                    al[ii] = al[ii] / di[j];
-                    tdi += al[ii] * au[ii];       // вычисление диагонали
+                    if (x == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                 }
-                di[i] -= tdi;
+
+                for (i = 1; i < temp.N; i++)     //пробегаем все строки матрицы
+                {
+                    tdi = 0;
+                    j0 = i - temp.IA[i + 1] + temp.IA[i];   //первый ненулевой элемент в строке i
+                    for (ii = temp.IA[i]; ii < temp.IA[i + 1]; ii++)    //пробегаем по ненулевым элементиам i-ой строки
+                    {
+                        j = ii - temp.IA[i] + j0;           //находим индекс очередного элемента профиля в полной матрице
+                        jbeg = temp.IA[j];
+                        jend = temp.IA[j + 1];
+                        if (jbeg < jend)        //если в j-ом столбце есть элементы
+                        {
+                            i0 = j - jend + jbeg;//индекс первого ненулевого элемента в столбце j
+                            if (i0 < j0)//находим с какого элемента умножение строки на cтолбец
+                                beg = j0;//даст ненулевой результат
+                            else
+                                beg = i0;
+                            if (j < i - 1)  //находим по какой элемент
+                                end = j;
+                            else
+                                end = i - 1;
+                            tl = 0;
+                            tu = 0;
+                            for (k = 0; k < end - beg; k++) //вычисляем сумму в формуле для Lij
+                            {
+                                //a.ia[i] - начало i-ой строки в массиве ia
+                                //beg - i0(beg - j0) - кол-во элементов ia, которые следует пропустить
+                                //так как кол-во элементов в строке и столбце может быть разным. k - смещение
+                                ial = temp.IA[i] + beg - j0 + k;
+                                iau = temp.IA[j] + beg - i0 + k;
+                                tl += temp.AL[ial] * temp.AU[iau];
+                                tu += temp.AL[iau] * temp.AU[ial];
+                            }
+                            temp.AL[ii] -= tl;
+                            temp.AU[ii] -= tu;
+                        }
+                        temp.AL[ii] = temp.AL[ii] / temp.DI[j];
+                        tdi += temp.AL[ii] * temp.AU[ii];       // вычисление диагонали
+                    }
+                    temp.DI[i] -= tdi;
+                }
+                out_matrix = temp;
             }
-            out_matrix = new ProfileMatrix(au, al, di, ia, n);
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                out_matrix = null;
+            }
         }
 
         public void createLUsq(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)  //внимание работает не правильно!
