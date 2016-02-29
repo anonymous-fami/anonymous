@@ -15,15 +15,38 @@ namespace anonymous
         private int[] ia;
         private int n;
 
-        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор
+        public ProfileMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
-            InputOutput.InputMatrix(out n, Data.matrixPath, out ia, out al, out au, out di);
+            InputOutput.InputMatrix(out this.n, FilePath, out this.ia, out this.al, out this.au, out this.di);
+        }
+
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n) //Конструктор, получает данные на вход
+        {
             this.au = au;
             this.al = al;
             this.di = di;
             this.ia = ia;
             this.n = n;
-        }    
+        }
+
+        public ProfileMatrix(ProfileMatrix Original) //Конструктор копий 
+        {
+            this.n = Original.n;
+
+            this.ia = new int[Original.n + 1];
+            Array.Copy(Original.ia, this.ia, Original.n + 1);
+
+            this.al = new double[this.ia[this.n] - 1];
+            Array.Copy(Original.al, this.al, this.ia[this.n] - 1);
+
+            this.au = new double[this.ia[this.n] - 1];
+            Array.Copy(Original.au, this.au, this.ia[this.n] - 1);
+
+            this.di = new double[this.n];
+            Array.Copy(Original.di, this.di, this.n);
+        }
+
+        //public ProfileMatrix() { }
 
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
@@ -76,7 +99,7 @@ namespace anonymous
             for (int i = 0; i < n; i++)
                 di_res[i] = 0;
 
-            var res = new ProfileMatrix(out au_res, out al_res, out di_res, out ia, out n);
+            var res = new ProfileMatrix(au_res, al_res, di_res, ia, n);
 
             for (int i = 0; i < ia[n + 1] - 1; i++)
             {
@@ -133,6 +156,64 @@ namespace anonymous
         public ProfileMatrix getMatrix()
         {
              return this;             
+        }
+
+        public double[] AL
+        {
+            get
+            {
+                return al;
+            }
+            set
+            {
+                al = value;
+            }
+        }
+        public double[] AU
+        {
+            get
+            {
+                return au;
+            }
+            set
+            {
+                au = value;
+            }
+        }
+        public double[] DI
+        {
+            get
+            {
+                return di;
+            }
+            set
+            {
+                di = value;
+            }
+        }
+
+        public int[] IA
+        {
+            get
+            {
+                return ia;
+            }
+            set
+            {
+                ia = value;
+            }
+        }
+
+        public int N
+        {
+            get
+            {
+                return n;
+            }
+            set
+            {
+                n = value;
+            }
         }
     }
 }

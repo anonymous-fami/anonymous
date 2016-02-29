@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class Vector
+    public class Vector : IVector
     {
         public int size;
         public double[] values;
