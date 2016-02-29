@@ -12,11 +12,33 @@ namespace anonymous
         private double[,] Plot;
         private int n;
 
-        public DenseMatrix(out double[,] Plot, out int n)//конструктор
+        public double[,] PLOT
         {
-            InputOutput.InputMatrix(out n, Data.matrixPath, out Plot);
+            get { return Plot; }
+            set { Plot = value; }
+        }
+
+        public int N
+        {
+            get { return n; }
+            set { n = value; }
+        }
+
+
+        public DenseMatrix(out double[,] Plot, out int n)//конструктор, получает данные на входе
+        {
             this.Plot = Plot;
             this.n = n;
+        }
+        public DenseMatrix(string FilePath)//конструктор, считывает данные из файла
+        {
+            InputOutput.InputMatrix(out this.n, FilePath, out this.Plot);
+        }
+        public DenseMatrix(DenseMatrix Original) //Конструктор копий 
+        {
+            this.n = Original.n;
+            this.Plot = new double[Original.n, Original.n];
+            Array.Copy(Original.Plot, this.Plot, this.n * this.n);
         }
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
@@ -50,18 +72,6 @@ namespace anonymous
                 }
             return res;
         }
-        public IMatrix<DenseMatrix> Sum(DenseMatrix B)//сумма матриц
-        {
-            double[,] Plot_res = new double[n, n];
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    Plot_res[i, j] = this.Plot[i, j];
-            var res = new DenseMatrix(out Plot_res, out n);
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    Plot_res[i, j] += B.Plot[i, j];
-            return res;
-        }
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
             double res;
@@ -86,15 +96,15 @@ namespace anonymous
             double norm_Ax_F = this.abs_discrepancy(x, F);
             return res = norm_Ax_F / norm_F;
         }
-        public bool setMatrix(DenseMatrix matrix)
+        public void setMatrix(DenseMatrix matrix)
         {
             this.Plot = matrix.Plot;
             this.n = matrix.n;
-            return true;
         }
         public DenseMatrix getMatrix()
         {
             return this;
         }
+
     }
 }
