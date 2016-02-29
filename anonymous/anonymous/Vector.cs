@@ -46,6 +46,14 @@ namespace anonymous
             return res;
         }
 
+        public Vector Differ(Vector B)//разность векторов 
+        {   
+            var res = new Vector(size, this.values);
+            for (int i = 0; i < size; i++)
+            res.values[i] = res.values[i] - B.values[i];
+            return res;
+        }
+
         public Vector Mult(double A)//умножение вектора на число
         {
             double[] values_res = new double[size];
