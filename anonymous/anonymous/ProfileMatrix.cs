@@ -17,7 +17,9 @@ namespace anonymous
 
 
 
-        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор
+    
+
+        public ProfileMatrix(out double[] au, out double[] al, out double[] di, out int[] ia, out int n)//конструктор  
         {
             String FileName = "test.txt";
             InputOutput.InputMatrix(out n, FileName, out ia, out al, out au, out di);
@@ -28,8 +30,77 @@ namespace anonymous
             this.n = n;
         }
 
+       
+        public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n)//конструктор без считывания с файла
+        {
 
-    
+            this.au = au;
+            this.al = al;
+            this.di = di;
+            this.ia = ia;
+            this.n = n;
+        }
+
+
+        public double[] Al
+        {
+            get
+            {
+                return al;
+            }
+            set
+            {
+                al = value;
+            }
+        }
+        public double[] Au
+        {
+            get
+            {
+                return au;
+            }
+            set
+            {
+                au = value;
+            }
+        }
+        public double[] Di
+        {
+            get
+            {
+                return di;
+            }
+            set
+            {
+                di = value;
+            }
+        }
+
+        public int[] Ia
+        {
+            get
+            {
+                return ia;
+            }
+            set
+            {
+                ia = value;
+            }
+        }
+
+        public int N
+        {
+            get
+            {
+                return n;
+            }
+            set
+            {
+                n = value;
+            }
+        }
+
+
 
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
