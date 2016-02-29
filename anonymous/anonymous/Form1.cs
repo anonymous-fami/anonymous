@@ -97,11 +97,17 @@ namespace anonymous
             //Проверка работоспособности предобуславливателя.
 
 
-            
-            double[] al = { 4, 5, 47};
-            double[] au = { 7, 8, 50};
+
+            //double[] al = { 4, 5, 47};
+            //double[] au = { 7, 8, 50};
+            //double[] di = { 1, 32, 103 };
+            //int[] ia= { 1, 1, 2, 4};
+            //int n = 3;
+
+            double[] al = { 5, 47 };
+            double[] au = { 8, 50 };
             double[] di = { 1, 32, 103 };
-            int[] ia= { 1, 1, 2, 4};
+            int[] ia = { 0, 0, 0, 2 };
             int n = 3;
 
             IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
@@ -111,9 +117,10 @@ namespace anonymous
             //ProfilePreconditioner P=new ProfilePreconditioner();
             IMatrix<ProfileMatrix> B;
             ProfileMatrix out_res;
-            P.createDiag(Ap, out out_res);
-            P.createLUsq(Ap, out out_res);
-            P.createLU(A,out B);
+            //P.createDiag(Ap, out out_res);
+            //P.createLUsq(Ap, out out_res);
+            //P.createLU(A,out B);
+            P.createLLT(Ap, out out_res);
         }        
     }
 
