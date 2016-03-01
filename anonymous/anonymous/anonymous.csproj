@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Isolver.cs" />
+    <Compile Include="LOS.cs" />
+    <Compile Include="MSG.cs" />
     <Compile Include="ProfilSLAE.cs" />
     <Compile Include="ISLAE.cs" />
     <Compile Include="Form1.cs">
