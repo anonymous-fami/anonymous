@@ -55,20 +55,28 @@ namespace anonymous
         // diag - массив элементов диагонали
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         //
-        public static bool InputMatrix_re(out int n, string FileName, out int[] ia, out double[] al, out double[] au,  out double[] diag)
+        public static bool InputMatrix(out int n, string FileName, out int[] ia, out double[] al, out double[] au,  out double[] diag)
         {
             try
             {
                 string[] lines = System.IO.File.ReadAllLines(FileName);
                 n = Int32.Parse(lines[0]);
                 ia = new int[n + 1];
+                lines[1] = lines[1].Trim();
                 ia = lines[1].Split(' ').Select(nn => Convert.ToInt32(nn)).ToArray();
-                int k = ia[n] - 1;
+                if (ia[0] == 1) for (int i = 0; i <= n; i++)ia[i]--;
+                int k = ia[n];
                 al = new double[k];
+                lines[2] = lines[2].Trim();
+                lines[2] = lines[2].Replace('.', ',');
                 al = lines[2].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 au = new double[k];
+                lines[3] = lines[3].Trim();
+                lines[3] = lines[3].Replace('.', ',');
                 au = lines[3].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 diag = new double[n];
+                lines[4] = lines[4].Trim();
+                lines[4] = lines[4].Replace('.', ',');
                 diag = lines[4].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 return true;
             }
@@ -85,7 +93,7 @@ namespace anonymous
         }
 
         //временная замена ввода для профильного формата
-        public static bool InputMatrix(out int n, string FileName, out int[] ia, out double[] al, out double[] au, out double[] diag)
+        /*public static bool InputMatrix_res(out int n, string FileName, out int[] ia, out double[] al, out double[] au, out double[] diag)
         {
             try
             {
@@ -185,7 +193,7 @@ namespace anonymous
                 diag = new double[0];
                 return false;
             }
-        }
+        }*/
 
         //
         //Ввод матрицы в разреженном формате
