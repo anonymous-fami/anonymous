@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace anonymous
 {
     interface IPreconditioner<T>//интерфейс не наследует iMatrix, было убрано чтобы избежать реализацию интерфейса предка.
@@ -70,10 +71,18 @@ namespace anonymous
                                 temp1 = i - length + k - stolb + temp.IA[stolb + 1] - temp.IA[stolb];
                                 sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
                             }
+                        if(temp.DI[stolb]==0)
+                        {
+                            throw new Exception("LLt: Деление на ноль.");
+                        }
                         temp.AL[j] = (temp.AL[j] - sumL) / temp.DI[stolb];
                         temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
                         sumDi += temp.AL[j] * temp.AL[j];
                     }
+                        if(temp.DI[i] < sumDi)
+                        {
+                            throw new Exception("LLt: Извлечение корня из отрицательного числа.");
+                        }
                     temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
                 }
                 out_matrix = temp;

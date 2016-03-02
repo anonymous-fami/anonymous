@@ -299,10 +299,17 @@ namespace anonymous
             //double[] di = { 1, 32, 103 };
             //int[] ia = { 0, 0, 1, 3 };
             //int n = 3;
-            double[] al = { 4, 5, 32 };
-            double[] au = { 4, 5, 32 };
-            double[] di = { 1, 20, 70 };
-            int[] ia = { 0, 0, 1, 3 };
+
+            //double[] al = { 4, 5, 32 };
+            //double[] au = { 4, 5, 32 };
+            //double[] di = { 1, 20, 70 };
+            //int[] ia = { 0, 0, 1, 3 };
+            //int n = 3;
+
+            double[] al = { 4, 5};
+            double[] au = { 4, 25};
+            double[] di = { 1, 0, 70 };
+            int[] ia = { 0, 0, 0, 2 };
             int n = 3;
 
             IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
