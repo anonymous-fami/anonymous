@@ -293,10 +293,15 @@ namespace anonymous
             //Проверка работоспособности предобуславливателя.
 
 
-            
-            double[] al = { 4, 5, 47 };
-            double[] au = { 7, 8, 50 };
-            double[] di = { 1, 32, 103 };
+
+            //double[] al = { 4, 5, 47 };
+            //double[] au = { 7, 8, 50 };
+            //double[] di = { 1, 32, 103 };
+            //int[] ia = { 0, 0, 1, 3 };
+            //int n = 3;
+            double[] al = { 4, 5, 32 };
+            double[] au = { 4, 5, 32 };
+            double[] di = { 1, 20, 70 };
             int[] ia = { 0, 0, 1, 3 };
             int n = 3;
 
@@ -305,8 +310,8 @@ namespace anonymous
             IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
             
             P.createDiag(A, out B);
-            P.createLUsq(A, out B);
-            P.createLU(A, out B);
+            P.createLLT(A, out B);
+            //P.createLU(A, out B);
 
         }        
     }

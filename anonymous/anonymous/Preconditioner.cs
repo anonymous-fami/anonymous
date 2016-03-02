@@ -14,7 +14,7 @@ namespace anonymous
         //LU разложение
         void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
         //LLT разложение
-        void createLLT(T matrix, out T out_l);
+        void createLLT(IMatrix<T> matrix, out IMatrix<T> out_marix);
         //LU(sq) разложение
         void createLUsq(IMatrix<T> matrix, out IMatrix<T> out_matrix);
     }
@@ -41,9 +41,69 @@ namespace anonymous
         }
 
 
-        public void createLLT(ProfileMatrix matrix, out ProfileMatrix out_l)
+        public void createLLT(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
         {
-            int[] ia = new int[matrix.N + 1];
+            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
+
+            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
+            out_matrix = null;
+            //обработка исключений
+            try
+            {
+                foreach (double x in temp.DI)
+                {
+                    if (x == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+
+                for (int i = 0; i < temp.N; i++)
+                {
+                    double sumDi = 0;
+                    for (int j = temp.IA[i]; j < temp.IA[i + 1]; j++)
+                    {
+                        int length = temp.IA[i + 1] - temp.IA[i];
+                        int k = 0;
+                        int stolb = i - (temp.IA[i + 1] - j);
+                        double sumL = 0;
+                        for (k = 0; k < j - temp.IA[i]; k++)
+                        {
+                            //int temp = i - length + k;
+                            //int temp2 = stolb - (ia[stolb + 1] - ia[stolb]);
+                            //if (stolb + k - (ia[stolb + 1] - ia[stolb]) - (i - length + k) > 0)
+                            //   continue;
+                            int temp1 = 0;
+                            while (stolb + temp1 - (temp.IA[stolb + 1] - temp.IA[stolb]) != (i - length + k)
+                                && (temp.IA[stolb + 1] - temp.IA[stolb]) != 0)
+                            {
+                                temp1++;
+                                continue;
+                            }
+                            if (temp.IA[stolb + 1] - temp.IA[stolb] == 0) continue;
+                            sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
+                        }
+                        temp.AL[j] = (temp.AL[j] - sumL) / temp.DI[stolb];
+                        temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
+                        sumDi += temp.AL[j] * temp.AL[j];
+                    }
+                    if (temp.DI[i] - sumDi < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
+                    }
+                }
+                out_matrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                out_matrix = null;
+            }
+            #region old
+
+            /*int[] ia = new int[matrix.N + 1];
             for (int i = 0; i < matrix.N + 1; i++)
             {
                 ia[i] = matrix.IA[i];
@@ -95,12 +155,10 @@ namespace anonymous
                 }
                 Di[i] = Math.Sqrt(Di[i] - sumDi);
             }
-
-            throw new NotImplementedException();
+            */
+            #endregion
         }
-
-
-
+        
         public void createLU(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
         {
             int i, j, ii, k, jbeg, jend, beg, end, j0, i0, ial, iau;
@@ -166,7 +224,7 @@ namespace anonymous
             }
         }
 
-        public void createLUsq(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)  //внимание работает не правильно!
+        public void createLUsq(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)  
         {
 
             ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
