@@ -115,7 +115,7 @@ namespace anonymous
             return res = norm_Ax_F / norm_F;
         }
 
-        public void setMatrix(DisperseMatrix matrix)
+        public bool setMatrix(DisperseMatrix matrix)
         {
             this.al = matrix.al;
             this.au = matrix.au;
@@ -123,6 +123,8 @@ namespace anonymous
             this.ia = matrix.ia;
             this.ja = matrix.ja;
             this.n = matrix.n;
+
+            return true;
 
         }
 

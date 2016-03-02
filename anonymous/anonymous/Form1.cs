@@ -331,7 +331,7 @@ namespace anonymous
         double Norm();
         Vector Sum(Vector B);
         Vector Mult(double A);
-        Vector Scalar(Vector A);
+        double Scalar(Vector A);
         // double Scalar();
         // double SumVec(IVector x, IVector y);
         //IVector aMultVec(double a,IVector x);

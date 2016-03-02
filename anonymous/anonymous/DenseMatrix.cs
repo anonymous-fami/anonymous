@@ -25,11 +25,18 @@ namespace anonymous
         }
 
 
-        public DenseMatrix(out double[,] Plot, out int n)//конструктор, получает данные на входе
+        //public DenseMatrix(out double[,] Plot, out int n)//конструктор, получает данные на входе
+        //{
+        //    this.Plot = Plot;
+        //    this.n = n;
+        //} 
+
+        public DenseMatrix(double[,] Plot, int n)//конструктор, получает данные на входе
         {
             this.Plot = Plot;
             this.n = n;
-        }
+        } 
+
         public DenseMatrix(string FilePath)//конструктор, считывает данные из файла
         {
             InputOutput.InputMatrix(out this.n, FilePath, out this.Plot);
@@ -96,10 +103,11 @@ namespace anonymous
             double norm_Ax_F = this.abs_discrepancy(x, F);
             return res = norm_Ax_F / norm_F;
         }
-        public void setMatrix(DenseMatrix matrix)
+        public bool setMatrix(DenseMatrix matrix)
         {
             this.Plot = matrix.Plot;
             this.n = matrix.n;
+            return true;
         }
         public DenseMatrix getMatrix()
         {

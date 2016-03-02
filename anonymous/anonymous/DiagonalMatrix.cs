@@ -63,8 +63,8 @@ namespace anonymous
                 for (int j = 0; j < N - ia[i]; j++)
                 {
                     ir = j + ia[i];
-                    res.values[ir] += al[i][j] * x.values[j];
-                    res.values[j] += au[i][j] * x.values[ir];
+                    res.values[ir] += al[i,j] * x.values[j];
+                    res.values[j] += au[i,j] * x.values[ir];
                 }
             return res;
         }
@@ -81,8 +81,8 @@ namespace anonymous
                 for (int j = 0; j < N - ia[i]; j++)
                 {
                     ir = j + ia[i];
-                    res.values[ir] += au[i][j] * x.values[j];
-                    res.values[j] += al[i][j] * x.values[ir];
+                    res.values[ir] += au[i,j] * x.values[j];
+                    res.values[j] += al[i,j] * x.values[ir];
                 }
 
             return res;
@@ -131,7 +131,7 @@ namespace anonymous
             return this;
         }
 
-        public double[][] AL
+        public double[,] AL
         {
             get
             {
@@ -142,7 +142,7 @@ namespace anonymous
                 al = value;
             }
         }
-        public double[][] AU
+        public double[,] AU
         {
             get
             {

@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DenseMatrix.cs" />
+    <Compile Include="DisperseMatrix.cs" />
+    <Compile Include="DisperseSLAE.cs" />
     <Compile Include="Preconditioner.cs" />
     <Compile Include="ProfilSLAE.cs" />
     <Compile Include="ISLAE.cs" />
