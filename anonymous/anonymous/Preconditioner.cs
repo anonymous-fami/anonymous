@@ -50,49 +50,31 @@ namespace anonymous
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
 
+                if (temp.DI[0] <= 0)
+                    throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
+
+                double sumDi, sumL;
+                int length, k, stolb, temp1, j ;
                 for (int i = 0; i < temp.N; i++)
                 {
-                    double sumDi = 0;
-                    for (int j = temp.IA[i]; j < temp.IA[i + 1]; j++)
+                    sumDi = 0;
+                    for (j = temp.IA[i]; j < temp.IA[i + 1]; j++)
                     {
-                        int length = temp.IA[i + 1] - temp.IA[i];
-                        int k = 0;
-                        int stolb = i - (temp.IA[i + 1] - j);
-                        double sumL = 0;
-                        for (k = 0; k < j - temp.IA[i]; k++)
-                        {
-                            //int temp = i - length + k;
-                            //int temp2 = stolb - (ia[stolb + 1] - ia[stolb]);
-                            //if (stolb + k - (ia[stolb + 1] - ia[stolb]) - (i - length + k) > 0)
-                            //   continue;
-                            int temp1 = 0;
-                            while (stolb + temp1 - (temp.IA[stolb + 1] - temp.IA[stolb]) != (i - length + k)
-                                && (temp.IA[stolb + 1] - temp.IA[stolb]) != 0)
+                        length = temp.IA[i + 1] - temp.IA[i];   //колличество элементов в строке
+                        stolb = i - (temp.IA[i + 1] - j);       //номер столбца вычисляемого элемента
+                        sumL = 0;
+                        if (temp.IA[stolb + 1] - temp.IA[stolb] != 0)
+                            for (k = 0; k < j - temp.IA[i]; k++)
                             {
-                                temp1++;
-                                continue;
+                                temp1 = i - length + k - stolb + temp.IA[stolb + 1] - temp.IA[stolb];
+                                sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
                             }
-                            if (temp.IA[stolb + 1] - temp.IA[stolb] == 0) continue;
-                            sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
-                        }
                         temp.AL[j] = (temp.AL[j] - sumL) / temp.DI[stolb];
                         temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
                         sumDi += temp.AL[j] * temp.AL[j];
                     }
-                    if (temp.DI[i] - sumDi < 0)
-                    {
-                        throw new Exception("Извлечение корня из отрицательного числа.");
-                    }
-                    else
-                    {
-                        temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
-                    }
+                    temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
                 }
                 out_matrix = temp;
             }
