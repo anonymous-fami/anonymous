@@ -11,15 +11,33 @@ namespace anonymous
         public int size;
         public double[] values;
 
-        public Vector(int size, double[] values)//конструктор
+        public Vector(int size, double[] values) //Конструктор, получает данные на входе
         {
             this.size = size;
             this.values = values;
         }
 
-        public Vector(string FilePath)//конструктор
+        public Vector(string FilePath) //Конструктор, считывает данные из файла
         {
             InputOutput.InputVector(out this.size, FilePath, out this.values);
+        }
+
+        public Vector(Vector Original) //Конструктор копий 
+        {
+            this.size = Original.size;
+            this.values = new double[this.size];
+            Array.Copy(Original.values, this.values, this.size);
+        }
+
+        public Vector(int N) //Конструктор, создаёт нулевой вектор (для начального приближения, например)
+        {
+            this.size = N;
+            this.values = new double[this.size];
+
+            for (int i=0;i< N;i++)
+            {
+                this.values[i] = 0;
+            }
         }
 
         public double Norm()//норма вектора
