@@ -17,7 +17,8 @@ namespace anonymous
 
         public DiagonalMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
-            InputOutput.InputMatrix(out this.n, out this.nd, FilePath, out this.ia, out this.al, out this.au, out this.di);
+            //Ввод диагональной матрицы не готов.
+            //InputOutput.InputMatrix(out this.n, out this.nd, FilePath, out this.ia, out this.al, out this.au, out this.di);
         }
 
         public DiagonalMatrix(double[,] au, double[,] al, double[] di, int[] ia, int n, int nd) //Конструктор, получает данные на вход
@@ -63,8 +64,8 @@ namespace anonymous
                 for (int j = 0; j < N - ia[i]; j++)
                 {
                     ir = j + ia[i];
-                    res.values[ir] += al[i][j] * x.values[j];
-                    res.values[j] += au[i][j] * x.values[ir];
+                    res.values[ir] += al[i,j] * x.values[j];
+                    res.values[j] += au[i,j] * x.values[ir];
                 }
             return res;
         }
@@ -81,14 +82,11 @@ namespace anonymous
                 for (int j = 0; j < N - ia[i]; j++)
                 {
                     ir = j + ia[i];
-                    res.values[ir] += au[i][j] * x.values[j];
-                    res.values[j] += al[i][j] * x.values[ir];
+                    res.values[ir] += au[i,j] * x.values[j];
+                    res.values[j] += al[i,j] * x.values[ir];
                 }
-
             return res;
         }
-
-
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
@@ -131,73 +129,39 @@ namespace anonymous
             return this;
         }
 
-        public double[][] AL
+        public double[,] AL
         {
-            get
-            {
-                return al;
-            }
-            set
-            {
-                al = value;
-            }
+            get { return al; }
+            set { al = value; }
         }
-        public double[][] AU
+
+        public double[,] AU
         {
-            get
-            {
-                return au;
-            }
-            set
-            {
-                au = value;
-            }
+            get { return au; }
+            set { au = value; }
         }
+
         public double[] DI
         {
-            get
-            {
-                return di;
-            }
-            set
-            {
-                di = value;
-            }
+            get { return di; }
+            set { di = value; }
         }
 
         public int[] IA
         {
-            get
-            {
-                return ia;
-            }
-            set
-            {
-                ia = value;
-            }
+            get { return ia; }
+            set { ia = value; }
         }
   
         public int N
         {
-            get
-            {
-                return n;
-            }
-            set
-            {
-                n = value;
-            }
+            get { return n; }
+            set { n = value; }
         }
         public int ND
         {
-            get
-            {
-                return nd;
-            }
-            set
-            {
-                nd = value;
-            }
+            get { return nd; }
+            set { nd = value; }
         }
     }
 }

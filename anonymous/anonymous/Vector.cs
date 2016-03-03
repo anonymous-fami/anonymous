@@ -17,9 +17,9 @@ namespace anonymous
             this.values = values;
         }
 
-        public Vector()//конструктор
+        public Vector(string FilePath)//конструктор
         {
-            InputOutput.InputVector(out this.size, Data.vectorPath, out this.values);
+            InputOutput.InputVector(out this.size, FilePath, out this.values);
         }
 
         public double Norm()//норма вектора
@@ -82,6 +82,18 @@ namespace anonymous
 
             }
             return res;
+        }
+
+        public int SIZE
+        {
+            get { return size; }
+            set { size = value; }
+        }
+
+        public double[] VALUES
+        {
+            get { return values; }
+            set { values = value; }
         }
 
     }

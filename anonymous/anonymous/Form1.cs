@@ -52,11 +52,11 @@ namespace anonymous
             if ((comboBox3.SelectedIndex == 0) || (comboBox3.SelectedIndex == 1))
             {
                 button3.Enabled = true;
-        }
+            }
             else
-        {
+            {
                 button3.Enabled = false;
-        }
+            }
 
             Data.solver = comboBox3.SelectedIndex;  //Решатель
         }
@@ -90,8 +90,8 @@ namespace anonymous
                 textBox2.Text = OFD.FileName;   //Путь файла правой части
 
                 Data.vectorPath = textBox2.Text;
-        }
             }
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -244,30 +244,30 @@ namespace anonymous
                                     switch (Data.solver)
                                     {
                                         case 0:
-        {
+                                            {
                                                 //МСГ 
                                                 break;
-        }
+                                            }
                                         case 1:
-        {
+                                            {
                                                 //ЛОС
                                                 break;
                                             }
-        }
+                                    }
                                     break;
-    }
+                                }
                             case 3:
                                 {
                                     //LUsq
                                     switch (Data.solver)
-    {
+                                    {
                                         case 0:
-        {
+                                            {
                                                 //МСГ 
                                                 break;
-        }
+                                            }
                                         case 1:
-        {
+                                            {
                                                 //ЛОС
                                                 break;
                                             }
@@ -277,7 +277,7 @@ namespace anonymous
                         }
                         break;
                     }
-        }
+            }            
             */
 
             /*

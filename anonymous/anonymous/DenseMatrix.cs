@@ -10,36 +10,26 @@ namespace anonymous
     public class DenseMatrix : IMatrix<DenseMatrix>
     {
         private double[,] Plot;
-        private int n;
+        private int n;        
 
-        public double[,] PLOT
-        {
-            get { return Plot; }
-            set { Plot = value; }
-        }
-
-        public int N
-        {
-            get { return n; }
-            set { n = value; }
-        }
-
-
-        public DenseMatrix(out double[,] Plot, out int n)//конструктор, получает данные на входе
+        public DenseMatrix(double[,] Plot, int n)//конструктор, получает данные на входе
         {
             this.Plot = Plot;
             this.n = n;
         }
+
         public DenseMatrix(string FilePath)//конструктор, считывает данные из файла
         {
             InputOutput.InputMatrix(out this.n, FilePath, out this.Plot);
         }
+
         public DenseMatrix(DenseMatrix Original) //Конструктор копий 
         {
             this.n = Original.n;
             this.Plot = new double[Original.n, Original.n];
             Array.Copy(Original.Plot, this.Plot, this.n * this.n);
         }
+
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -56,6 +46,7 @@ namespace anonymous
                 }
             return res;
         }
+
         public Vector TMultiply(Vector x)//умножение транспонированной матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -72,6 +63,7 @@ namespace anonymous
                 }
             return res;
         }
+
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
             double res;
@@ -87,8 +79,8 @@ namespace anonymous
                 Ax_F.values[i] = Ax.values[i] - F.values[i];
             }
             return res = Ax_F.Norm();
-
         }
+
         public double rel_discrepancy(Vector x, Vector F)//относительная невязка
         {
             double res;
@@ -96,15 +88,28 @@ namespace anonymous
             double norm_Ax_F = this.abs_discrepancy(x, F);
             return res = norm_Ax_F / norm_F;
         }
+
         public void setMatrix(DenseMatrix matrix)
         {
             this.Plot = matrix.Plot;
             this.n = matrix.n;
         }
+
         public DenseMatrix getMatrix()
         {
             return this;
         }
 
+        public double[,] PLOT
+        {
+            get { return Plot; }
+            set { Plot = value; }
+        }
+
+        public int N
+        {
+            get { return n; }
+            set { n = value; }
+        }
     }
 }

@@ -46,8 +46,6 @@ namespace anonymous
             Array.Copy(Original.di, this.di, this.n);
         }
 
-        //public ProfileMatrix() { }
-
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -62,7 +60,6 @@ namespace anonymous
                     res.values[i] += al[j] * x.values[k];
                     res.values[k] += au[j] * x.values[i];
                 }
-
             return res;
         }
 
@@ -80,7 +77,6 @@ namespace anonymous
                     res.values[i] += au[j] * x.values[k];
                     res.values[k] += al[j] * x.values[i];
                 }
-
             return res;
         }
 
@@ -117,8 +113,7 @@ namespace anonymous
             this.au = matrix.au;
             this.di = matrix.di;
             this.ia = matrix.ia;
-            this.n = matrix.n;
-          
+            this.n = matrix.n;          
         }
 
         public ProfileMatrix getMatrix()
@@ -128,60 +123,32 @@ namespace anonymous
 
         public double[] AL
         {
-            get
-            {
-                return al;
-            }
-            set
-            {
-                al = value;
-            }
+            get { return al; }
+            set { al = value; }
         }
+
         public double[] AU
         {
-            get
-            {
-                return au;
-            }
-            set
-            {
-                au = value;
-            }
+            get { return au; }
+            set { au = value; }
         }
+
         public double[] DI
         {
-            get
-            {
-                return di;
-            }
-            set
-            {
-                di = value;
-            }
+            get { return di; }
+            set { di = value; }
         }
          
         public int[] IA
         {
-            get
-            {
-                return ia;
-            }
-            set
-            {
-                ia = value;
-            }
+            get { return ia; }
+            set { ia = value; }
         }
 
         public int N
         {
-            get
-            {
-                return n;
-            }
-            set
-            {
-                n = value;
-            }
+            get { return n; }
+            set { n = value; }
         }
     }
 }
