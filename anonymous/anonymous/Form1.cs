@@ -348,16 +348,6 @@ namespace anonymous
     }
     */
 
-
-    /*
-    interface ISolver
-    {
-        IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
-        string Name { get; }
-        IPreconditioner Preconditioner { get; set; }
-    }
-    */
-
     /*
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
     {
@@ -407,25 +397,6 @@ namespace anonymous
             {
                 throw new NotImplementedException();
             }
-        }
-    }
-
-    /*
-    class Solver : ISolver // Реализация интерфейса ISolver
-    {
-        public IVector Solve(ISLAE slae, IVector initial, IIterationLogger logger, double eps, int maxiter)
-        {
-            return null;
-        }
-
-        public string Name
-        {
-            get;
-        }
-
-        public IPreconditioner Preconditioner
-        {
-            set;
         }
     }
     */
