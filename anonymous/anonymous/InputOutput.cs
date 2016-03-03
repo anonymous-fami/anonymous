@@ -60,13 +60,21 @@ namespace anonymous
                 string[] lines = System.IO.File.ReadAllLines(FileName);
                 n = Int32.Parse(lines[0]);
                 ia = new int[n + 1];
+                lines[1] = lines[1].Trim();
                 ia = lines[1].Split(' ').Select(nn => Convert.ToInt32(nn)).ToArray();
-                int k = ia[n] - 1;
+                if (ia[0] == 1) for (int i = 0; i <= n; i++)ia[i]--;
+                int k = ia[n];
                 al = new double[k];
+                lines[2] = lines[2].Trim();
+                lines[2] = lines[2].Replace('.', ',');
                 al = lines[2].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 au = new double[k];
+                lines[3] = lines[3].Trim();
+                lines[3] = lines[3].Replace('.', ',');
                 au = lines[3].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 diag = new double[n];
+                lines[4] = lines[4].Trim();
+                lines[4] = lines[4].Replace('.', ',');
                 diag = lines[4].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 return true;
             }
@@ -81,6 +89,109 @@ namespace anonymous
                 return false;
             }
         }
+
+        //временная замена ввода для профильного формата
+        /*public static bool InputMatrix_res(out int n, string FileName, out int[] ia, out double[] al, out double[] au, out double[] diag)
+        {
+            try
+            {
+                bool nul = true;
+                string line = null;
+                StreamReader str = new StreamReader(FileName);
+                n = Convert.ToInt32(str.ReadLine());
+
+                ia = new int[n + 1];
+                int ch = str.Read();
+                ia[0] = ch - 48;
+                if (ia[0] == 1) { nul = false; ia[0] -= 1; }
+                ch = str.Read();
+                for (int i = 1; i <= n && ch != -1;)
+                {
+                    line += Convert.ToChar(ch);
+                    ch = str.Read();
+                    if (ch == ' ' || ch == '\n' || ch == -1)
+                    {
+                        ia[i] = Convert.ToInt32(line);
+                        if (nul == false) ia[i] -= 1;
+                        i++;
+                        line = null;
+                        do
+                        {
+                            ch = str.Read();
+                        } while ((ch == ' ' || ch == '\n') && ch != -1);
+                    }
+                }
+
+
+                int m = ia[n];
+                al = new double[m];
+                for (int i = 0; i < m && ch != -1;)
+                {
+                    line += Convert.ToChar(ch);
+                    ch = str.Read();
+                    if (ch == ' ' || ch == '\n' || ch == -1)
+                    {
+                        line = line.Replace('.', ',');
+                        al[i] = Convert.ToDouble(line);
+                        i++;
+                        line = null;
+                        do
+                        {
+                            ch = str.Read();
+                        } while ((ch == ' ' || ch == '\n' || ch == '\r') && ch != -1);
+                    }
+                }
+                m = ia[n];
+
+                au = new double[m];
+                for (int i = 0; i < m && ch != -1;)
+                {
+                    line += Convert.ToChar(ch);
+                    ch = str.Read();
+                    if (ch == ' ' || ch == '\n' || ch == -1)
+                    {
+                        line = line.Replace('.', ',');
+                        au[i] = Convert.ToDouble(line);
+                        i++;
+                        line = null;
+                        do
+                        {
+                            ch = str.Read();
+                        } while ((ch == ' ' || ch == '\n' || ch == '\r') && ch != -1);
+                    }
+                }
+
+                diag = new double[n];
+                for (int i = 0; i < n && ch != -1;)
+                {
+                    line += Convert.ToChar(ch);
+                    ch = str.Read();
+                    if (ch == ' ' || ch == '\n' || ch == -1)
+                    {
+                        line = line.Replace('.', ',');
+                        diag[i] = Convert.ToDouble(line);
+                        i++;
+                        line = null;
+                        do
+                        {
+                            ch = str.Read();
+                        } while ((ch == ' ' || ch == '\n') && ch != -1);
+                    }
+                }
+                str.Close();
+                return true;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                n = 0;
+                ia = new int[0];
+                al = new double[0];
+                au = new double[0];
+                diag = new double[0];
+                return false;
+            }
+        }*/
 
         //
         //Ввод матрицы в разреженном формате
@@ -209,10 +320,10 @@ namespace anonymous
         }
 
         //
-        //Ввод вектора правой части
+        //Ввод вектора
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         // в файле FileName в первой строке указывается длина вектора, во второй строке весь вектор.
-        public static bool InputRightPart(out int n, string FileName, out double[] pr)
+        public static bool InputVector(out int n, string FileName, out double[] vector)
         {
             try
             {
@@ -220,7 +331,7 @@ namespace anonymous
                 StreamReader str = new StreamReader(FileName);
                 n = Convert.ToInt32(str.ReadLine());
 
-                pr = new double[n];
+                vector = new double[n];
                 int ch = str.Read();
                 for (int i = 0; i < n && ch != -1;)
                 {
@@ -229,7 +340,7 @@ namespace anonymous
                     if(ch == ' ' || ch == '\n' || ch == -1)
                     {
                         line = line.Replace('.', ',');
-                        pr[i] = Convert.ToDouble(line);
+                        vector[i] = Convert.ToDouble(line);
                         i++;
                         line = null;
                         do
@@ -238,7 +349,7 @@ namespace anonymous
                         } while ((ch == ' ' || ch == '\n') && ch != -1);
                     }
                 }
-
+                str.Close();
 
                 return true;
             }
@@ -246,7 +357,7 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
-                pr = new double[0];
+                vector = new double[0];
                 return false;
             }
         }
