@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class Vector : IVector
+    public class Vector
     {
         public int size;
         public double[] values;
@@ -19,7 +19,7 @@ namespace anonymous
 
         public Vector()//конструктор
         {
-            InputOutput.InputRightPart(out this.size, Data.vectorPath, out this.values);
+            InputOutput.InputVector(out this.size, Data.vectorPath, out this.values);
         }
 
         public double Norm()//норма вектора

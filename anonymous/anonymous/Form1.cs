@@ -17,7 +17,7 @@ namespace anonymous
             InitializeComponent();
 
             textBox1.ReadOnly = true;
-            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
       
             //Формат матрицы
@@ -43,26 +43,26 @@ namespace anonymous
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-    {
+        {
             Data.preconditioner = comboBox2.SelectedIndex;  //Предобуславливатель
-    }
+        }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-    {
+        {
             if ((comboBox3.SelectedIndex == 0) || (comboBox3.SelectedIndex == 1))
             {
                 button3.Enabled = true;
-    }
+        }
             else
-    {
+        {
                 button3.Enabled = false;
-    }
+        }
 
             Data.solver = comboBox3.SelectedIndex;  //Решатель
-    }
+        }
 
         private void button1_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             //OFD.InitialDirectory = "c:\\";
@@ -74,11 +74,11 @@ namespace anonymous
                 textBox1.Text = OFD.FileName;   //Путь файла с матрицей
 
                 Data.matrixPath = textBox1.Text;
-    }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             //OFD.InitialDirectory = "c:\\";
@@ -90,11 +90,11 @@ namespace anonymous
                 textBox2.Text = OFD.FileName;   //Путь файла правой части
 
                 Data.vectorPath = textBox2.Text;
-    }
         }
+            }
 
         private void button3_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
         
             //OFD.InitialDirectory = "c:\\";
@@ -102,11 +102,11 @@ namespace anonymous
             OFD.RestoreDirectory = true;
 
             if (OFD.ShowDialog() == DialogResult.OK)
-        {
+            {
                 textBox3.Text = OFD.FileName;   //Путь файла с начальным приближением
 
                 Data.initialPath = textBox3.Text;
-        }
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -290,58 +290,44 @@ namespace anonymous
             int a = 0;
             */            
         }
-        }
+    }
 
     public static class Data
-        {
+    {
         public static int matrixformat;     //Выбранный формат матрицы
         public static string matrixPath;    //Путь файла с матрицей
         public static string vectorPath;    //Путь файла с вектором
         public static string initialPath;   //Путь файла с начальным приближением
         public static int preconditioner;   //Выбранный предобуславливатель
         public static int solver;           //Выбранный решатель
-        }
-
-    interface IVector
-        {
-        double Norm();
-        Vector Sum(Vector B);
-        Vector Mult(double A);
-        Vector Scalar(Vector A);
-        // double Scalar();
-        // double SumVec(IVector x, IVector y);
-        //IVector aMultVec(double a,IVector x);
-
     }
 
-
-    /*  interface ISLAE
-    {
-          IMatrix Matrix { get; set; }
-          IVector RightPart { get; set; }
-      }*/
-
+    /*
     interface IIterationLogger
-        {
+    {
         int IterationNumber { get; set; }
         IVector Residual { get; set; }
         IVector CurrentSolution { get; set; }
         ISolver CurrentSolver { get; set; }
-        }
+    }
+    */
 
     interface IPreconditioner : IMatrix <ProfileMatrix>
-        {
+    {
         string Name { get; }
         void Create(IMatrix<ProfileMatrix> matrix);
-        }
+    }
 
+    /*
     interface ISolver
     {
         IVector Solve(ISLAE<Type> slae, IVector initial, IIterationLogger logger, double eps, int maxiter);
         string Name { get; }
         IPreconditioner Preconditioner { get; set; }
     }
+    */
 
+    /*
     class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
     {
         public int IterationNumber
@@ -390,20 +376,6 @@ namespace anonymous
             {
                 throw new NotImplementedException();
             }
-        }
-    }
-
-    /*
-    class Preconditioner : IPreconditioner // Реализация интерфейса IPreconditioner
-    {
-        public string Name
-        {
-            get;
-        }
-
-        public void Create(IMatrix matrix)
-        {
-            
         }
     }
     */
