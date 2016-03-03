@@ -50,8 +50,6 @@ namespace anonymous
             Array.Copy(Original.di, this.di, this.n);
         }
 
-
-
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -121,7 +119,6 @@ namespace anonymous
             this.ia = matrix.ia;
             this.n = matrix.n;
             this.nd = matrix.nd;
-
         }
 
         public DiagonalMatrix getMatrix()
@@ -133,10 +130,10 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-            }
+        }
 
         public double[,] AU
-            {
+        {
             get { return au; }
             set { au = value; }
         }
@@ -158,6 +155,7 @@ namespace anonymous
             get { return n; }
             set { n = value; }
         }
+
         public int ND
         {
             get { return nd; }

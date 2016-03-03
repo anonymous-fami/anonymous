@@ -80,8 +80,6 @@ namespace anonymous
             return res;
         }
 
-
-
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
             double res;
@@ -125,13 +123,13 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-            }
+        }
 
         public double[] AU
         {
             get { return au; }
             set { au = value; }
-            }
+        }
 
         public double[] DI
         {

@@ -306,6 +306,7 @@ namespace anonymous
             //int[] ia = { 0, 0, 1, 3 };
             //int n = 3;
 
+            /*
             double[] al = { 4, 5};
             double[] au = { 4, 25};
             double[] di = { 1, 0, 70 };
@@ -319,6 +320,7 @@ namespace anonymous
             P.createDiag(A, out B);
             P.createLLT(A, out B);
             //P.createLU(A, out B);
+            */
 
         }
     }

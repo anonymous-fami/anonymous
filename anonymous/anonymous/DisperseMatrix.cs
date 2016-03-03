@@ -128,7 +128,7 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-            }
+        }
 
         public double[] AU
         {
@@ -140,18 +140,20 @@ namespace anonymous
         {
             get { return di; }
             set { di = value; }
-            }
+        }
 
         public int[] IA
         {
             get { return ia; }
             set { ia = value; }
-            }
+        }
+
         public int[] JA
         {
             get { return ja; }
             set { ja = value; }
         }
+
         public int N
         {
             get { return n; }

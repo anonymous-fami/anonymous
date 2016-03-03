@@ -93,7 +93,6 @@ namespace anonymous
         {
             this.Plot = matrix.Plot;
             this.n = matrix.n;
-            return true;
         }
 
         public DenseMatrix getMatrix()

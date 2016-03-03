@@ -35,7 +35,6 @@ namespace anonymous
 
         public Vector Sum(Vector B)//сумма векторов
         {
-
             double[] values_res = new double[size];
             for (int i = 0; i < size; i++)
             {
@@ -68,7 +67,6 @@ namespace anonymous
             for (int i = 0; i < size; i++)
             {
                 res.values[i] = this.values[i] * A;
-
             }
             return res;
         }
@@ -79,7 +77,6 @@ namespace anonymous
             for (int i = 0; i < size; i++)
             {
                 res+= this.values[i] * A.values[i];
-
             }
             return res;
         }
@@ -95,6 +92,5 @@ namespace anonymous
             get { return values; }
             set { values = value; }
         }
-
     }
 }

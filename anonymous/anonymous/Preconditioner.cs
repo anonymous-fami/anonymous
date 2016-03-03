@@ -23,24 +23,20 @@ namespace anonymous
 
     class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
-
         public void createDiag(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
         {
             ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
 
             int[] ia = new int[temp.N+1];
-
             
             for (int i = 0; i <temp.N+1; i++)
             {
                 ia[i] = 0;  // подразумевает что ia[0] начинается  с 0, как и во всем проекте.
             }
             //т.к. все кроме диагонали 0
-             double[] al = null;
-            out_matrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);
-                   
+            double[] al = null;
+            out_matrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);                   
         }
-
 
         public void createLLT(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
         {
@@ -51,7 +47,6 @@ namespace anonymous
             //обработка исключений
             try
             {
-
                 if (temp.DI[0] <= 0)
                     throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
 
@@ -79,10 +74,10 @@ namespace anonymous
                         temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
                         sumDi += temp.AL[j] * temp.AL[j];
                     }
-                        if(temp.DI[i] < sumDi)
-                        {
-                            throw new Exception("LLt: Извлечение корня из отрицательного числа.");
-                        }
+                    if(temp.DI[i] < sumDi)
+                    {
+                        throw new Exception("LLt: Извлечение корня из отрицательного числа.");
+                    }
                     temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
                 }
                 out_matrix = temp;
@@ -217,10 +212,8 @@ namespace anonymous
 
         public void createLUsq(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)  
         {
-
             ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
            
-
             int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
             double sumDiag, sumL, sumU;
 
@@ -235,8 +228,6 @@ namespace anonymous
                     throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                 }
                 
-
-
                 //LU(sq)
                 for (i = 0; i < temp.N; i++)
                 {
@@ -262,14 +253,11 @@ namespace anonymous
                         if (kol_r < 0) mj -= kol_r;
                         else mi += kol_r;
 
-
-
                         for (; mi < ind; ++mi, ++mj)
                         {
                             sumL += temp.AL[mi] * temp.AU[mj];
                             sumU += temp.AU[mi] * temp.AL[mj];
                         }
-
 
                         temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[j];
                         temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[j];
@@ -292,9 +280,7 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 out_matrix = null;
-            }
-            
-
+            }            
         }
     }
     #endregion
