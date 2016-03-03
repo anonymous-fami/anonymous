@@ -10,7 +10,7 @@ namespace anonymous
     public class DenseMatrix : IMatrix<DenseMatrix>
     {
         private double[,] Plot;
-        private int n;        
+        private int n;
 
         public DenseMatrix(double[,] Plot, int n)//конструктор, получает данные на входе
         {
@@ -93,6 +93,7 @@ namespace anonymous
         {
             this.Plot = matrix.Plot;
             this.n = matrix.n;
+            return true;
         }
 
         public DenseMatrix getMatrix()

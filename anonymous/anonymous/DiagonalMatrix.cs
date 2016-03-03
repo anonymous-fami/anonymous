@@ -133,10 +133,10 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-        }
+            }
 
         public double[,] AU
-        {
+            {
             get { return au; }
             set { au = value; }
         }

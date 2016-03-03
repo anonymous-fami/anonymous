@@ -13,7 +13,7 @@ namespace anonymous
         Vector TMultiply(Vector x);//перемножает транспонированную матрицу на вектор
         double abs_discrepancy(Vector x, Vector F);//абсолютная невязка
         double rel_discrepancy(Vector x, Vector F);//относительная невязка
-        void setMatrix(Type matrix);
+        bool setMatrix(Type matrix);
         Type getMatrix();
     }   
 }

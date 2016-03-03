@@ -113,7 +113,7 @@ namespace anonymous
             this.au = matrix.au;
             this.di = matrix.di;
             this.ia = matrix.ia;
-            this.n = matrix.n;          
+            this.n = matrix.n;
         }
 
         public ProfileMatrix getMatrix()
@@ -125,13 +125,13 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-        }
+            }
 
         public double[] AU
         {
             get { return au; }
             set { au = value; }
-        }
+            }
 
         public double[] DI
         {

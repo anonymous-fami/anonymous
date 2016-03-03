@@ -19,10 +19,10 @@ namespace anonymous
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
-      
+
             //Формат матрицы
             string[] matrixformats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
-            
+
             comboBox1.Items.AddRange(matrixformats);
             comboBox1.SelectedItem = comboBox1.Items[0];
 
@@ -96,7 +96,7 @@ namespace anonymous
         private void button3_Click(object sender, EventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
-        
+
             //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
@@ -277,7 +277,7 @@ namespace anonymous
                         }
                         break;
                     }
-            }            
+            }
             */
 
             /*
@@ -289,6 +289,37 @@ namespace anonymous
 
             int a = 0;
             */            
+
+            //Проверка работоспособности предобуславливателя.
+
+
+
+            //double[] al = { 4, 5, 47 };
+            //double[] au = { 7, 8, 50 };
+            //double[] di = { 1, 32, 103 };
+            //int[] ia = { 0, 0, 1, 3 };
+            //int n = 3;
+
+            //double[] al = { 4, 5, 32 };
+            //double[] au = { 4, 5, 32 };
+            //double[] di = { 1, 20, 70 };
+            //int[] ia = { 0, 0, 1, 3 };
+            //int n = 3;
+
+            double[] al = { 4, 5};
+            double[] au = { 4, 25};
+            double[] di = { 1, 0, 70 };
+            int[] ia = { 0, 0, 0, 2 };
+            int n = 3;
+
+            IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
+            IMatrix<ProfileMatrix> B;
+            IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
+            
+            P.createDiag(A, out B);
+            P.createLLT(A, out B);
+            //P.createLU(A, out B);
+
         }
     }
 
@@ -301,7 +332,7 @@ namespace anonymous
         public static int preconditioner;   //Выбранный предобуславливатель
         public static int solver;           //Выбранный решатель
     }
-
+   
     /*
     interface IIterationLogger
     {
@@ -312,11 +343,6 @@ namespace anonymous
     }
     */
 
-    interface IPreconditioner : IMatrix <ProfileMatrix>
-    {
-        string Name { get; }
-        void Create(IMatrix<ProfileMatrix> matrix);
-    }
 
     /*
     interface ISolver
@@ -378,7 +404,6 @@ namespace anonymous
             }
         }
     }
-    */
 
     /*
     class Solver : ISolver // Реализация интерфейса ISolver
