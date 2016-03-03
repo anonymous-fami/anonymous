@@ -8,7 +8,7 @@ namespace anonymous
 {
     public class DiagonalSLAE : ISLAE<DiagonalMatrix>
     {
-        public IMatrix<DiagonalMatrix> MakeProfile(double[,] au, double[,] al, double[] di, int[] ia, int[] ja, int n, int nd)
+        public IMatrix<DiagonalMatrix> MakeDiagonal(double[,] au, double[,] al, double[] di, int[] ia, int[] ja, int n, int nd)
         {
             return new DiagonalMatrix(au, al, di, ia, ja, n, nd);
         }
