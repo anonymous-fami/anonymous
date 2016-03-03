@@ -73,7 +73,7 @@ namespace anonymous
 
         public double Scalar(Vector A)//скалярное произведение векторов
         {
-            double res = 0;
+           double res = 0;
             for (int i = 0; i < size; i++)
             {
                 res+= this.values[i] * A.values[i];

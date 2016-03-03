@@ -53,6 +53,9 @@
     <Compile Include="DisperseMatrix.cs" />
     <Compile Include="DisperseSLAE.cs" />
 	<Compile Include="Preconditioner.cs" />
+	<Compile Include="Isolver.cs" />
+    <Compile Include="LOS.cs" />
+    <Compile Include="MSG.cs" />
     <Compile Include="ProfilSLAE.cs" />
     <Compile Include="ISLAE.cs" />
     <Compile Include="Form1.cs">
