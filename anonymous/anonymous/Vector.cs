@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class Vector
+    public class Vector 
     {
         public int size;
         public double[] values;
@@ -73,13 +73,12 @@ namespace anonymous
             return res;
         }
 
-        public Vector Scalar(Vector A)//скалярное произведение векторов
+        public double Scalar(Vector A)//скалярное произведение векторов
         {
-            double[] values_res = new double[size];
-            var res = new Vector(size, values_res);
+            double res = 0;
             for (int i = 0; i < size; i++)
             {
-                res.values[i] = this.values[i] * A.values[i];
+                res+= this.values[i] * A.values[i];
 
             }
             return res;
