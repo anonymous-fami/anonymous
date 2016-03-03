@@ -306,19 +306,30 @@ namespace anonymous
             //int[] ia = { 0, 0, 1, 3 };
             //int n = 3;
 
-            double[] al = { 4, 5};
-            double[] au = { 4, 25};
-            double[] di = { 1, 0, 70 };
+            //double[] al = { 4, 5};
+            //double[] au = { 4, 25};
+            //double[] di = { 1, 1, 70 };
+            //int[] ia = { 0, 0, 0, 2 };
+            //int n = 3;
+
+            //IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
+            //IMatrix<ProfileMatrix> B;
+            //IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
+
+            //P.createDiag(A, out B);
+            //P.createLLT(A, out B);
+            //P.createLU(A, out B);
+
+            double[] al = { 4, 5 };
+            double[] au = { 4, 5 };
+            double[] di = { 1, 1, 5.38 };
+            int[] ja = { 0, 1 };
             int[] ia = { 0, 0, 0, 2 };
             int n = 3;
-
-            IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
-            IMatrix<ProfileMatrix> B;
-            IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
-            
-            P.createDiag(A, out B);
-            P.createLLT(A, out B);
-            //P.createLU(A, out B);
+            DisperseMatrix A = new DisperseMatrix(au, al, di, ia, ja, n);
+            Vector f = new Vector(3, new double[3] { 13, 17, 224 });//x={1,2,3}
+            Vector tempX = A.DirectProgress(f);
+            Vector x = A.ReverseProgress(tempX);
 
         }        
     }
