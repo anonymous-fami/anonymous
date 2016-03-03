@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class MSG: Isolver
+    public class MSG: ISolver
     {
-        public Vector Solve(ProfileMatrix ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps)
+        public Vector Solve(IMatrix<ProfileMatrix> ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps)
         {
+            double iner_r, alpha, betta;
+            Vector Az;
+
             Vector r = RightPart.Differ(ProfMatr.Multiply(Initial));
             Vector z = r;
             Vector result = Initial;
+
             for(int iterNum = 0; iterNum < maxiter && r.Norm()/RightPart.Norm() >= eps; iterNum++)
             {
-                double iner_r = r.Scalar(r);
-                Vector Az = ProfMatr.Multiply(z);
-                double alpha = r.Scalar(r) / Az.Scalar(z);
+                iner_r = r.Scalar(r);
+                Az = ProfMatr.Multiply(z);
+                alpha = r.Scalar(r) / Az.Scalar(z);
                 result = result.Sum(z.Mult(alpha));
                 r = r.Differ(Az.Mult(alpha));
-                double betta = r.Scalar(r) / iner_r;
+                betta = r.Scalar(r) / iner_r;
                 z = r.Sum(z.Mult(betta));
             }
             return result;

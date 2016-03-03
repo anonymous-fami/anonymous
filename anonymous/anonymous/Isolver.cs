@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public interface Isolver
+    public interface ISolver
     {
-        public Vector Solve(ProfileMatrix ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps); 
+        Vector Solve(IMatrix<ProfileMatrix> ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps); 
     }
 }

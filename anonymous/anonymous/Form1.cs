@@ -89,7 +89,7 @@ namespace anonymous
             {
                 textBox2.Text = OFD.FileName;   //Путь файла правой части
 
-                Data.vectorPath = textBox2.Text;
+                Data.rightpartPath = textBox2.Text;
             }
         }
 
@@ -280,38 +280,42 @@ namespace anonymous
             }
             */
 
-            /*
+            
             IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
             ProfileMatrix MatrixCopy = new ProfileMatrix(Matrix.getMatrix());
 
-            MatrixCopy.AU[0] = 888;
-            MatrixCopy.N = 888;
+            //MatrixCopy.AU[0] = 888;
+            //MatrixCopy.N = 888;
+
+            Vector RightPart = new Vector(Data.rightpartPath);
+            Vector Initial = new Vector(Data.initialPath);
+            Vector Result;
+
+            ISolver solver = new LOS();
+            Result = solver.Solve(Matrix,RightPart,Initial,100,1e-16);
 
             int a = 0;
-            */            
 
             //Проверка работоспособности предобуславливателя.
 
-
-
+            //int n = 3;
+            //int[] ia = { 0, 0, 1, 3 };
             //double[] al = { 4, 5, 47 };
             //double[] au = { 7, 8, 50 };
             //double[] di = { 1, 32, 103 };
-            //int[] ia = { 0, 0, 1, 3 };
-            //int n = 3;
 
+            //int n = 3;
+            //int[] ia = { 0, 0, 1, 3 };
             //double[] al = { 4, 5, 32 };
             //double[] au = { 4, 5, 32 };
             //double[] di = { 1, 20, 70 };
-            //int[] ia = { 0, 0, 1, 3 };
-            //int n = 3;
 
             /*
+            int n = 3;
+            int[] ia = { 0, 0, 0, 2 };
             double[] al = { 4, 5};
             double[] au = { 4, 25};
-            double[] di = { 1, 0, 70 };
-            int[] ia = { 0, 0, 0, 2 };
-            int n = 3;
+            double[] di = { 1, 0, 70 };                        
 
             IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
             IMatrix<ProfileMatrix> B;
@@ -321,7 +325,6 @@ namespace anonymous
             P.createLLT(A, out B);
             //P.createLU(A, out B);
             */
-
         }
     }
 
@@ -329,7 +332,7 @@ namespace anonymous
     {
         public static int matrixformat;     //Выбранный формат матрицы
         public static string matrixPath;    //Путь файла с матрицей
-        public static string vectorPath;    //Путь файла с вектором
+        public static string rightpartPath;    //Путь файла с вектором правой части
         public static string initialPath;   //Путь файла с начальным приближением
         public static int preconditioner;   //Выбранный предобуславливатель
         public static int solver;           //Выбранный решатель

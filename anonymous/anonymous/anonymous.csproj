@@ -52,8 +52,8 @@
     <Compile Include="DiagonalSLAE.cs" />
     <Compile Include="DisperseMatrix.cs" />
     <Compile Include="DisperseSLAE.cs" />
-	<Compile Include="Preconditioner.cs" />
-	<Compile Include="Isolver.cs" />
+    <Compile Include="Preconditioner.cs" />
+    <Compile Include="ISolver.cs" />
     <Compile Include="LOS.cs" />
     <Compile Include="MSG.cs" />
     <Compile Include="ProfilSLAE.cs" />
@@ -95,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="tests\профильная\матрица.txt" />
+    <Content Include="tests\профильная\правая часть.txt" />
+    <Content Include="tests\профильная\приближение.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
