@@ -31,6 +31,8 @@ namespace anonymous
                 for (i = 0; i < n; i++)
                 {
                     lines[i + 1] = lines[i + 1].Trim();
+                    lines[i + 1] = lines[i + 1].Replace('\t', ' ');
+                    lines[i + 1] = lines[i + 1].Replace("  ", " ");
                     lines[i + 1] = lines[i + 1].Replace('.', ',');
                     ia = lines[i + 1].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                     for (j = 0; j < n; j++)
@@ -67,19 +69,27 @@ namespace anonymous
                 n = Int32.Parse(lines[0]);
                 ia = new int[n + 1];
                 lines[1] = lines[1].Trim();
+                lines[1] = lines[1].Replace('\t', ' ');
+                lines[1] = lines[1].Replace("  ", " ");
                 ia = lines[1].Split(' ').Select(nn => Convert.ToInt32(nn)).ToArray();
                 if (ia[0] == 1) for (int i = 0; i <= n; i++)ia[i]--;
                 int k = ia[n];
                 al = new double[k];
                 lines[2] = lines[2].Trim();
+                lines[2] = lines[2].Replace('\t', ' ');
+                lines[2] = lines[2].Replace("  ", " ");
                 lines[2] = lines[2].Replace('.', ',');
                 al = lines[2].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 au = new double[k];
                 lines[3] = lines[3].Trim();
+                lines[3] = lines[3].Replace('\t', ' ');
+                lines[3] = lines[3].Replace("  ", " ");
                 lines[3] = lines[3].Replace('.', ',');
                 au = lines[3].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 diag = new double[n];
                 lines[4] = lines[4].Trim();
+                lines[4] = lines[4].Replace('\t', ' ');
+                lines[4] = lines[4].Replace("  ", " ");
                 lines[4] = lines[4].Replace('.', ',');
                 diag = lines[4].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 return true;
@@ -97,7 +107,7 @@ namespace anonymous
         }
 
         //временная замена ввода для профильного формата
-        /*public static bool InputMatrix_res(out int n, string FileName, out int[] ia, out double[] al, out double[] au, out double[] diag)
+        public static bool InputMatrix_res(out int n, string FileName, out int[] ia, out double[] al, out double[] au, out double[] diag)
         {
             try
             {
@@ -124,7 +134,7 @@ namespace anonymous
                         do
                         {
                             ch = str.Read();
-                        } while ((ch == ' ' || ch == '\n') && ch != -1);
+                        } while ((ch == ' ' || ch == '\n' || ch == '\r') && ch != -1);
                     }
                 }
 
@@ -197,7 +207,7 @@ namespace anonymous
                 diag = new double[0];
                 return false;
             }
-        }*/
+        }
 
         //
         //Ввод матрицы в разреженном формате
@@ -218,22 +228,32 @@ namespace anonymous
                 n = Int32.Parse(lines[0]);
                 ia = new int[n + 1];
                 lines[1] = lines[1].Trim();
+                lines[1] = lines[1].Replace('\t', ' ');
+                lines[1] = lines[1].Replace("  ", " ");
                 ia = lines[1].Split(' ').Select(nn => Convert.ToInt32(nn)).ToArray();
                 if (ia[0] == 1) for (int i = 0; i <= n; i++) ia[i]--;
                 int k = ia[n];
                 ja = new int[k];
                 lines[2] = lines[2].Trim();
+                lines[2] = lines[2].Replace('\t', ' ');
+                lines[2] = lines[2].Replace("  ", " ");
                 ia = lines[2].Split(' ').Select(nn => Convert.ToInt32(nn)).ToArray();
                 al = new double[k];
                 lines[3] = lines[3].Trim();
+                lines[3] = lines[3].Replace('\t', ' ');
+                lines[3] = lines[3].Replace("  ", " ");
                 lines[3] = lines[3].Replace('.', ',');
                 al = lines[3].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 au = new double[k];
                 lines[4] = lines[4].Trim();
+                lines[4] = lines[4].Replace('\t', ' ');
+                lines[4] = lines[4].Replace("  ", " ");
                 lines[4] = lines[4].Replace('.', ',');
                 au = lines[4].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 diag = new double[n];
                 lines[5] = lines[5].Trim();
+                lines[5] = lines[5].Replace('\t', ' ');
+                lines[5] = lines[5].Replace("  ", " ");
                 lines[5] = lines[5].Replace('.', ',');
                 diag = lines[5].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 return true;
@@ -294,7 +314,7 @@ namespace anonymous
                     {
                         line += Convert.ToChar(ch);
                         ch = str.Read();
-                        if (ch == ' ' || ch == '\n' || ch == -1)
+                        if (ch == ' ' || ch == '\n' || ch == '\t' || ch == -1)
                         {
                             line = line.Replace('.', ',');
                             gl[j, i] = Convert.ToDouble(line);
@@ -303,7 +323,7 @@ namespace anonymous
                             do
                             {
                                 ch = str.Read();
-                            } while ((ch == ' ' || ch == '\n') && ch != -1);
+                            } while ((ch == ' ' || ch == '\n' || ch == '\t') && ch != -1);
                         }
                     }
                     for (i = n - ig[j]; i < n - ig[0]; i++)
@@ -317,7 +337,7 @@ namespace anonymous
                     {
                         line += Convert.ToChar(ch);
                         ch = str.Read();
-                        if (ch == ' ' || ch == '\n' || ch == -1)
+                        if (ch == ' ' || ch == '\n' || ch == '\t' || ch == -1)
                         {
                             line = line.Replace('.', ',');
                             gu[j, i] = Convert.ToDouble(line);
@@ -326,7 +346,7 @@ namespace anonymous
                             do
                             {
                                 ch = str.Read();
-                            } while ((ch == ' ' || ch == '\n') && ch != -1);
+                            } while ((ch == ' ' || ch == '\n' || ch == '\t') && ch != -1);
                         }
                     }
                     for (i = n - ig[j]; i < n - ig[0]; i++)
@@ -338,7 +358,7 @@ namespace anonymous
                 {
                     line += Convert.ToChar(ch);
                     ch = str.Read();
-                    if (ch == ' ' || ch == '\n' || ch == -1)
+                    if (ch == ' ' || ch == '\n' || ch == '\t' || ch == -1)
                     {
                         line = line.Replace('.', ',');
                         diag[i] = Convert.ToDouble(line);
@@ -347,7 +367,7 @@ namespace anonymous
                         do
                         {
                             ch = str.Read();
-                        } while ((ch == ' ' || ch == '\n') && ch != -1);
+                        } while ((ch == ' ' || ch == '\n' || ch == '\t') && ch != -1);
                     }
                 }
 
@@ -388,6 +408,8 @@ namespace anonymous
                 for (int i = 0; i < n; i++,numberLine++)
                 {
                     lines[numberLine] = lines[numberLine].Trim();
+                    lines[numberLine] = lines[numberLine].Replace('\t', ' ');
+                    lines[numberLine] = lines[numberLine].Replace("  ", " ");
                     lines[numberLine] = lines[numberLine].Replace('.', ',');
                     double[] row = lines[numberLine].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                     for(int j=0;j<k;j++)
@@ -400,6 +422,8 @@ namespace anonymous
                 for (int i = 0; i < n; i++, numberLine++)
                 {
                     lines[numberLine] = lines[numberLine].Trim();
+                    lines[numberLine] = lines[numberLine].Replace('\t', ' ');
+                    lines[numberLine] = lines[numberLine].Replace("  ", " ");
                     lines[numberLine] = lines[numberLine].Replace('.', ',');
                     double[] row = lines[numberLine].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                     for (int j = 0; j < k; j++)
@@ -410,6 +434,8 @@ namespace anonymous
 
                 diag = new double[n];
                 lines[numberLine] = lines[numberLine].Trim();
+                lines[numberLine] = lines[numberLine].Replace('\t', ' ');
+                lines[numberLine] = lines[numberLine].Replace("  ", " ");
                 lines[numberLine] = lines[numberLine].Replace('.', ',');
                 diag = lines[numberLine].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
                 return true;
@@ -445,7 +471,7 @@ namespace anonymous
                 {
                     line += Convert.ToChar(ch);
                     ch = str.Read();
-                    if(ch == ' ' || ch == '\n' || ch == -1)
+                    if(ch == ' ' || ch == '\n' || ch == '\t' || ch == -1)
                     {
                         line = line.Replace('.', ',');
                         vector[i] = Convert.ToDouble(line);
@@ -454,7 +480,7 @@ namespace anonymous
                         do
                         {
                             ch = str.Read();
-                        } while ((ch == ' ' || ch == '\n') && ch != -1);
+                        } while ((ch == ' ' || ch == '\n' || ch == '\t') && ch != -1);
                     }
                 }
                 str.Close();
