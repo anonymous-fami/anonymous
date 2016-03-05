@@ -44,7 +44,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 Plot = new double[0, 0];
                 return false;
@@ -96,7 +95,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = new int[0];
                 al = new double[0];
@@ -199,7 +197,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = new int[0];
                 al = new double[0];
@@ -260,7 +257,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 al = new double[0];
                 au = new double[0];
@@ -376,7 +372,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
                 ig = new int[0];
@@ -443,7 +438,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
                 al = new double[0, 0];
@@ -489,7 +483,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 vector = new double[0];
                 return false;
@@ -511,8 +504,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
-              
                 return false;
             }
         }
@@ -533,8 +524,6 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
-
                 return false;
             }
         }
