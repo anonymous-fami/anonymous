@@ -19,7 +19,24 @@ namespace anonymous
             comboBox1.Items.AddRange(new string[] {"Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный"});
             comboBox1.SelectedItem = comboBox1.Items[0];
 
-            
+            int n, m;
+            int[] ig;
+            double[] gg,gl;
+            double[] daig;
+            bool t, tt;
+            InputOutput.InputMatrix( out n,"test.txt",out ig, out gg,out gl,out daig);
+
+
+
+
+            InputOutput.InputMatrix_res(out n, "test.txt", out ig, out gg, out gl, out daig);
+
+            //string[] TT = new string[] { "ffsssssfffsffssfsfssffsss" };
+
+            //TT[0] = TT[0].Replace("ss", "s");
+
+            n = 10;
+
             /////////////////////////
             //IMatrix A = new Matrix();
             //A.test();
