@@ -216,10 +216,13 @@ namespace anonymous
                     s += al[k] * temp[ja[k]];
                     k++;
                 }
-                if (di[i] == 0)
-                    throw new Exception("DirectProgress: Деление на ноль.");
+                if (Data.preconditioner == 3)
+                    temp[i] = (f.values[i] - s);
                 else
-                    temp[i] = (f.values[i] - s) / di[i];
+                    if (di[i] == 0)
+                        throw new Exception("DirectProgress: Деление на ноль.");
+                    else
+                        temp[i] = (f.values[i] - s) / di[i];
             }
             return new Vector(n, temp);
         }
@@ -233,15 +236,10 @@ namespace anonymous
             k = ia[n] - 1;
             for (i = n - 1; i >= 0; i--)
             {
-                if (Data.preconditioner == 3)
-                    x[i] = temp[i];
+                if (di[i] == 0)
+                    throw new Exception("ReverseProgress: Деление на ноль.");
                 else
-                {
-                    if (di[i] == 0)
-                        throw new Exception("ReverseProgress: Деление на ноль.");
-                    else
-                        x[i] = temp[i] / di[i];
-                }
+                    x[i] = temp[i] / di[i];
                 kol_str = ia[i + 1] - ia[i];
                 for (j = 0; j < kol_str; j++)
                 {
@@ -249,15 +247,10 @@ namespace anonymous
                     k--;
                 }
             }
-            if (Data.preconditioner == 3)
-                x[0] = temp[0];
+            if (di[0] == 0)
+                throw new Exception("ReverseProgress: Деление на ноль.");
             else
-            {
-                if (di[0] == 0)
-                    throw new Exception("ReverseProgress: Деление на ноль.");
-                else
-                    x[0] = temp[0] / di[0];
-            }
+                x[0] = temp[0] / di[0];
             return new Vector(n, x);
         }
 

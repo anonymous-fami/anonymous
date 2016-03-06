@@ -292,8 +292,6 @@ namespace anonymous
 
             //Проверка работоспособности предобуславливателя.
 
-
-
             //double[] al = { 4, 5, 47 };
             //double[] au = { 7, 8, 50 };
             //double[] di = { 1, 32, 103 };
@@ -312,6 +310,12 @@ namespace anonymous
             //int[] ia = { 0, 0, 0, 2 };
             //int n = 3;
 
+            //double[] al = { 4, 5 };
+            //double[] au = { 4, 5 };
+            //double[] di = { 1, 20, 70 };
+            //int[] ia = { 0, 0, 0, 2 };
+            //int n = 3;
+
             //IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
             //IMatrix<ProfileMatrix> B;
             //IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
@@ -320,18 +324,21 @@ namespace anonymous
             //P.createLLT(A, out B);
             //P.createLU(A, out B);
 
-            double[] al = { 4, 5 };
+
+            //Проверка работоспособности прямого и обратого хода.
+
+            double[] al = { 4, 0.25 };
             double[] au = { 4, 5 };
-            double[] di = { 1, 1, 5.38 };
+            double[] di = { 1, 20, 52.75 };
             int[] ja = { 0, 1 };
             int[] ia = { 0, 0, 0, 2 };
             int n = 3;
             DisperseMatrix A = new DisperseMatrix(au, al, di, ia, ja, n);
-            Vector f = new Vector(3, new double[3] { 13, 17, 224 });//x={1,2,3}
+            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = A.DirectProgress(f);
             Vector x = A.ReverseProgress(tempX);
 
-        }        
+        }
     }
 
     public static class Data
