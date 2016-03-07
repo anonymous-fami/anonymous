@@ -48,14 +48,14 @@ namespace anonymous
         }
 
         private void solver_comboBox_SelectedIndexChanged(object sender, EventArgs e)
-    {
+        {
             if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1))
             {
                 if (!initial_checkBox.Checked) initial_button.Enabled = true;
                 initial_label.Enabled = true;
                 initial_textBox.Enabled = true;
                 initial_checkBox.Enabled = true;              
-    }
+        }
             else
             {
                 initial_button.Enabled = false;
@@ -68,11 +68,11 @@ namespace anonymous
         }
 
         private void initial_checkBox_CheckedChanged(object sender, EventArgs e)
-    {
+        {
             if (initial_checkBox.Checked)
             {
                 initial_button.Enabled = false;
-    }
+        }
             else
             {
                 initial_button.Enabled = true;
@@ -80,7 +80,7 @@ namespace anonymous
         }
 
         private void matrix_button_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             //OFD.InitialDirectory = "c:\\";
@@ -92,11 +92,11 @@ namespace anonymous
                 matrix_textBox.Text = OFD.FileName;   //Путь файла с матрицей
 
                 Data.matrixPath = matrix_textBox.Text;
-    }
+            }
         }
 
         private void rightpart_button_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             //OFD.InitialDirectory = "c:\\";
@@ -108,11 +108,11 @@ namespace anonymous
                 rightpart_textBox.Text = OFD.FileName;   //Путь файла правой части
 
                 Data.rightpartPath = rightpart_textBox.Text;
-    }
+            }
         }
 
         private void initial_button_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             //OFD.InitialDirectory = "c:\\";
@@ -124,11 +124,11 @@ namespace anonymous
                 initial_textBox.Text = OFD.FileName;   //Путь файла с начальным приближением
 
                 Data.initialPath = initial_textBox.Text;
-    }
+            }
         }
 
         private void save_button_Click(object sender, EventArgs e)
-    {
+        {
             SaveFileDialog SFD = new SaveFileDialog();
 
             SFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -137,7 +137,7 @@ namespace anonymous
             if (Data.result != null)
             {
                 if (SFD.ShowDialog() == DialogResult.OK) InputOutput.OutputVector(SFD.FileName, Data.result);
-    }
+            }
             else
             {
                 MessageBox.Show("Кажется что-то пошло не так.\nВ векторе ответа нет данных. :(", "Опаньки...", MessageBoxButtons.OK);
@@ -145,27 +145,27 @@ namespace anonymous
         }
 
         private void solve_button_Click(object sender, EventArgs e)
-    {
-            //Запуск решения          
-            Vector RightPart, Initial;
-            ISolver solver;
-            double eps;
-        
+        {
+            //Запуск решения       
             if (checkinput())
             {
                 richTextBox1.Clear();
-                Data.richtextbox = richTextBox1;                                
+                Data.richtextbox = richTextBox1;
+
+                Vector RightPart, Initial;
+                ISolver solver;
+                double eps;
 
                 RightPart = new Vector(Data.rightpartPath);
                 eps = 1.0;
 
                 for (int i = 0; i < eps_numericUpDown.Value; i++)
-        {
+                {
                     eps /= 10.0;
-        }
+                }
 
                 switch (Data.matrixformat)
-        {
+                {
                     case 0: //Плотная
                     {                        
                         switch (Data.preconditioner)
@@ -177,7 +177,7 @@ namespace anonymous
                                     case 0: //МСГ
                                     {                                             
                                         break;
-        }
+                                    }
                                     case 1: //ЛОС
                                     {
                                         break;
@@ -234,15 +234,15 @@ namespace anonymous
                             {
 
                                 switch (Data.solver)    
-        {
+                                {
                                     case 0: //МСГ
                                     {                                             
                                         break;
-        }
+                                    }
                                     case 1: //ЛОС
                                     {                                            
                                         break;
-    }
+                                    }
                                 }
                                 break;
                             }
@@ -254,13 +254,13 @@ namespace anonymous
                         IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
 
                         if (initial_checkBox.Checked)
-    {
+                        {
                             Initial = new Vector(Matrix.getMatrix().N);
                         }
                         else
-        {
+                        {
                             Initial = new Vector(Data.initialPath);
-        }
+                        }
 
                         switch (Data.preconditioner)
                         {
@@ -303,41 +303,41 @@ namespace anonymous
                                 switch (Data.solver)
                                 {
                                     case 0: //МСГ
-        {
+                                    {
                                         break;
-        }
+                                    }
                                     case 1: //ЛОС 
-        {
+                                    {
                                         break;
                                     }
                                 }
                                 break;
-        }
+                            }
                             case 3: //LLT
                             {                                
                                 switch (Data.solver)
                                 {
                                     case 0: //МСГ 
-        {
-                                        break;
-        }
-                                    case 1: //ЛОС
-        {
+                                    {
                                         break;
                                     }
-        }
+                                    case 1: //ЛОС
+                                    {
+                                        break;
+                                    }
+                                }
                                 break;
-    }
+                            }
                             case 4: //LUsq
                             {                                
                                 switch (Data.solver)
-    {
+                                {
                                     case 0: //МСГ
-        {
+                                    {
                                         break;
-        }
+                                    }
                                     case 1: //ЛОС
-        {
+                                    {
                                         break;
                                     }                                 
                                 }
@@ -348,7 +348,7 @@ namespace anonymous
                     }
                 }
                 //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
-        }
+            }
 
             /*
             IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
@@ -450,28 +450,28 @@ namespace anonymous
             Vector tempX = A.DirectProgress(f);
             Vector x = A.ReverseProgress(tempX);  
             */          
-    }
+        }
 
         private bool checkinput()
-    {
-            if (Data.matrixPath == null)
         {
+            if (Data.matrixPath == null)
+            {
                 MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с матрицей на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
                 tabControl1.SelectedIndex = 0;
                 return false;
-        }
+            }
 
             if ((Data.solver == 0) || (Data.solver == 1))
             {
                 if (Data.rightpartPath == null)
-        {
+                {
                     MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с вектором правой части на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
                     tabControl1.SelectedIndex = 0;
                     return false;
-        }
+                }
 
                 if ((Data.initialPath == null) && (initial_checkBox.Checked == false))
-        {
+                {
                     MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с начальным приближением, или отметьте пункт \"Нулевое начальное приближение\" на вкладке \"Решатель\".", "Опаньки...", MessageBoxButtons.OK);
                     tabControl1.SelectedIndex = 1;
                     return false;
@@ -479,10 +479,10 @@ namespace anonymous
             }
             return true;
         }
-        }
+    }
 
     public static class Data
-        {
+    {
         public static int matrixformat;         //Выбранный формат матрицы
         public static string matrixPath;        //Путь файла с матрицей
         public static string rightpartPath;     //Путь файла с вектором правой части
@@ -491,7 +491,7 @@ namespace anonymous
         public static int solver;               //Выбранный решатель
         public static Vector result;            //Вектор с ответом
         public static RichTextBox richtextbox;  
-        }
+    }
     
     /*
     interface IIterationLogger

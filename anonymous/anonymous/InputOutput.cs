@@ -42,8 +42,9 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
-                Plot = new double[0, 0];
+                Plot = null;
                 return false;
             }
         }
@@ -93,11 +94,12 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
-                ia = new int[0];
-                al = new double[0];
-                au = new double[0];
-                diag = new double[0];
+                ia = null;
+                al = null;
+                au = null;
+                diag = null;
                 return false;
             }
         }
@@ -195,6 +197,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = new int[0];
                 al = new double[0];
@@ -255,12 +258,13 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
-                al = new double[0];
-                au = new double[0];
-                diag = new double[0];
-                ia = new int[0];
-                ja = new int[0];
+                al = null;
+                au = null;
+                diag = null;
+                ia = null;
+                ja = null;
                 return false;
             }
         }
@@ -370,12 +374,13 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
-                ig = new int[0];
-                gu = new double[0, 0];
-                gl = new double[0, 0];
-                diag = new double[0];
+                ig = null;
+                gu = null;
+                gl = null;
+                diag = null;
                 return false;
             }
         }
@@ -436,11 +441,12 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
-                al = new double[0, 0];
-                au = new double[0, 0];
-                diag = new double[0];
+                al = null;
+                au = null;
+                diag = null;
                 return false;
             }
         }
@@ -480,8 +486,9 @@ namespace anonymous
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
-                vector = new double[0];
+                vector = null;
                 return false;
             }
         }
