@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace anonymous
 {
@@ -31,7 +32,8 @@ namespace anonymous
                 p = Ar.Sum(p.Mult(betta));
 
                 residual = r.Scalar(r);
-                InputOutput.OutputIterationToForm(iterNum, residual);
+                if (!InputOutput.OutputIterationToForm(iterNum, residual))
+                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             return result;
         }

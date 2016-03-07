@@ -27,7 +27,7 @@ namespace anonymous
             matrix_combobox.SelectedItem = matrix_combobox.Items[0];
 
             //Предобуславливатель
-            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского", "LU", "LU(sq)" };
+            string[] preconditioner = { "Нет предобуславливателя", "Диагональный", "Разложение Холесского", "LU", "LUsq" };
             preconditioner_comboBox.Items.AddRange(preconditioner);
             preconditioner_comboBox.SelectedItem = preconditioner_comboBox.Items[0];
 
@@ -83,7 +83,6 @@ namespace anonymous
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
@@ -99,7 +98,6 @@ namespace anonymous
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
@@ -115,7 +113,6 @@ namespace anonymous
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            //OFD.InitialDirectory = "c:\\";
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
@@ -167,186 +164,60 @@ namespace anonymous
                 switch (Data.matrixformat)
                 {
                     case 0: //Плотная
-                    {                        
-                        switch (Data.preconditioner)
                         {
-                            case 0: //нет
-                            {                                
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ
-                                    {                                             
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 1: //Diag
-                            {                                   
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ
-                                    {                                             
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {                                            
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 2: //LU
-                            {                                    
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ
-                                    {                                             
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {                                            
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 3: //LLT
-                            {                                    
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ 
-                                    {                                                
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {                                                
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 4: //LUsq
-                            {
-
-                                switch (Data.solver)    
-                                {
-                                    case 0: //МСГ
-                                    {                                             
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {                                            
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
+                            break;
                         }
-                        break;
-                    }
                     case 1: //Профильная
-                    {                        
-                        IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
+                        {
+                            IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
 
-                        if (initial_checkBox.Checked)
-                        {
-                            Initial = new Vector(Matrix.getMatrix().N);
-                        }
-                        else
-                        {
-                            Initial = new Vector(Data.initialPath);
-                        }
+                            if (Matrix.getMatrix().N == 0) break;
 
-                        switch (Data.preconditioner)
-                        {
-                            case 0: //нет
-                            {                                
-                                switch (Data.solver)
-                                {
-                                    case 0:
+                            if (initial_checkBox.Checked) Initial = new Vector(Matrix.getMatrix().N);
+                            else Initial = new Vector(Data.initialPath);
+
+                            switch (Data.preconditioner)
+                            {
+                                case 0: //Нет предобуславливателя
                                     {
-                                        solver = new MSG();
-                                        Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
-                                    case 1:
+                                case 1: //Диагональный
                                     {
-                                        solver = new LOS();
-                                        Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
                                         break;
                                     }
-                                }
-                                break;
+                                case 2: //LLT
+                                    {
+                                        break;
+                                    }
+                                case 3: //LU
+                                    {
+                                        break;
+                                    }
+                                case 4: //LUsq
+                                    {
+                                        break;
+                                    }
                             }
-                            case 1: //Diag
-                            {                                
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ
-                                    {                                        
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {                                        
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 2: //LU
-                            {                                
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ
-                                    {
-                                        break;
-                                    }
-                                    case 1: //ЛОС 
-                                    {
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 3: //LLT
-                            {                                
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ 
-                                    {
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            case 4: //LUsq
-                            {                                
-                                switch (Data.solver)
-                                {
-                                    case 0: //МСГ
-                                    {
-                                        break;
-                                    }
-                                    case 1: //ЛОС
-                                    {
-                                        break;
-                                    }                                 
-                                }
-                                break;
-                            }
+                            break;
                         }
-                        break;
-                    }
                 }
+
                 //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
             }
 
@@ -363,7 +234,7 @@ namespace anonymous
 
             ISolver solver = new MSG();
             Result = solver.Solve(Matrix,RightPart,Initial,100,1e-16);
-            */           
+            */
 
             //Проверка работоспособности прямого и обратого хода.
             /*
@@ -435,7 +306,7 @@ namespace anonymous
             */
 
             /*Разреженная матрица*/
-            
+
             /*
             //LU-разложение
             Data.preconditioner = 3;
@@ -449,7 +320,7 @@ namespace anonymous
             Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = A.DirectProgress(f);
             Vector x = A.ReverseProgress(tempX);  
-            */          
+            */
         }
 
         private bool checkinput()

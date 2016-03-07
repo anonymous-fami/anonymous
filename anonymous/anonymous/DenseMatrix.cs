@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace anonymous
 {
@@ -20,7 +21,8 @@ namespace anonymous
 
         public DenseMatrix(string FilePath)//конструктор, считывает данные из файла
         {
-            InputOutput.InputMatrix(out this.n, FilePath, out this.Plot);
+            if (!InputOutput.InputMatrix(FilePath, out this.n, out this.Plot))
+                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public DenseMatrix(DenseMatrix Original) //Конструктор копий 

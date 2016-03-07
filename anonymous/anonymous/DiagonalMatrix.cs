@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace anonymous
 {
@@ -17,8 +18,9 @@ namespace anonymous
 
         public DiagonalMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
-            //Ввод диагональной матрицы не готов.
-            //InputOutput.InputMatrix(out this.n, out this.nd, FilePath, out this.ia, out this.al, out this.au, out this.di);
+            //Ввод диагональной матрицы не готов.            
+            if (!InputOutput.InputMatrix(FilePath, out this.n, out this.nd, out this.ia, out this.al, out this.au, out this.di))
+                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public DiagonalMatrix(double[,] au, double[,] al, double[] di, int[] ia, int n, int nd) //Конструктор, получает данные на вход

@@ -17,7 +17,7 @@ namespace anonymous
         // Plot - матрица
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         //
-        public static bool InputMatrix(out int n, string FileName, out double[,] Plot)
+        public static bool InputMatrix(string FileName, out int n, out double[,] Plot)
          {
             try
             {
@@ -42,7 +42,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 Plot = null;
                 return false;
@@ -59,7 +59,7 @@ namespace anonymous
         // diag - массив элементов диагонали
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         //
-        public static bool InputMatrix(out int n, string FileName, out int[] ia, out double[] al, out double[] au,  out double[] diag)
+        public static bool InputMatrix(string FileName, out int n, out int[] ia, out double[] al, out double[] au,  out double[] diag)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = null;
                 al = null;
@@ -105,7 +105,7 @@ namespace anonymous
         }
 
         //временная замена ввода для профильного формата
-        /*public static bool InputMatrix_res(out int n, string FileName, out int[] ia, out double[] al, out double[] au, out double[] diag)
+        /*public static bool InputMatrix_res(string FileName, out int n, out int[] ia, out double[] al, out double[] au, out double[] diag)
         {
             try
             {
@@ -197,7 +197,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = new int[0];
                 al = new double[0];
@@ -218,7 +218,7 @@ namespace anonymous
         // diag - массив элементов диагонали
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         //
-        public static bool InputMatrix(out int n, string FileName, out int[] ia, out int[] ja, out double[] al, out double[] au, out double[] diag)
+        public static bool InputMatrix(string FileName, out int n, out int[] ia, out int[] ja, out double[] al, out double[] au, out double[] diag)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 al = null;
                 au = null;
@@ -374,7 +374,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
                 ig = null;
@@ -393,7 +393,7 @@ namespace anonymous
         // au - массив для верхнего треугольника
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         //
-        public static bool InputMatrix(out int n, out int m, string FileName, out double[,] al, out double[,] au, out double[] diag)
+        public static bool InputMatrix(string FileName, out int n, out int m, out double[,] al, out double[,] au, out double[] diag)
         {
             try
             {
@@ -441,7 +441,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
                 al = null;
@@ -455,7 +455,7 @@ namespace anonymous
         //Ввод вектора
         // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
         // в файле FileName в первой строке указывается длина вектора, во второй строке весь вектор.
-        public static bool InputVector(out int n, string FileName, out double[] vector)
+        public static bool InputVector(string FileName, out int n, out double[] vector)
         {
             try
             {
@@ -486,7 +486,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 vector = null;
                 return false;
@@ -507,7 +507,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);              
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);              
                 return false;
             }
         }
@@ -526,7 +526,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }
@@ -546,7 +546,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }
@@ -561,7 +561,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }

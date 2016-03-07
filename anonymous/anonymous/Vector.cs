@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace anonymous
 {
@@ -19,7 +20,8 @@ namespace anonymous
 
         public Vector(string FilePath) //Конструктор, считывает данные из файла
         {
-            InputOutput.InputVector(out this.size, FilePath, out this.values);
+            if (!InputOutput.InputVector(FilePath, out this.size, out this.values))
+                MessageBox.Show("Ошибка ввода вектора правой части\nи/или вектора приближения.", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public Vector(Vector Original) //Конструктор копий 

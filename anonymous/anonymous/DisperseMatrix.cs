@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace anonymous
 {
@@ -17,7 +18,8 @@ namespace anonymous
 
         public DisperseMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
-            InputOutput.InputMatrix(out this.n, FilePath, out this.ia, out this.ja, out this.al, out this.au, out this.di);
+            if (!InputOutput.InputMatrix(FilePath, out this.n, out this.ia, out this.ja, out this.al, out this.au, out this.di))
+                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public DisperseMatrix(double[] au, double[] al, double[] di, int[] ia, int[] ja, int n) //Конструктор, получает данные на вход

@@ -17,7 +17,8 @@ namespace anonymous
 
         public ProfileMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
-            InputOutput.InputMatrix(out this.n, FilePath, out this.ia, out this.al, out this.au, out this.di);
+            if (!InputOutput.InputMatrix(FilePath, out this.n, out this.ia, out this.al, out this.au, out this.di))
+                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n) //Конструктор, получает данные на вход
