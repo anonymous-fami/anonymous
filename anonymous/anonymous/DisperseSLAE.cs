@@ -8,17 +8,17 @@ namespace anonymous
 {
     public class DisperseSLAE
     {
-        private IMatrix<DiagonalMatrix> matrix;     //Матрица
-        private IMatrix<DiagonalMatrix> pmatrix;    //Предобусловленная матрица
+        private IMatrix<DisperseMatrix> matrix;     //Матрица
+        private IMatrix<DisperseMatrix> pmatrix;    //Предобусловленная матрица
         private Vector rightpart;                   //Правая часть матрицы
 
-        public IMatrix<DiagonalMatrix> Matrix
+        public IMatrix<DisperseMatrix> Matrix
         {
             get { return matrix; }
             set { matrix = value; }
         }
 
-        public IMatrix<DiagonalMatrix> PMatrix
+        public IMatrix<DisperseMatrix> PMatrix
         {
             get { return pmatrix; }
             set { pmatrix = value; }

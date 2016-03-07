@@ -11,21 +11,21 @@ namespace anonymous
     interface IPreconditioner<T>//интерфейс не наследует iMatrix, было убрано чтобы избежать реализацию интерфейса предка.
     {
         //диагональное предобуславливание
-        void createDiag(IMatrix<T> matrix, out IMatrix<T> out_matrix);
+        void createDiag(T slae);
         //LU разложение
-        void createLU(IMatrix<T> matrix, out IMatrix<T> out_matrix);
+        void createLU(T slae);
         //LLT разложение
-        void createLLT(IMatrix<T> matrix, out IMatrix<T> out_marix);
+        void createLLT(T slae);
         //LU(sq) разложение
-        void createLUsq(IMatrix<T> matrix, out IMatrix<T> out_matrix);
+        void createLUsq(T slae);
     }
     #region Профильный формат(1)
 
-    class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
+    class ProfilePreconditioner : IPreconditioner<ProfileSLAE>
     {
-        public void createDiag(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
+        public void createDiag(ProfileSLAE Slae)
         {
-            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
+            ProfileMatrix temp = new ProfileMatrix(Slae.PMatrix.getMatrix());
 
             int[] ia = new int[temp.N+1];
             
@@ -35,15 +35,13 @@ namespace anonymous
             }
             //т.к. все кроме диагонали 0
             double[] al = null;
-            out_matrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);                   
+            Slae.PMatrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);                   
         }
 
-        public void createLLT(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
+        public void createLLT(ProfileSLAE Slae)
         {
-            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
-            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
-            out_matrix = null;
             //обработка исключений
             try
             {
@@ -80,12 +78,12 @@ namespace anonymous
                     }
                     temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
                 }
-                out_matrix = temp;
+                Slae.PMatrix = temp;
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
-                out_matrix = null;
+                Slae.PMatrix = null;
             }
             #region old
 
@@ -145,13 +143,12 @@ namespace anonymous
             #endregion
         }
         
-        public void createLU(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)
+        public void createLU(ProfileSLAE Slae)
         {
             int i, j, ii, k, jbeg, jend, beg, end, j0, i0, ial, iau;
             double tl, tu, tdi; 
-            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
-            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
-            out_matrix = null;
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
+
             //обработка исключений
             try
             {
@@ -201,24 +198,23 @@ namespace anonymous
                     }
                     temp.DI[i] -= tdi;
                 }
-                out_matrix = temp;
+                Slae.PMatrix = temp;
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
-                out_matrix = null;
+                Slae.PMatrix = null;
             }
         }
 
-        public void createLUsq(IMatrix<ProfileMatrix> matrix, out IMatrix<ProfileMatrix> out_matrix)  
+        public void createLUsq(ProfileSLAE Slae)  
         {
-            ProfileMatrix temp = new ProfileMatrix(matrix.getMatrix());
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
            
             int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
             double sumDiag, sumL, sumU;
 
-            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
-            out_matrix = null;
+            
             //обработка исключений
             try
             {
@@ -272,24 +268,24 @@ namespace anonymous
                     else
                     {
                         temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDiag);
-                        out_matrix = temp;
+                       Slae.PMatrix = temp;
                     }
                 }
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
-                out_matrix = null;
+                Slae.PMatrix = null;
             }            
         }
     }
     #endregion
     #region Разреженный формат(4)
-    class DispersePreconditioner : IPreconditioner<DisperseMatrix>
+    class DispersePreconditioner : IPreconditioner<DisperseSLAE>
     {
-        public void createDiag(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_matrix)
+        public void createDiag(DisperseSLAE Slae)
         {
-            DisperseMatrix temp = new DisperseMatrix(matrix.getMatrix());
+            DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
 
             int[] ia = new int[temp.N + 1];
             int[] ja = new int[temp.N + 1];
@@ -301,32 +297,30 @@ namespace anonymous
             }
             //т.к. все кроме диагонали 0
             double[] al = null;
-            out_matrix = new DisperseMatrix(al, al, temp.DI, ia, ja, temp.N);
+            Slae.PMatrix = new DisperseMatrix(al, al, temp.DI, ia, ja, temp.N);
         }
 
-        public void createLLT(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_marix)
+        public void createLLT(DisperseSLAE Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLU(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_matrix)
+        public void createLU(DisperseSLAE Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLUsq(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_matrix)
+        public void createLUsq(DisperseSLAE Slae)
         {
-            DisperseMatrix temp = new DisperseMatrix(matrix.getMatrix());
-            out_matrix = null;
-
+            DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
+            
             //int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
 
             double sumDiag, sumL, sumU;
             int iaEnd;
             int i, j, k, k1, i0, i1, j0, j1;
 
-            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
-            out_matrix = null;
+
             //обработка исключений
             try
             {
@@ -381,14 +375,14 @@ namespace anonymous
                     else
                     {
                         temp.DI[k1] = Math.Sqrt(temp.DI[k1] - sumDiag);
-                        out_matrix = temp;
+                        Slae.PMatrix = temp;
                     }
                 }
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
-                out_matrix = null;
+                Slae.PMatrix = null;
             }
 
 
