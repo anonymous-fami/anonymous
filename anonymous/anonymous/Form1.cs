@@ -168,16 +168,14 @@ namespace anonymous
                         }
                     case 1: //Профильная
                         {
-                            IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
-
-                            if (Matrix.getMatrix().N == 0) break;
-
-                            if (initial_checkBox.Checked) Initial = new Vector(Matrix.getMatrix().N);
-                            else Initial = new Vector(Data.initialPath);
-
                             ProfileSLAE SLAE = new ProfileSLAE();
-                            SLAE.Matrix = Matrix;
+                            SLAE.Matrix = new ProfileMatrix(Data.matrixPath);
                             SLAE.RightPart = new Vector(Data.rightpartPath);
+
+                            if (SLAE.Matrix.getMatrix().N == 0) break;
+
+                            if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
+                            else Initial = new Vector(Data.initialPath);
 
                             switch (Data.preconditioner)
                             {
@@ -202,6 +200,12 @@ namespace anonymous
                                     }
                                 case 1: //Диагональный
                                     {
+                                        /*
+                                        IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+                                        IMatrix<ProfileMatrix> A;
+                                        preconditioner.createDiag(SLAE.Matrix, out A);
+                                        SLAE.PMatrix = A;
+                                        */
                                         break;
                                     }
                                 case 2: //LLT
