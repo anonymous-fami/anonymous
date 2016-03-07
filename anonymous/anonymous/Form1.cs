@@ -381,7 +381,7 @@ namespace anonymous
             Result = solver.Solve(Matrix,RightPart,Initial,100,1e-16);
             */
             int a = 0; // Точка останова
-            
+
 
             //Проверка работоспособности предобуславливателя.
 
@@ -411,6 +411,22 @@ namespace anonymous
             P.createDiag(A, out B);
             P.createLLT(A, out B);
             //P.createLU(A, out B);
+            */
+
+            //Проверка работоспособности прямого и обратого хода.
+
+            /*
+            Data.preconditioner = 3;
+            double[] al = { 0, 4, 0.25 };
+            double[] au = { 0, 4, 5 };
+            double[] di = { 1, 20, 52.75 };
+            int[] ja = { 0, 1 };
+            int[] ia = { 0, 0, 1, 3 };
+            int n = 3;
+            ProfileMatrix A = new ProfileMatrix(au, al, di, ia, n);
+            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
+            Vector tempX = A.DirectProgress(f);
+            Vector x = A.ReverseProgress(tempX);
             */
         }
     }
