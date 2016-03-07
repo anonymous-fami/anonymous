@@ -25,7 +25,7 @@ namespace anonymous
     {
         public void createDiag(ProfileSLAE Slae)
         {
-            ProfileMatrix temp = new ProfileMatrix(Slae.PMatrix.getMatrix());
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
             int[] ia = new int[temp.N+1];
             

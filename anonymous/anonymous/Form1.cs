@@ -199,13 +199,9 @@ namespace anonymous
                                         break;
                                     }
                                 case 1: //Диагональный
-                                    {
-                                        /*
-                                        IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        IMatrix<ProfileMatrix> A;
-                                        preconditioner.createDiag(SLAE.Matrix, out A);
-                                        SLAE.PMatrix = A;
-                                        */
+                                    {                                        
+                                        IPreconditioner<ProfileSLAE> preconditioner = new ProfilePreconditioner();
+                                        preconditioner.createDiag(SLAE);                                        
                                         break;
                                     }
                                 case 2: //LLT
