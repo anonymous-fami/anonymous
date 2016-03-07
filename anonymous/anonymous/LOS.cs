@@ -9,14 +9,14 @@ namespace anonymous
 {
     public class LOS: ISolver
     {
-        public Vector Solve(IMatrix<ProfileMatrix> ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps)
+        public Vector Solve(ProfileSLAE SLAE, Vector Initial, int maxiter, double eps)
         {
             double iner_p, alpha, betta, residual;
             Vector Ar;
 
-            Vector r = new Vector(RightPart.Differ(ProfMatr.Multiply(Initial)));
+            Vector r = new Vector(SLAE.RightPart.Differ(SLAE.Matrix.Multiply(Initial)));
             Vector z = new Vector(r);
-            Vector p = new Vector(ProfMatr.Multiply(z));
+            Vector p = new Vector(SLAE.Matrix.Multiply(z));
             Vector result = new Vector(Initial);
 
             residual = r.Scalar(r);
@@ -26,7 +26,7 @@ namespace anonymous
                 alpha = p.Scalar(r) / iner_p;
                 result = result.Sum(z.Mult(alpha));
                 r = r.Differ(p.Mult(alpha));
-                Ar = ProfMatr.Multiply(r);
+                Ar = SLAE.Matrix.Multiply(r);
                 betta = -p.Scalar(Ar) / iner_p;
                 z = r.Sum(z.Mult(betta));
                 p = Ar.Sum(p.Mult(betta));

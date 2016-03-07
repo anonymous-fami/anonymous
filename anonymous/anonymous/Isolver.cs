@@ -8,6 +8,6 @@ namespace anonymous
 {
     public interface ISolver
     {
-        Vector Solve(IMatrix<ProfileMatrix> ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps); 
+        Vector Solve(ProfileSLAE SLAE, Vector Initial, int maxiter, double eps);
     }
 }

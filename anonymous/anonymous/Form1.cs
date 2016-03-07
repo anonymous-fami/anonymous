@@ -149,11 +149,10 @@ namespace anonymous
                 richTextBox1.Clear();
                 Data.richtextbox = richTextBox1;
 
-                Vector RightPart, Initial;
+                Vector Initial;
                 ISolver solver;
                 double eps;
 
-                RightPart = new Vector(Data.rightpartPath);
                 eps = 1.0;
 
                 for (int i = 0; i < eps_numericUpDown.Value; i++)
@@ -176,6 +175,10 @@ namespace anonymous
                             if (initial_checkBox.Checked) Initial = new Vector(Matrix.getMatrix().N);
                             else Initial = new Vector(Data.initialPath);
 
+                            ProfileSLAE SLAE = new ProfileSLAE();
+                            SLAE.Matrix = Matrix;
+                            SLAE.RightPart = new Vector(Data.rightpartPath);
+
                             switch (Data.preconditioner)
                             {
                                 case 0: //Нет предобуславливателя
@@ -185,13 +188,13 @@ namespace anonymous
                                             case 0: //МСГ
                                                 {
                                                     solver = new MSG();
-                                                    Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
-                                                    Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }

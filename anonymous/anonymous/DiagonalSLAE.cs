@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class DiagonalSLAE : ISLAE<DiagonalMatrix>
+    public class DiagonalSLAE
     {
-        public IMatrix<DiagonalMatrix> MakeDiagonal(double[,] au, double[,] al, double[] di, int[] ia, int n, int nd)
+        private IMatrix<DiagonalMatrix> matrix;
+        private Vector rightpart;
+
+        public IMatrix<DiagonalMatrix> Matrix
         {
-            return new DiagonalMatrix(au, al, di, ia, n, nd);
+            get { return matrix; }
+            set { matrix = value; }
         }
-        public Vector MakeVector(int size, double[] values)
+
+        public Vector RightPart
         {
-            return new Vector(size, values);
+            get { return rightpart; }
+            set { rightpart = value; }
         }
     }
 }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class DisperseSLAE
+    public class ProfileSLAE
     {
-        private IMatrix<DiagonalMatrix> matrix;
+        private IMatrix<ProfileMatrix> matrix;
         private Vector rightpart;
 
-        public IMatrix<DiagonalMatrix> Matrix
+        public IMatrix<ProfileMatrix> Matrix
         {
             get { return matrix; }
             set { matrix = value; }
