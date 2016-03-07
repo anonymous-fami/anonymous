@@ -152,69 +152,69 @@ namespace anonymous
                     eps /= 10.0;
                 }
 
-                switch (Data.matrixformat)
-                {
-                    case 0:
-                        {
-                            //Плотная
+            switch (Data.matrixformat)
+            {
+                case 0:
+                    {
+                        //Плотная
                             switch (Data.preconditioner)
-                            {
-                                case 0:
-                                    {
+                        {
+                            case 0:
+                                {
                                         //нет
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
-                                    }
-                                case 1:
+                                    switch (Data.solver)
                                     {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 1:
+                                {
                                         //Diag
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
-                                    }
-                                case 2:
+                                    switch (Data.solver)
                                     {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 2:
+                                {
                                         //LU
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
-                                    }
-                                case 3:
+                                    switch (Data.solver)
                                     {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            case 3:
+                                {
                                         //LLT
                                         switch (Data.solver)
                                         {
@@ -233,29 +233,29 @@ namespace anonymous
                                     }
                                 case 4:
                                     {
-                                        //LUsq
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
+                                    //LUsq
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
                                     }
-                            }
-                            break;
+                                    break;
+                                }
                         }
-                    case 1:
-                        {
-                            //Профильная
-                            IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
+                        break;
+                    }
+                case 1:
+                    {
+                        //Профильная
+                        IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
 
                             if (initial_checkBox.Checked)
                             {
@@ -266,15 +266,15 @@ namespace anonymous
                                 Initial = new Vector(Data.initialPath);
                             }
 
-                            switch (Data.preconditioner)
-                            {
-                                case 0:
+                        switch (Data.preconditioner)
+                        {
+                            case 0:
                                     {
                                         //нет
                                         switch (Data.solver)
                                         {
                                             case 0:
-                                                {
+                                {
                                                     solver = new MSG();
                                                     Result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
@@ -290,80 +290,80 @@ namespace anonymous
                                     }
                                 case 1:
                                     {
-                                        //Diag
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
+                                    //Diag
+                                    switch (Data.solver)
+                                    {
+                                        case 0:
+                                            {
+                                                //МСГ
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
                                     }
+                                    break;
+                                }
                                 case 2:
+                                {
+                                    //LU
+                                    switch (Data.solver)
                                     {
-                                        //LU
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС                                                
-                                                    break;
-                                                }
-                                        }
-                                        break;
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС                                                
+                                                break;
+                                            }
                                     }
+                                    break;
+                                }
                                 case 3:
+                                {
+                                    //LLT
+                                    switch (Data.solver)
                                     {
-                                        //LLT
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
                                     }
+                                    break;
+                                }
                                 case 4:
+                                {
+                                    //LUsq
+                                    switch (Data.solver)
                                     {
-                                        //LUsq
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
-                                        break;
+                                        case 0:
+                                            {
+                                                //МСГ 
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                //ЛОС
+                                                break;
+                                            }
                                     }
-                            }
-                            break;
+                                    break;
+                                }
                         }
-                }
+                        break;
+                    }
+            }
             }
 
             /*
@@ -397,21 +397,25 @@ namespace anonymous
             //double[] au = { 4, 5, 32 };
             //double[] di = { 1, 20, 70 };
 
-            /*
-            int n = 3;
-            int[] ia = { 0, 0, 0, 2 };
-            double[] al = { 4, 5};
-            double[] au = { 4, 25};
-            double[] di = { 1, 0, 70 };                        
+            //int n = 3;
+            //int[] ia = { 0, 0, 0, 2 };
+            //double[] al = { 4, 5};
+            //double[] au = { 4, 25};
+            //double[] di = { 1, 1, 70 };
 
-            IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
-            IMatrix<ProfileMatrix> B;
-            IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
-            
-            P.createDiag(A, out B);
-            P.createLLT(A, out B);
+            //int n = 3;
+            //int[] ia = { 0, 0, 0, 2 };
+            //double[] al = { 4, 5 };
+            //double[] au = { 4, 5 };
+            //double[] di = { 1, 20, 70 };
+
+            //IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
+            //IMatrix<ProfileMatrix> B;
+            //IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
+
+            //P.createDiag(A, out B);
+            //P.createLLT(A, out B);
             //P.createLU(A, out B);
-            */
 
             //Проверка работоспособности прямого и обратого хода.
 
@@ -428,7 +432,20 @@ namespace anonymous
             Vector tempX = A.DirectProgress(f);
             Vector x = A.ReverseProgress(tempX);
             */
-        }
+
+            /*
+            double[] al = { 4, 0.25 };
+            double[] au = { 4, 5 };
+            double[] di = { 1, 20, 52.75 };
+            int[] ja = { 0, 1 };
+            int[] ia = { 0, 0, 0, 2 };
+            int n = 3;
+            DisperseMatrix A = new DisperseMatrix(au, al, di, ia, ja, n);
+            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
+            Vector tempX = A.DirectProgress(f);
+            Vector x = A.ReverseProgress(tempX);
+            */
+        }        
     }
 
     public static class Data
@@ -440,7 +457,7 @@ namespace anonymous
         public static int preconditioner;   //Выбранный предобуславливатель
         public static int solver;           //Выбранный решатель
     }
-   
+    
     /*
     interface IIterationLogger
     {

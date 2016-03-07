@@ -285,6 +285,115 @@ namespace anonymous
     }
     #endregion
     #region Разреженный формат(4)
+    class DispersePreconditioner : IPreconditioner<DisperseMatrix>
+    {
+        public void createDiag(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_matrix)
+        {
+            DisperseMatrix temp = new DisperseMatrix(matrix.getMatrix());
+
+            int[] ia = new int[temp.N + 1];
+            int[] ja = new int[temp.N + 1];
+
+            for (int i = 0; i < temp.N + 1; i++)
+            {
+                ia[i] = 0;  // подразумевает что ia[0] начинается  с 0, как и во всем проекте.
+                ja[i] = 0;
+            }
+            //т.к. все кроме диагонали 0
+            double[] al = null;
+            out_matrix = new DisperseMatrix(al, al, temp.DI, ia, ja, temp.N);
+        }
+
+        public void createLLT(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_marix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void createLU(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_matrix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void createLUsq(IMatrix<DisperseMatrix> matrix, out IMatrix<DisperseMatrix> out_matrix)
+        {
+            DisperseMatrix temp = new DisperseMatrix(matrix.getMatrix());
+            out_matrix = null;
+
+            //int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
+
+            double sumDiag, sumL, sumU;
+            int iaEnd;
+            int i, j, k, k1, i0, i1, j0, j1;
+
+            //присвоим null в самом начале, чтобы при генерировании исключения функция возвращала null как out
+            out_matrix = null;
+            //обработка исключений
+            try
+            {
+                foreach (double x in temp.DI)
+                {
+                    if (x == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+
+                iaEnd = temp.IA[temp.N];
+
+                //LU(sq)
+                for (k = 1, k1 = 0; k <= temp.N; k++, k1++)
+                {
+
+                    i0 = temp.IA[k1];
+                    i1 = temp.IA[k];
+
+                    sumDiag = 0;
+
+                    for (int ind = i0; ind < i1; ind++)
+                    {
+                        sumL = 0;
+                        sumU = 0;
+
+                        j0 = temp.IA[temp.JA[ind]];
+                        j1 = temp.IA[temp.JA[ind] + 1];
+
+
+                        for (i = i0; i < ind; i++)
+                            for (j = j0; j0 < j1; j++)
+                            {
+                                if (temp.JA[i] == temp.JA[j])
+                                {
+                                    sumL += temp.AL[i] * temp.AU[j];
+                                    sumU += temp.AU[i] * temp.AL[j];
+                                    j0++;
+                                }
+                            }
+
+
+                        temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[ind];
+                        temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[ind];
+                        sumDiag += temp.AL[ind] * temp.AU[ind];
+                    }
+
+                    //необходимо добавить какой-нибудь экспешн.
+                    if ((temp.DI[k1] - sumDiag) < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[k1] = Math.Sqrt(temp.DI[k1] - sumDiag);
+                        out_matrix = temp;
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                out_matrix = null;
+            }
+
+
+        }
+    }
     #endregion
     #region Ленточный формат(2)
     #endregion
