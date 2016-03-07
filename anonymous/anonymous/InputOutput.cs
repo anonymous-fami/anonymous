@@ -10,6 +10,7 @@ namespace anonymous
 {
     public static class InputOutput
     {
+        public static bool debug = false;
         //
         //Ввод плотной матрицы
         // n - размерность матрицы
@@ -42,7 +43,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 Plot = null;
                 return false;
@@ -94,7 +95,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = null;
                 al = null;
@@ -197,7 +198,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 ia = new int[0];
                 al = new double[0];
@@ -258,7 +259,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 al = null;
                 au = null;
@@ -374,7 +375,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
                 ig = null;
@@ -441,7 +442,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 m = 0;
                 al = null;
@@ -486,7 +487,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 n = 0;
                 vector = null;
                 return false;
@@ -507,7 +508,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);              
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);              
                 return false;
             }
         }
@@ -526,7 +527,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }
@@ -546,7 +547,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }
@@ -561,7 +562,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                //MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                if (debug) MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }
