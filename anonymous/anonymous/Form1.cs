@@ -380,60 +380,81 @@ namespace anonymous
             ISolver solver = new MSG();
             Result = solver.Solve(Matrix,RightPart,Initial,100,1e-16);
             */
-            int a = 0; // Точка останова
-
-
-            //Проверка работоспособности предобуславливателя.
-
-            //int n = 3;
-            //int[] ia = { 0, 0, 1, 3 };
-            //double[] al = { 4, 5, 47 };
-            //double[] au = { 7, 8, 50 };
-            //double[] di = { 1, 32, 103 };
-
-            //int n = 3;
-            //int[] ia = { 0, 0, 1, 3 };
-            //double[] al = { 4, 5, 32 };
-            //double[] au = { 4, 5, 32 };
-            //double[] di = { 1, 20, 70 };
-
-            //int n = 3;
-            //int[] ia = { 0, 0, 0, 2 };
-            //double[] al = { 4, 5};
-            //double[] au = { 4, 25};
-            //double[] di = { 1, 1, 70 };
-
-            //int n = 3;
-            //int[] ia = { 0, 0, 0, 2 };
-            //double[] al = { 4, 5 };
-            //double[] au = { 4, 5 };
-            //double[] di = { 1, 20, 70 };
-
-            //IMatrix<ProfileMatrix> A = new ProfileMatrix(au, al, di, ia, n);
-            //IMatrix<ProfileMatrix> B;
-            //IPreconditioner<ProfileMatrix> P = new ProfilePreconditioner();
-
-            //P.createDiag(A, out B);
-            //P.createLLT(A, out B);
-            //P.createLU(A, out B);
+            int a = 0; // Точка останова            
 
             //Проверка работоспособности прямого и обратого хода.
+            /*
+                      { 0, 4, 5 }
+            MatrixA = { 0, 4, 5 }
+                      { 1, 20, 70 }
+            */
+
+            /*Профильная матрица*/
 
             /*
-            Data.preconditioner = 3;
-            double[] al = { 0, 4, 0.25 };
-            double[] au = { 0, 4, 5 };
-            double[] di = { 1, 20, 52.75 };
-            int[] ja = { 0, 1 };
-            int[] ia = { 0, 0, 1, 3 };
+            //LLT-разложение
+            Data.preconditioner = 2;
             int n = 3;
-            ProfileMatrix A = new ProfileMatrix(au, al, di, ia, n);
+            int[] ia = { 0, 0, 1, 3 };
+            int[] ja = { 0, 1 };
+            double[] al = { 0, 4, 5 };
+            double[] au = { 0, 4, 5 };
+            double[] di = { 1, 20, 70 };
+                                
+            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
+            IMatrix<ProfileMatrix> PMatrixA;
+            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+
+            preconditioner.createLLT(MatrixA, out PMatrixA);
             Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
-            Vector tempX = A.DirectProgress(f);
-            Vector x = A.ReverseProgress(tempX);
+            Vector tempX = PMatrixA.getMatrix().DirectProgress(f);
+            Vector x = PMatrixA.getMatrix().ReverseProgress(tempX);
             */
 
             /*
+            //LU-разложение
+            Data.preconditioner = 3;
+            int n = 3;
+            int[] ia = { 0, 0, 1, 3 };
+            int[] ja = { 0, 1 };
+            double[] al = { 0, 4, 5 };
+            double[] au = { 0, 4, 5 };
+            double[] di = { 1, 20, 70 };
+                                
+            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
+            IMatrix<ProfileMatrix> PMatrixA;
+            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+
+            preconditioner.createLU(MatrixA, out PMatrixA);
+            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
+            Vector tempX = PMatrixA.getMatrix().DirectProgress(f);
+            Vector x = PMatrixA.getMatrix().ReverseProgress(tempX);
+            */
+
+            /*
+            //LUsq-разложение
+            Data.preconditioner = 4;
+            int n = 3;
+            int[] ia = { 0, 0, 1, 3 };
+            int[] ja = { 0, 1 };
+            double[] al = { 0, 4, 5 };
+            double[] au = { 0, 4, 5 };
+            double[] di = { 1, 20, 70 };
+                                
+            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
+            IMatrix<ProfileMatrix> PMatrixA;
+            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+
+            preconditioner.createLUsq(MatrixA, out PMatrixA);
+            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
+            Vector tempX = PMatrixA.getMatrix().DirectProgress(f);
+            Vector x = PMatrixA.getMatrix().ReverseProgress(tempX);
+            */
+
+            /*Разреженная матрица*/
+            
+            //LU-разложение
+            Data.preconditioner = 3;
             double[] al = { 4, 0.25 };
             double[] au = { 4, 5 };
             double[] di = { 1, 20, 52.75 };
@@ -443,9 +464,8 @@ namespace anonymous
             DisperseMatrix A = new DisperseMatrix(au, al, di, ia, ja, n);
             Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = A.DirectProgress(f);
-            Vector x = A.ReverseProgress(tempX);
-            */
-        }        
+            Vector x = A.ReverseProgress(tempX);            
+        }
     }
 
     public static class Data
