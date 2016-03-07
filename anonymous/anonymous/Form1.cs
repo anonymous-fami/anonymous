@@ -67,7 +67,6 @@ namespace anonymous
             Data.solver = solver_comboBox.SelectedIndex;  //Решатель
         }
 
-
         private void initial_checkBox_CheckedChanged(object sender, EventArgs e)
         {
             if (initial_checkBox.Checked)
@@ -128,22 +127,35 @@ namespace anonymous
             }
         }
 
-        private void Solvebutton_Click(object sender, EventArgs e)
+        private void save_button_Click(object sender, EventArgs e)
         {
-            //Запуск решения
-            tabControl1.SelectedIndex = 2;
+            SaveFileDialog SFD = new SaveFileDialog();
 
-            Vector RightPart, Initial, Result;
-            ISolver solver;
-            double eps;
+            SFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            SFD.RestoreDirectory = true;
 
-            if ((Data.matrixPath == null) || (Data.rightpartPath == null))
+            if (Data.result != null)
             {
-                MessageBox.Show("Кажется вы забыли ввести данные. \nЗадайте файл с матрицей и вектором правой части на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
-                tabControl1.SelectedIndex = 0;
+                if (SFD.ShowDialog() == DialogResult.OK) InputOutput.OutputVector(SFD.FileName, Data.result);
             }
             else
             {
+                MessageBox.Show("Кажется что-то пошло не так.\nВ векторе ответа нет данных. :(", "Опаньки...", MessageBoxButtons.OK);
+            }
+        }
+
+        private void solve_button_Click(object sender, EventArgs e)
+        {
+            //Запуск решения          
+            Vector RightPart, Initial;
+            ISolver solver;
+            double eps;
+
+            if (checkinput())
+            {
+                richTextBox1.Clear();
+                Data.richtextbox = richTextBox1;                                
+                        
                 RightPart = new Vector(Data.rightpartPath);
                 eps = 1.0;
 
@@ -152,218 +164,190 @@ namespace anonymous
                     eps /= 10.0;
                 }
 
-            switch (Data.matrixformat)
-            {
-                case 0:
-                    {
-                        //Плотная
-                            switch (Data.preconditioner)
+                switch (Data.matrixformat)
+                {
+                    case 0: //Плотная
+                    {                        
+                        switch (Data.preconditioner)
                         {
-                            case 0:
+                            case 0: //нет
+                            {                                
+                                switch (Data.solver)
                                 {
-                                        //нет
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
-                                    }
-                                    break;
-                                }
-                            case 1:
-                                {
-                                        //Diag
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
-                                    }
-                                    break;
-                                }
-                            case 2:
-                                {
-                                        //LU
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
-                                    }
-                                    break;
-                                }
-                            case 3:
-                                {
-                                        //LLT
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
-                                                {
-                                                    //МСГ 
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    //ЛОС
-                                                    break;
-                                                }
-                                        }
+                                    case 0: //МСГ
+                                    {                                             
                                         break;
                                     }
-                                case 4:
+                                    case 1: //ЛОС
                                     {
-                                    //LUsq
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
+                                        break;
                                     }
-                                    break;
                                 }
+                                break;
+                            }
+                            case 1: //Diag
+                            {                                   
+                                switch (Data.solver)
+                                {
+                                    case 0: //МСГ
+                                    {                                             
+                                        break;
+                                    }
+                                    case 1: //ЛОС
+                                    {                                            
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                            case 2: //LU
+                            {                                    
+                                switch (Data.solver)
+                                {
+                                    case 0: //МСГ
+                                    {                                             
+                                        break;
+                                    }
+                                    case 1: //ЛОС
+                                    {                                            
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                            case 3: //LLT
+                            {                                    
+                                switch (Data.solver)
+                                {
+                                    case 0: //МСГ 
+                                    {                                                
+                                        break;
+                                    }
+                                    case 1: //ЛОС
+                                    {                                                
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                            case 4: //LUsq
+                            {
+                                
+                                switch (Data.solver)    
+                                {
+                                    case 0: //МСГ
+                                    {                                             
+                                        break;
+                                    }
+                                    case 1: //ЛОС
+                                    {                                            
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
                         }
                         break;
                     }
-                case 1:
-                    {
-                        //Профильная
+                    case 1: //Профильная
+                    {                        
                         IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
 
-                            if (initial_checkBox.Checked)
-                            {
-                                Initial = new Vector(Matrix.getMatrix().N);
-                            }
-                            else
-                            {
-                                Initial = new Vector(Data.initialPath);
-                            }
+                        if (initial_checkBox.Checked)
+                        {
+                            Initial = new Vector(Matrix.getMatrix().N);
+                        }
+                        else
+                        {
+                            Initial = new Vector(Data.initialPath);
+                        }
 
                         switch (Data.preconditioner)
                         {
-                            case 0:
-                                    {
-                                        //нет
-                                        switch (Data.solver)
-                                        {
-                                            case 0:
+                            case 0: //нет
+                            {                                
+                                switch (Data.solver)
                                 {
-                                                    solver = new MSG();
-                                                    Result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                                    break;
-                                                }
-                                            case 1:
-                                                {
-                                                    solver = new LOS();
-                                                    Result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                                    break;
-                                                }
-                                        }
+                                    case 0:
+                                    {
+                                        solver = new MSG();
+                                        Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
                                         break;
                                     }
-                                case 1:
+                                    case 1:
                                     {
-                                    //Diag
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
+                                        solver = new LOS();
+                                        Data.result = solver.Solve(Matrix, RightPart, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                        break;
                                     }
-                                    break;
                                 }
-                                case 2:
+                                break;
+                            }
+                            case 1: //Diag
+                            {                                
+                                switch (Data.solver)
                                 {
-                                    //LU
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС                                                
-                                                break;
-                                            }
+                                    case 0: //МСГ
+                                    {                                        
+                                        break;
                                     }
-                                    break;
+                                    case 1: //ЛОС
+                                    {                                        
+                                        break;
+                                    }
                                 }
-                                case 3:
+                                break;
+                            }
+                            case 2: //LU
+                            {                                
+                                switch (Data.solver)
                                 {
-                                    //LLT
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
+                                    case 0: //МСГ
+                                    {                                             
+                                        break;
                                     }
-                                    break;
+                                    case 1: //ЛОС 
+                                    {                                                                                           
+                                        break;
+                                    }
                                 }
-                                case 4:
+                                break;
+                            }
+                            case 3: //LLT
+                            {                                
+                                switch (Data.solver)
                                 {
-                                    //LUsq
-                                    switch (Data.solver)
-                                    {
-                                        case 0:
-                                            {
-                                                //МСГ 
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                //ЛОС
-                                                break;
-                                            }
+                                    case 0: //МСГ 
+                                    {                                        
+                                        break;
                                     }
-                                    break;
+                                    case 1: //ЛОС
+                                    {                                        
+                                        break;
+                                    }
                                 }
+                                break;
+                            }
+                            case 4: //LUsq
+                            {                                
+                                switch (Data.solver)
+                                {
+                                    case 0: //МСГ
+                                    {                                         
+                                        break;
+                                    }
+                                    case 1: //ЛОС
+                                    {                                        
+                                        break;
+                                    }                                 
+                                }
+                                break;
+                            }
                         }
                         break;
                     }
-            }
+                }
+                //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
             }
 
             /*
@@ -379,8 +363,7 @@ namespace anonymous
 
             ISolver solver = new MSG();
             Result = solver.Solve(Matrix,RightPart,Initial,100,1e-16);
-            */
-            int a = 0; // Точка останова            
+            */           
 
             //Проверка работоспособности прямого и обратого хода.
             /*
@@ -453,6 +436,7 @@ namespace anonymous
 
             /*Разреженная матрица*/
             
+            /*
             //LU-разложение
             Data.preconditioner = 3;
             double[] al = { 4, 0.25 };
@@ -464,18 +448,49 @@ namespace anonymous
             DisperseMatrix A = new DisperseMatrix(au, al, di, ia, ja, n);
             Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = A.DirectProgress(f);
-            Vector x = A.ReverseProgress(tempX);            
+            Vector x = A.ReverseProgress(tempX);  
+            */          
+        }
+
+        private bool checkinput()
+        {
+            if (Data.matrixPath == null)
+            {
+                MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с матрицей на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
+                tabControl1.SelectedIndex = 0;
+                return false;
+            }
+
+            if ((Data.solver == 0) || (Data.solver == 1))
+            {
+                if (Data.rightpartPath == null)
+                {
+                    MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с вектором правой части на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
+                    tabControl1.SelectedIndex = 0;
+                    return false;
+                }
+
+                if ((Data.initialPath == null) && (initial_checkBox.Checked == false))
+                {
+                    MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с начальным приближением, или отметьте пункт \"Нулевое начальное приближение\" на вкладке \"Решатель\".", "Опаньки...", MessageBoxButtons.OK);
+                    tabControl1.SelectedIndex = 1;
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
     public static class Data
     {
-        public static int matrixformat;     //Выбранный формат матрицы
-        public static string matrixPath;    //Путь файла с матрицей
-        public static string rightpartPath; //Путь файла с вектором правой части
-        public static string initialPath;   //Путь файла с начальным приближением
-        public static int preconditioner;   //Выбранный предобуславливатель
-        public static int solver;           //Выбранный решатель
+        public static int matrixformat;         //Выбранный формат матрицы
+        public static string matrixPath;        //Путь файла с матрицей
+        public static string rightpartPath;     //Путь файла с вектором правой части
+        public static string initialPath;       //Путь файла с начальным приближением
+        public static int preconditioner;       //Выбранный предобуславливатель
+        public static int solver;               //Выбранный решатель
+        public static Vector result;            //Вектор с ответом
+        public static RichTextBox richtextbox;  
     }
     
     /*

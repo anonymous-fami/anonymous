@@ -346,11 +346,11 @@ namespace anonymous
                         do
                         {
                             ch = str.Read();
-                        } while ((ch == ' ' || ch == '\n') && ch != -1);
+                        }
+                        while ((ch == ' ' || ch == '\n') && ch != -1);
                     }
                 }
                 str.Close();
-
                 return true;
             }
             catch (Exception error)
@@ -362,26 +362,44 @@ namespace anonymous
             }
         }
 
-        public static bool OutputVector(string filename, double[] vector) {
+        public static bool OutputVector(string filename, double[] vector)
+        {
             try
             {
                 StreamWriter str = new StreamWriter(filename);
                 for (int i = 0; i < vector.Length; i++)
                 {
-                    str.Write(vector[i]); str.Write(" ");
+                    str.WriteLine(vector[i]);
                 }
                 str.Close();
+                return true;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);              
+                return false;
+            }
+        }
 
-
+        public static bool OutputVector(string filename, Vector vector)
+        {
+            try
+            {
+                StreamWriter str = new StreamWriter(filename);
+                for (int i = 0; i < vector.SIZE; i++)
+                {
+                    str.WriteLine(vector.VALUES[i]);
+                }
+                str.Close();
                 return true;
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
-              
                 return false;
             }
         }
+
         public static bool OutputIteration(string filename, int number_it, double residual, double[] vector)
         {
             try
@@ -393,14 +411,26 @@ namespace anonymous
                     str.Write(vector[i]); str.Write(" ");
                 }
                 str.Close();
-
-
                 return true;
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
+                return false;
+            }
+        }
 
+        public static bool OutputIterationToForm(int number_it, double residual)
+        {
+            try
+            {
+                number_it++;
+                Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + number_it + " Норма: " + residual + "\n";
+                return true;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка!", MessageBoxButtons.OK);
                 return false;
             }
         }

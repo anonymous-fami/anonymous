@@ -44,21 +44,25 @@
             this.solver_comboBox = new System.Windows.Forms.ComboBox();
             this.initial_label = new System.Windows.Forms.Label();
             this.initial_textBox = new System.Windows.Forms.TextBox();
-            this.Solvebutton = new System.Windows.Forms.Button();
+            this.solve_button = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.eps_numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.eps_label = new System.Windows.Forms.Label();
             this.maxiter_label = new System.Windows.Forms.Label();
             this.maxiter_numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.initial_checkBox = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.save_label = new System.Windows.Forms.Label();
+            this.save_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eps_numericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxiter_numericUpDown)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // matrix_combobox
@@ -203,15 +207,15 @@
             this.initial_textBox.Size = new System.Drawing.Size(391, 22);
             this.initial_textBox.TabIndex = 14;
             // 
-            // Solvebutton
+            // solve_button
             // 
-            this.Solvebutton.Location = new System.Drawing.Point(457, 384);
-            this.Solvebutton.Name = "Solvebutton";
-            this.Solvebutton.Size = new System.Drawing.Size(75, 26);
-            this.Solvebutton.TabIndex = 15;
-            this.Solvebutton.Text = "Решить";
-            this.Solvebutton.UseVisualStyleBackColor = true;
-            this.Solvebutton.Click += new System.EventHandler(this.Solvebutton_Click);
+            this.solve_button.Location = new System.Drawing.Point(457, 384);
+            this.solve_button.Name = "solve_button";
+            this.solve_button.Size = new System.Drawing.Size(75, 26);
+            this.solve_button.TabIndex = 15;
+            this.solve_button.Text = "Решить";
+            this.solve_button.UseVisualStyleBackColor = true;
+            this.solve_button.Click += new System.EventHandler(this.solve_button_Click);
             // 
             // tabControl1
             // 
@@ -245,13 +249,14 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.richTextBox1);
             this.tabPage2.Controls.Add(this.eps_numericUpDown);
             this.tabPage2.Controls.Add(this.eps_label);
             this.tabPage2.Controls.Add(this.maxiter_label);
             this.tabPage2.Controls.Add(this.maxiter_numericUpDown);
             this.tabPage2.Controls.Add(this.initial_checkBox);
             this.tabPage2.Controls.Add(this.preconditioner_label);
-            this.tabPage2.Controls.Add(this.Solvebutton);
+            this.tabPage2.Controls.Add(this.solve_button);
             this.tabPage2.Controls.Add(this.preconditioner_comboBox);
             this.tabPage2.Controls.Add(this.initial_textBox);
             this.tabPage2.Controls.Add(this.solver_label);
@@ -265,6 +270,17 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Решатель";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.Color.White;
+            this.richTextBox1.Location = new System.Drawing.Point(8, 442);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(540, 200);
+            this.richTextBox1.TabIndex = 2;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // eps_numericUpDown
             // 
@@ -336,6 +352,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.save_label);
+            this.tabPage3.Controls.Add(this.save_button);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -343,6 +361,25 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Вывод";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // save_label
+            // 
+            this.save_label.AutoSize = true;
+            this.save_label.Location = new System.Drawing.Point(32, 35);
+            this.save_label.Name = "save_label";
+            this.save_label.Size = new System.Drawing.Size(168, 17);
+            this.save_label.TabIndex = 1;
+            this.save_label.Text = "Сохранить ответ в файл";
+            // 
+            // save_button
+            // 
+            this.save_button.Location = new System.Drawing.Point(337, 32);
+            this.save_button.Name = "save_button";
+            this.save_button.Size = new System.Drawing.Size(100, 28);
+            this.save_button.TabIndex = 0;
+            this.save_button.Text = "Сохранить";
+            this.save_button.UseVisualStyleBackColor = true;
+            this.save_button.Click += new System.EventHandler(this.save_button_Click);
             // 
             // Form1
             // 
@@ -363,6 +400,8 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eps_numericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxiter_numericUpDown)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -384,7 +423,7 @@
         private System.Windows.Forms.TextBox matrix_textBox;
         private System.Windows.Forms.Label initial_label;
         private System.Windows.Forms.TextBox initial_textBox;
-        private System.Windows.Forms.Button Solvebutton;
+        private System.Windows.Forms.Button solve_button;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -394,6 +433,9 @@
         private System.Windows.Forms.NumericUpDown maxiter_numericUpDown;
         private System.Windows.Forms.NumericUpDown eps_numericUpDown;
         private System.Windows.Forms.Label eps_label;
+        private System.Windows.Forms.Button save_button;
+        private System.Windows.Forms.Label save_label;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

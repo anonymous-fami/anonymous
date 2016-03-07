@@ -10,15 +10,16 @@ namespace anonymous
     {
         public Vector Solve(IMatrix<ProfileMatrix> ProfMatr, Vector RightPart, Vector Initial, int maxiter, double eps)
         {
-            double iner_p, alpha, betta;
+            double iner_p, alpha, betta, residual;
             Vector Ar;
 
-            Vector r = RightPart.Differ(ProfMatr.Multiply(Initial));
-            Vector z = r;
-            Vector p = ProfMatr.Multiply(z);
-            Vector result = Initial;
+            Vector r = new Vector(RightPart.Differ(ProfMatr.Multiply(Initial)));
+            Vector z = new Vector(r);
+            Vector p = new Vector(ProfMatr.Multiply(z));
+            Vector result = new Vector(Initial);
 
-            for (int iterNum = 0; iterNum < maxiter && r.Scalar(r) >= eps; iterNum++)
+            residual = r.Scalar(r);
+            for (int iterNum = 0; iterNum < maxiter && residual >= eps; iterNum++)
             {
                 iner_p = p.Scalar(p);
                 alpha = p.Scalar(r) / iner_p;
@@ -28,6 +29,9 @@ namespace anonymous
                 betta = -p.Scalar(Ar) / iner_p;
                 z = r.Sum(z.Mult(betta));
                 p = Ar.Sum(p.Mult(betta));
+
+                residual = r.Scalar(r);
+                InputOutput.OutputIterationToForm(iterNum, residual);
             }
             return result;
         }
