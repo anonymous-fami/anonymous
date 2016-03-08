@@ -11,21 +11,21 @@ namespace anonymous
     interface IPreconditioner<T>//интерфейс не наследует iMatrix, было убрано чтобы избежать реализацию интерфейса предка.
     {
         //диагональное предобуславливание
-        void createDiag(T slae);
+        void createDiag(Slae<T> slae);
         //LU разложение
-        void createLU(T slae);
+        void createLU(Slae<T> slae);
         //LLT разложение
-        void createLLT(T slae);
+        void createLLT(Slae<T> slae);
         //LU(sq) разложение
-        void createLUsq(T slae);
+        void createLUsq(Slae<T> slae);
     }
     #region Профильный формат(1)
 
-    class ProfilePreconditioner : IPreconditioner<ProfileSLAE>
+    class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
-        public void createDiag(ProfileSLAE Slae)
+        public void createDiag(Slae<ProfileMatrix> Slae)
         {
-            ProfileMatrix temp = new ProfileMatrix(Slae.PMatrix.getMatrix());
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
             int[] ia = new int[temp.N+1];
             
@@ -38,7 +38,7 @@ namespace anonymous
             Slae.PMatrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);                   
         }
 
-        public void createLLT(ProfileSLAE Slae)
+        public void createLLT(Slae<ProfileMatrix> Slae)
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
@@ -143,7 +143,7 @@ namespace anonymous
             #endregion
         }
         
-        public void createLU(ProfileSLAE Slae)
+        public void createLU(Slae<ProfileMatrix> Slae)
         {
             int i, j, ii, k, jbeg, jend, beg, end, j0, i0, ial, iau;
             double tl, tu, tdi; 
@@ -207,7 +207,7 @@ namespace anonymous
             }
         }
 
-        public void createLUsq(ProfileSLAE Slae)  
+        public void createLUsq(Slae<ProfileMatrix> Slae)  
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
            
@@ -281,9 +281,9 @@ namespace anonymous
     }
     #endregion
     #region Разреженный формат(4)
-    class DispersePreconditioner : IPreconditioner<DisperseSLAE>
+    class DispersePreconditioner : IPreconditioner<DisperseMatrix>
     {
-        public void createDiag(DisperseSLAE Slae)
+        public void createDiag(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
 
@@ -300,17 +300,17 @@ namespace anonymous
             Slae.PMatrix = new DisperseMatrix(al, al, temp.DI, ia, ja, temp.N);
         }
 
-        public void createLLT(DisperseSLAE Slae)
+        public void createLLT(Slae<DisperseMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLU(DisperseSLAE Slae)
+        public void createLU(Slae<DisperseMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLUsq(DisperseSLAE Slae)
+        public void createLUsq(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
             

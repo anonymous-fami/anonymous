@@ -149,8 +149,7 @@ namespace anonymous
                 richTextBox1.Clear();
                 Data.richtextbox = richTextBox1;
 
-                Vector Initial;
-                ISolver solver;
+                Vector Initial;                
                 double eps;
 
                 eps = 1.0;
@@ -168,7 +167,7 @@ namespace anonymous
                         }
                     case 1: //Профильная
                         {
-                            ProfileSLAE SLAE = new ProfileSLAE();
+                            Slae<ProfileMatrix> SLAE = new Slae<ProfileMatrix>();
                             SLAE.Matrix = new ProfileMatrix(Data.matrixPath);
                             SLAE.RightPart = new Vector(Data.rightpartPath);
 
@@ -176,6 +175,8 @@ namespace anonymous
 
                             if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
                             else Initial = new Vector(Data.initialPath);
+
+                            ISolver<ProfileMatrix> solver;
 
                             switch (Data.preconditioner)
                             {
@@ -199,13 +200,9 @@ namespace anonymous
                                         break;
                                     }
                                 case 1: //Диагональный
-                                    {
-                                        /*
+                                    {                                        
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        IMatrix<ProfileMatrix> A;
-                                        preconditioner.createDiag(SLAE.Matrix, out A);
-                                        SLAE.PMatrix = A;
-                                        */
+                                        preconditioner.createDiag(SLAE);                                        
                                         break;
                                     }
                                 case 2: //LLT

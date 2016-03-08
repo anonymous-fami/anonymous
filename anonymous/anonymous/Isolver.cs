@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public interface ISolver
+    public interface ISolver<T>
     {
-        Vector Solve(ProfileSLAE SLAE, Vector Initial, int maxiter, double eps);
+        Vector Solve(Slae<T> SLAE, Vector Initial, int maxiter, double eps);
     }
 }

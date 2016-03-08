@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
-    public class ProfileSLAE
+    public class Slae<T>
     {
-        private IMatrix<ProfileMatrix> matrix;      //Матрица
-        private IMatrix<ProfileMatrix> pmatrix;     //Предобусловленная матрица
-        private Vector rightpart;                   //Правая часть матрицы
+        private IMatrix<T> matrix;     //Матрица
+        private IMatrix<T> pmatrix;    //Предобусловленная матрица
+        private Vector rightpart;      //Правая часть матрицы
 
-        public IMatrix<ProfileMatrix> Matrix
+        public IMatrix<T> Matrix
         {
             get { return matrix; }
             set { matrix = value; }
         }
 
-        public IMatrix<ProfileMatrix> PMatrix
+        public IMatrix<T> PMatrix
         {
             get { return pmatrix; }
             set { pmatrix = value; }

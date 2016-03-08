@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace anonymous
 {
-    public class MSG: ISolver
+    public class MSG: ISolver<ProfileMatrix>
     {
-        public Vector Solve(ProfileSLAE SLAE, Vector Initial, int maxiter, double eps)
+        public Vector Solve(Slae<ProfileMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             double iner_r, alpha, betta, residual;
             Vector Az;

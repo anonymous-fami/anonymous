@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace anonymous
 {
-    public class LOS: ISolver
+    public class LOS: ISolver<ProfileMatrix>
     {
-        public Vector Solve(ProfileSLAE SLAE, Vector Initial, int maxiter, double eps)
+        public Vector Solve(Slae<ProfileMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             double iner_p, alpha, betta, residual;
             Vector Ar;
