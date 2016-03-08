@@ -378,7 +378,14 @@ namespace anonymous
     {
         public void createDiag(Slae<DenseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
+            for (int i = 0; i < temp.N; i++)
+                for (int j = 0; j < i; j++)
+                {
+                    temp.PLOT[i, j] = 0;
+                    temp.PLOT[j, i] = 0;
+                }
+            Slae.PMatrix = new DenseMatrix(temp.PLOT, temp.N);
         }
 
         public void createLLT(Slae<DenseMatrix> Slae)
