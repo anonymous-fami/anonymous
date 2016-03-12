@@ -143,7 +143,8 @@ namespace anonymous
 
         private void solve_button_Click(object sender, EventArgs e)
         {
-            //Запуск решения       
+            //Запуск решения
+            /*       
             if (checkinput())
             {
                 richTextBox1.Clear();
@@ -224,6 +225,7 @@ namespace anonymous
 
                 //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
             }
+            */
 
             /*
             IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
@@ -325,6 +327,24 @@ namespace anonymous
             Vector tempX = A.DirectProgress(f);
             Vector x = A.ReverseProgress(tempX);  
             */
+
+            /*Плотная матрица*/
+
+            //LU-разложение
+            Data.preconditioner = 3;
+            int n = 3;
+            double[,] Plot = { { 1, 4, 5 }, { 4, 20, 32 }, { 5, 32, 70 } };
+
+            Slae<DenseMatrix> Slae = new Slae<DenseMatrix>();
+            Slae.Matrix = new DenseMatrix(Plot, n);
+
+            IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
+            preconditioner.createLU(Slae);
+
+            Vector f = new Vector(n, new double[3] { 24, 140, 279 });//x={1,2,3}
+            Vector tempX = Slae.PMatrix.getMatrix().DirectProgress(f);
+            Vector x = Slae.PMatrix.getMatrix().ReverseProgress(tempX);
+
         }
 
         private bool checkinput()
