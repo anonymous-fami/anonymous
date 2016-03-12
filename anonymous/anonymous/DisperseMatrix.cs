@@ -86,6 +86,59 @@ namespace anonymous
             return res;
         }
 
+        public Vector DirectProgress(Vector f)      //Ly=f
+        {
+            int i, j, k, kol_str;
+            double s;
+            double[] temp = new double[n];
+            k = 0;
+            for (i = 0; i < n; i++)
+            {
+                s = 0;
+                kol_str = ia[i + 1] - ia[i];
+                for (j = 0; j < kol_str; j++)
+                {
+                    s += al[k] * temp[ja[k]];
+                    k++;
+                }
+                if (Data.preconditioner == 3)
+                    temp[i] = (f.values[i] - s);
+                else
+                    if (di[i] == 0)
+                    throw new Exception("DirectProgress: Деление на ноль.");
+                else
+                    temp[i] = (f.values[i] - s) / di[i];
+            }
+            return new Vector(n, temp);
+        }
+
+        public Vector ReverseProgress(Vector y)     //Ux=y
+        {
+            double[] x = new double[n];
+            double[] temp = new double[n];
+            int i, j, k, kol_str;
+            for (i = 0; i < n; i++) temp[i] = y.values[i];
+            k = ia[n] - 1;
+            for (i = n - 1; i >= 0; i--)
+            {
+                if (di[i] == 0)
+                    throw new Exception("ReverseProgress: Деление на ноль.");
+                else
+                    x[i] = temp[i] / di[i];
+                kol_str = ia[i + 1] - ia[i];
+                for (j = 0; j < kol_str; j++)
+                {
+                    temp[ja[k]] -= au[k] * x[i];
+                    k--;
+                }
+            }
+            if (di[0] == 0)
+                throw new Exception("ReverseProgress: Деление на ноль.");
+            else
+                x[0] = temp[0] / di[0];
+            return new Vector(n, x);
+        }
+
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
             double res;
@@ -160,59 +213,6 @@ namespace anonymous
         {
             get { return n; }
             set { n = value; }
-        }
-
-        public Vector DirectProgress(Vector f)      //Ly=f
-        {
-            int i, j, k, kol_str;
-            double s;
-            double[] temp = new double[n];
-            k = 0;
-            for (i = 0; i < n; i++)
-            {
-                s = 0;
-                kol_str = ia[i + 1] - ia[i];
-                for (j = 0; j < kol_str; j++)
-                {
-                    s += al[k] * temp[ja[k]];
-                    k++;
-                }
-                if (Data.preconditioner == 3)
-                    temp[i] = (f.values[i] - s);
-                else
-                    if (di[i] == 0)
-                        throw new Exception("DirectProgress: Деление на ноль.");
-                    else
-                        temp[i] = (f.values[i] - s) / di[i];
-            }
-            return new Vector(n, temp);
-        }
-
-        public Vector ReverseProgress(Vector y)     //Ux=y
-        {
-            double[] x = new double[n];
-            double[] temp = new double[n];
-            int i, j, k, kol_str;
-            for (i = 0; i < n; i++) temp[i] = y.values[i];
-            k = ia[n] - 1;
-            for (i = n - 1; i >= 0; i--)
-            {
-                if (di[i] == 0)
-                    throw new Exception("ReverseProgress: Деление на ноль.");
-                else
-                    x[i] = temp[i] / di[i];
-                kol_str = ia[i + 1] - ia[i];
-                for (j = 0; j < kol_str; j++)
-                {
-                    temp[ja[k]] -= au[k] * x[i];
-                    k--;
-                }
-            }
-            if (di[0] == 0)
-                throw new Exception("ReverseProgress: Деление на ноль.");
-            else
-                x[0] = temp[0] / di[0];
-            return new Vector(n, x);
         }
 
     }

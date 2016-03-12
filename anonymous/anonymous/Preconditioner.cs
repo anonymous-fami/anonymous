@@ -142,13 +142,12 @@ namespace anonymous
             */
             #endregion
         }
-        
+
         public void createLU(Slae<ProfileMatrix> Slae)
         {
             int i, j, ii, k, jbeg, jend, beg, end, j0, i0, ial, iau;
-            double tl, tu, tdi; 
+            double tl, tu, tdi;
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
-
             //обработка исключений
             try
             {
@@ -157,7 +156,6 @@ namespace anonymous
                     if (x == 0)
                         throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                 }
-
                 for (i = 1; i < temp.N; i++)     //пробегаем все строки матрицы
                 {
                     tdi = 0;
@@ -170,14 +168,10 @@ namespace anonymous
                         if (jbeg < jend)        //если в j-ом столбце есть элементы
                         {
                             i0 = j - jend + jbeg;//индекс первого ненулевого элемента в столбце j
-                            if (i0 < j0)//находим с какого элемента умножение строки на cтолбец
-                                beg = j0;//даст ненулевой результат
-                            else
-                                beg = i0;
-                            if (j < i - 1)  //находим по какой элемент
-                                end = j;
-                            else
-                                end = i - 1;
+                            if (i0 < j0) beg = j0; //находим с какого элемента умножение строки на cтолбец даст ненулевой результат
+                            else beg = i0;
+                            if (j < i - 1) end = j; //находим по какой элемент
+                            else end = i - 1;
                             tl = 0;
                             tu = 0;
                             for (k = 0; k < end - beg; k++) //вычисляем сумму в формуле для Lij
@@ -209,12 +203,9 @@ namespace anonymous
 
         public void createLUsq(Slae<ProfileMatrix> Slae)  
         {
-            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
-           
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());           
             int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
-            double sumDiag, sumL, sumU;
-
-            
+            double sumDiag, sumL, sumU;         
             //обработка исключений
             try
             {
@@ -222,9 +213,7 @@ namespace anonymous
                 {
                     if (x==0)
                     throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
-                
-                //LU(sq)
+                }               
                 for (i = 0; i < temp.N; i++)
                 {
                     i0 = temp.IA[i];
@@ -236,30 +225,24 @@ namespace anonymous
                     {
                         sumL = 0;
                         sumU = 0;
-
                         j0 = temp.IA[j];
                         j1 = temp.IA[j + 1];
-
                         mi = i0;
                         mj = j0;
-
                         kol_i = ind - i0;
                         kol_j = j1 - j0;
                         kol_r = kol_i - kol_j;
                         if (kol_r < 0) mj -= kol_r;
                         else mi += kol_r;
-
                         for (; mi < ind; ++mi, ++mj)
                         {
                             sumL += temp.AL[mi] * temp.AU[mj];
                             sumU += temp.AU[mi] * temp.AL[mj];
                         }
-
                         temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[j];
                         temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[j];
                         sumDiag += temp.AL[ind] * temp.AU[ind];
                     }
-
                     //необходимо добавить какой-нибудь экспешн.
                     if ((temp.DI[i] - sumDiag)<0)
                     {
@@ -286,10 +269,8 @@ namespace anonymous
         public void createDiag(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
-
             int[] ia = new int[temp.N + 1];
             int[] ja = new int[temp.N + 1];
-
             for (int i = 0; i < temp.N + 1; i++)
             {
                 ia[i] = 0;  // подразумевает что ia[0] начинается  с 0, как и во всем проекте.
@@ -390,25 +371,95 @@ namespace anonymous
     }
     #endregion
     #region Ленточный формат(2)
+
     #endregion
     #region Плотный формат(0)
+    class DensePreconditioner : IPreconditioner<DenseMatrix>
+    {
+        public void createDiag(Slae<DenseMatrix> Slae)
+        {
+            DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
+            for (int i = 0; i < temp.N; i++)
+                for (int j = 0; j < i; j++)
+                {
+                    temp.PLOT[i, j] = 0;
+                    temp.PLOT[j, i] = 0;
+                }
+            Slae.PMatrix = new DenseMatrix(temp.PLOT, temp.N);
+        }
 
+        public void createLLT(Slae<DenseMatrix> Slae)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public void Create(PlotMatrix matrix, out PlotMatrix out_m)
-    //    {
-    //       
-    //        out_m = new PlotMatrix(matrix.N, matrix.M);
-    //        out_m.setmatrix(matrix);
+        public void createLU(Slae<DenseMatrix> Slae)
+        {
+            DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
+            double td, tl, tu;
+            int i, k, j;
+            try
+            {
+                for (i=0;i<temp.N;i++)
+                {
+                    if (temp.PLOT[i,i] == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                for (i = 0; i < temp.N; i++) //проходим по всем строкам
+                {
+                    td = 0;
+                    for (j = 0; j < i; j++) //проходим по всем столбцам
+                    {
+                        tl = 0;
+                        tu = 0;
+                        for (k = 0; k < j; k++)
+                        {
+                            tl += temp.PLOT[k, j] * temp.PLOT[i, k];
+                            tu += temp.PLOT[j, k] * temp.PLOT[k, i];
+                        }
+                        temp.PLOT[i, j] = (temp.PLOT[i, j] - tl) / temp.PLOT[j, j];
+                        temp.PLOT[j, i] = (temp.PLOT[j, i] - tu);
+                        td += temp.PLOT[i, j] * temp.PLOT[j, i];
+                    }
+                    temp.PLOT[i, i] -= td;
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+            }
+        }
 
-    //        int i, j;
-    //        for (i=0; i<out_m.N; i++)
-    //            for (j = 0; j < out_m.M; j++)
-    //            {
-    //                if (i != j)
-    //                    out_m.Mas[i, j] = 0;
-    //            }
-    //       
-    //    }
-    //}
+        public void createLUsq(Slae<DenseMatrix> Slae)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
+    #region Диагональный формат(3)
+    class DiagonalPreconditioner : IPreconditioner<DiagonalMatrix>
+    {
+        public void createDiag(Slae<DiagonalMatrix> Slae)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void createLLT(Slae<DiagonalMatrix> Slae)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void createLU(Slae<DiagonalMatrix> Slae)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void createLUsq(Slae<DiagonalMatrix> Slae)
+        {
+            throw new NotImplementedException();
+        }
+    }
     #endregion
 }
