@@ -149,7 +149,8 @@ namespace anonymous
                 richTextBox1.Clear();
                 Data.richtextbox = richTextBox1;
 
-                Vector Initial;                
+                Vector Initial;
+                ISolver solver;
                 double eps;
 
                 eps = 1.0;
@@ -163,6 +164,53 @@ namespace anonymous
                 {
                     case 0: //Плотная
                         {
+                            Slae<DenseMatrix> SLAE = new Slae<DenseMatrix>();
+                            SLAE.Matrix = new DenseMatrix(Data.matrixPath);
+                            SLAE.RightPart = new Vector(Data.rightpartPath);
+
+                            if (SLAE.Matrix.getMatrix().N == 0) break;
+
+                            if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
+                            else Initial = new Vector(Data.initialPath);
+
+                            switch (Data.preconditioner)
+                            {
+                                case 0: //Нет предобуславливателя
+                                    {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case 1: //Диагональный
+                                    {
+                                        break;
+                                    }
+                                case 2: //LLT
+                                    {
+                                        break;
+                                    }
+                                case 3: //LU
+                                    {
+                                        break;
+                                    }
+                                case 4: //LUsq
+                                    {
+                                        break;
+                                    }
+                            }
                             break;
                         }
                     case 1: //Профильная
@@ -174,9 +222,7 @@ namespace anonymous
                             if (SLAE.Matrix.getMatrix().N == 0) break;
 
                             if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
-                            else Initial = new Vector(Data.initialPath);
-
-                            ISolver<ProfileMatrix> solver;
+                            else Initial = new Vector(Data.initialPath);                            
 
                             switch (Data.preconditioner)
                             {
@@ -203,6 +249,112 @@ namespace anonymous
                                     {                                        
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
                                         preconditioner.createDiag(SLAE);                                        
+                                        break;
+                                    }
+                                case 2: //LLT
+                                    {
+                                        break;
+                                    }
+                                case 3: //LU
+                                    {
+                                        break;
+                                    }
+                                case 4: //LUsq
+                                    {
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    case 2: //Ленточная
+                        {
+                            break;
+                        }
+                    case 3: //Диагональная
+                        {
+                            Slae<DiagonalMatrix> SLAE = new Slae<DiagonalMatrix>();
+                            SLAE.Matrix = new DiagonalMatrix(Data.matrixPath);
+                            SLAE.RightPart = new Vector(Data.rightpartPath);
+
+                            if (SLAE.Matrix.getMatrix().N == 0) break;
+
+                            if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
+                            else Initial = new Vector(Data.initialPath);
+
+                            switch (Data.preconditioner)
+                            {
+                                case 0: //Нет предобуславливателя
+                                    {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case 1: //Диагональный
+                                    {
+                                        break;
+                                    }
+                                case 2: //LLT
+                                    {
+                                        break;
+                                    }
+                                case 3: //LU
+                                    {
+                                        break;
+                                    }
+                                case 4: //LUsq
+                                    {
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    case 4: //Разреженая
+                        {
+                            Slae<DisperseMatrix> SLAE = new Slae<DisperseMatrix>();
+                            SLAE.Matrix = new DisperseMatrix(Data.matrixPath);
+                            SLAE.RightPart = new Vector(Data.rightpartPath);
+
+                            if (SLAE.Matrix.getMatrix().N == 0) break;
+
+                            if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
+                            else Initial = new Vector(Data.initialPath);
+
+                            switch (Data.preconditioner)
+                            {
+                                case 0: //Нет предобуславливателя
+                                    {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case 1: //Диагональный
+                                    {
                                         break;
                                     }
                                 case 2: //LLT
