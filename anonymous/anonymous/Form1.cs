@@ -477,7 +477,7 @@ namespace anonymous
             Vector tempX = A.DirectProgress(f);
             Vector x = A.ReverseProgress(tempX);  
             */
-    }
+        }
 
         private bool checkinput()
         {
