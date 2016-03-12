@@ -55,7 +55,7 @@ namespace anonymous
                 initial_label.Enabled = true;
                 initial_textBox.Enabled = true;
                 initial_checkBox.Enabled = true;              
-        }
+            }
             else
             {
                 initial_button.Enabled = false;
@@ -72,7 +72,7 @@ namespace anonymous
             if (initial_checkBox.Checked)
             {
                 initial_button.Enabled = false;
-        }
+            }
             else
             {
                 initial_button.Enabled = true;
@@ -91,41 +91,41 @@ namespace anonymous
                 matrix_textBox.Text = OFD.FileName;   //Путь файла с матрицей
 
                 Data.matrixPath = matrix_textBox.Text;
+            }
         }
-    }
 
         private void rightpart_button_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
             if (OFD.ShowDialog() == DialogResult.OK)
-    {
+            {
                 rightpart_textBox.Text = OFD.FileName;   //Путь файла правой части
 
                 Data.rightpartPath = rightpart_textBox.Text;
-    }
+            }
         }
 
         private void initial_button_Click(object sender, EventArgs e)
-    {
+        {
             OpenFileDialog OFD = new OpenFileDialog();
 
             OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             OFD.RestoreDirectory = true;
 
             if (OFD.ShowDialog() == DialogResult.OK)
-    {
+            {
                 initial_textBox.Text = OFD.FileName;   //Путь файла с начальным приближением
 
                 Data.initialPath = initial_textBox.Text;
-    }
+            }
         }
 
         private void save_button_Click(object sender, EventArgs e)
-    {
+        {
             SaveFileDialog SFD = new SaveFileDialog();
 
             SFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -134,7 +134,7 @@ namespace anonymous
             if (Data.result != null)
             {
                 if (SFD.ShowDialog() == DialogResult.OK) InputOutput.OutputVector(SFD.FileName, Data.result);
-    }
+            }
             else
             {
                 MessageBox.Show("Кажется что-то пошло не так.\nВ векторе ответа нет данных. :(", "Опаньки...", MessageBoxButtons.OK);
@@ -142,7 +142,7 @@ namespace anonymous
         }
 
         private void solve_button_Click(object sender, EventArgs e)
-    {
+        {
             //Запуск решения       
             if (checkinput())
             {
@@ -158,10 +158,10 @@ namespace anonymous
                 for (int i = 0; i < eps_numericUpDown.Value; i++)
                 {
                     eps /= 10.0;
-    }
+                }
 
                 switch (Data.matrixformat)
-    {
+                {
                     case 0: //Плотная
                         {
                             Slae<DenseMatrix> SLAE = new Slae<DenseMatrix>();
@@ -174,7 +174,7 @@ namespace anonymous
                             else Initial = new Vector(Data.initialPath);
 
                             switch (Data.preconditioner)
-        {
+                            {
                                 case 0: //Нет предобуславливателя
                                     {
                                         switch (Data.solver)
@@ -184,7 +184,7 @@ namespace anonymous
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-        }
+                                        }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -225,7 +225,7 @@ namespace anonymous
                             else Initial = new Vector(Data.initialPath);                            
 
                             switch (Data.preconditioner)
-        {
+                            {
                                 case 0: //Нет предобуславливателя
                                     {
                                         switch (Data.solver)
@@ -235,7 +235,7 @@ namespace anonymous
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-        }
+                                                }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -294,33 +294,33 @@ namespace anonymous
                                                     break;
                                                 }
                                             case 1: //ЛОС
-        {
+                                                {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }
                                         break;
-        }
+                                    }
                                 case 1: //Диагональный
                                     {
                                         break;
-    }
+                                    }
                                 case 2: //LLT
-    {
+                                    {
                                         break;
                                     }
                                 case 3: //LU
-        {
+                                    {
                                         break;
-        }
+                                    }
                                 case 4: //LUsq
-        {
+                                    {
                                         break;
                                     }
                             }
                             break;
-        }
+                        }
                     case 4: //Разреженая
                         {
                             Slae<DisperseMatrix> SLAE = new Slae<DisperseMatrix>();
@@ -339,43 +339,43 @@ namespace anonymous
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
-        {
+                                                {
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-        }
+                                                }
                                             case 1: //ЛОС
-        {
+                                                {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }
                                         break;
-        }
+                                    }
                                 case 1: //Диагональный
-        {
+                                    {
                                         break;
-        }
+                                    }
                                 case 2: //LLT
                                     {
                                         break;
-    }
+                                    }
                                 case 3: //LU
-    {
+                                    {
                                         break;
                                     }
                                 case 4: //LUsq
-        {
+                                    {
                                         break;
                                     }
                             }
                             break;
                         }
-        }
+                }
 
                 //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
-        }
+            }
 
             /*
             IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
@@ -480,25 +480,25 @@ namespace anonymous
     }
 
         private bool checkinput()
-    {
-            if (Data.matrixPath == null)
         {
+            if (Data.matrixPath == null)
+            {
                 MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с матрицей на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
                 tabControl1.SelectedIndex = 0;
                 return false;
-        }
+            }
 
             if ((Data.solver == 0) || (Data.solver == 1))
             {
                 if (Data.rightpartPath == null)
-        {
+                {
                     MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с вектором правой части на вкладке \"Матрица\".", "Опаньки...", MessageBoxButtons.OK);
                     tabControl1.SelectedIndex = 0;
                     return false;
-        }
+                }
 
                 if ((Data.initialPath == null) && (initial_checkBox.Checked == false))
-        {
+                {
                     MessageBox.Show("Кажется вы забыли ввести данные.\nЗадайте файл с начальным приближением, или отметьте пункт \"Нулевое начальное приближение\" на вкладке \"Решатель\".", "Опаньки...", MessageBoxButtons.OK);
                     tabControl1.SelectedIndex = 1;
                     return false;
@@ -506,10 +506,10 @@ namespace anonymous
             }
             return true;
         }
-        }
+    }
 
     public static class Data
-        {
+    {
         public static int matrixformat;         //Выбранный формат матрицы
         public static string matrixPath;        //Путь файла с матрицей
         public static string rightpartPath;     //Путь файла с вектором правой части
@@ -518,7 +518,7 @@ namespace anonymous
         public static int solver;               //Выбранный решатель
         public static Vector result;            //Вектор с ответом
         public static RichTextBox richtextbox;  
-        }
+    }
     
     /*
     interface IIterationLogger
