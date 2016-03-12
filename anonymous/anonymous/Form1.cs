@@ -20,22 +20,21 @@ namespace anonymous
             comboBox1.SelectedItem = comboBox1.Items[0];
 
             int n, m;
-            int[] ig;
-            double[] gg,gl;
-            double[] daig;
+            int[] ia,ja;
+            double[] au,al;
+            double[] diag;
             bool t, tt;
-            InputOutput.InputMatrix( out n,"test.txt",out ig, out gg,out gl,out daig);
+            int[] ig;
+            double[,] gl, gu;
 
+            InputOutput.InputMatrix("матрица.txt", out  n, out m, out ig, out gl, out gu, out diag);
 
-
-
-            InputOutput.InputMatrix_res(out n, "test.txt", out ig, out gg, out gl, out daig);
 
             //string[] TT = new string[] { "ffsssssfffsffssfsfssffsss" };
 
-            //TT[0] = TT[0].Replace("ss", "s");
+        //TT[0] = TT[0].Replace("ss", "s");
 
-            n = 10;
+        n = 10;
 
             /////////////////////////
             //IMatrix A = new Matrix();
