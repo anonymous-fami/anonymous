@@ -100,12 +100,8 @@ namespace anonymous
                 else
                     x[i] = temp[i] / Plot[i, i];
                 for (j = i; j >= 0; j--)
-                    temp[j] -= Plot[i, j] * x[i];
+                    temp[j] -= Plot[j, i] * x[i];
             }
-            if (Plot[i, i] == 0)
-                throw new Exception("ReverseProgress: Деление на ноль.");
-            else
-                x[0] = temp[0] / Plot[i, i];
             return new Vector(n, x);
         }
 

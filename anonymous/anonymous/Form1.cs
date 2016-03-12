@@ -333,7 +333,8 @@ namespace anonymous
             //LU-разложение
             Data.preconditioner = 3;
             int n = 3;
-            double[,] Plot = { { 1, 4, 5 }, { 4, 20, 32 }, { 5, 32, 70 } };
+            //double[,] Plot = { { 1, 4, 5 }, { 4, 20, 32 }, { 5, 32, 70 } };
+            double[,] Plot = { { 1, 0, 4 }, { 0, 20, 5 }, { 4, 5, 70 } };
 
             Slae<DenseMatrix> Slae = new Slae<DenseMatrix>();
             Slae.Matrix = new DenseMatrix(Plot, n);
@@ -341,7 +342,8 @@ namespace anonymous
             IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
             preconditioner.createLU(Slae);
 
-            Vector f = new Vector(n, new double[3] { 24, 140, 279 });//x={1,2,3}
+            //Vector f = new Vector(n, new double[3] { 24, 140, 279 });//x={1,2,3}
+            Vector f = new Vector(n, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = Slae.PMatrix.getMatrix().DirectProgress(f);
             Vector x = Slae.PMatrix.getMatrix().ReverseProgress(tempX);
 
