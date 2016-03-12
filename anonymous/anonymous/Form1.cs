@@ -144,7 +144,7 @@ namespace anonymous
         private void solve_button_Click(object sender, EventArgs e)
         {
             //Запуск решения
-            /*       
+                   
             if (checkinput())
             {
                 richTextBox1.Clear();
@@ -377,7 +377,7 @@ namespace anonymous
 
                 //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
             }
-            */
+            
 
             /*
             IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
@@ -482,6 +482,7 @@ namespace anonymous
 
             /*Плотная матрица*/
 
+            /*
             //LU-разложение
             Data.preconditioner = 3;
             int n = 3;
@@ -498,7 +499,7 @@ namespace anonymous
             Vector f = new Vector(n, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = Slae.PMatrix.getMatrix().DirectProgress(f);
             Vector x = Slae.PMatrix.getMatrix().ReverseProgress(tempX);
-
+            */
         }
 
         private bool checkinput()
