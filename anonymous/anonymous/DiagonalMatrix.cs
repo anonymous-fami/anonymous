@@ -88,6 +88,16 @@ namespace anonymous
             return res;
         }
 
+        public Vector DirectProgress(Vector f)      //Ly=f
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector ReverseProgress(Vector y)     //Ux=y
+        {
+            throw new NotImplementedException();
+        }
+
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
             double res;

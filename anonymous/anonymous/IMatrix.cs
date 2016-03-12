@@ -14,6 +14,8 @@ namespace anonymous
         double abs_discrepancy(Vector x, Vector F);//абсолютная невязка
         double rel_discrepancy(Vector x, Vector F);//относительная невязка
         void setMatrix(Type matrix);
+        Vector DirectProgress(Vector f);
+        Vector ReverseProgress(Vector f);
         Type getMatrix();
     }   
 }
