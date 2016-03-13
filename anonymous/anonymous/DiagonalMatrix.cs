@@ -89,6 +89,47 @@ namespace anonymous
         }
 
 
+        public Vector DirectProgress(Vector f)      //Ly=f
+        {
+            double[] tmp = new double[n];
+            double[] res = new double[n];
+            for (int i = 0; i < n; i++)
+                tmp[i] = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                res[i] = (f.values[i] - tmp[i]) / di[i];
+                for (int j = 0; j < nd; j++)
+                {
+                    tmp[ia[j] + i] += f.values[i] * al[j][i];
+                }
+
+            }
+            return new Vector(n,res);
+        }
+
+        public Vector ReverseProgress(Vector y)     //Ux=y
+        {
+           
+            double[] tmp = new double[n];
+            double[] res = new double[n];
+            for (int i = 0; i < n; i++)
+                tmp[i] = 0;
+
+            for (int i = n - 2; i >= 0; i--)
+            {
+               res[i + 1] = (y.values[i + 1] - tmp[i + 1]);
+                for (int j = nd - 1; j >= 0; j--)
+                {
+                    tmp[i] += y.values[i + 1] * au[j][i];
+                }
+
+
+            }
+            res[0] = (y.values[0] - tmp[0]);
+            return new Vector(n, res);
+        }
+
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
         {
