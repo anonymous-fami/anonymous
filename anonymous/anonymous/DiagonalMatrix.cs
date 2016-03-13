@@ -17,7 +17,7 @@ namespace anonymous
         private int nd;//число ненулевых побочных диагоналей
 
         public DiagonalMatrix(string FilePath) //Конструктор, считывает данные из файла
-        {           
+        {
             if (!InputOutput.InputMatrix(FilePath, out this.n, out this.nd, out this.ia, out this.al, out this.au, out this.di))
                 MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
         }
@@ -170,13 +170,13 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-            }
+        }
 
         public double[,] AU
-            {
+        {
             get { return au; }
             set { au = value; }
-            }
+        }
 
         public double[] DI
         {
