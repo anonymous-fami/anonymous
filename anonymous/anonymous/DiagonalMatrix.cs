@@ -17,8 +17,7 @@ namespace anonymous
         private int nd;//число ненулевых побочных диагоналей
 
         public DiagonalMatrix(string FilePath) //Конструктор, считывает данные из файла
-        {
-            //Ввод диагональной матрицы не готов.            
+        {           
             if (!InputOutput.InputMatrix(FilePath, out this.n, out this.nd, out this.ia, out this.al, out this.au, out this.di))
                 MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
         }
@@ -51,6 +50,8 @@ namespace anonymous
             this.di = new double[this.n];
             Array.Copy(Original.di, this.di, this.n);
         }
+
+
 
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
@@ -86,6 +87,43 @@ namespace anonymous
                     res.values[j] += al[i,j] * x.values[ir];
                 }
             return res;
+        }
+
+        public Vector DirectProgress(Vector f)      //Ly=f
+        {
+            double[] tmp = new double[n];
+            double[] res = new double[n];
+            for (int i = 0; i < n; i++)
+                tmp[i] = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                res[i] = (f.values[i] - tmp[i]) / di[i];
+                for (int j = 0; j < nd; j++)
+                {
+                    tmp[ia[j] + i] += f.values[i] * al[j,i];
+                }
+            }
+            return new Vector(n,res);
+        }
+
+        public Vector ReverseProgress(Vector y)     //Ux=y
+        {           
+            double[] tmp = new double[n];
+            double[] res = new double[n];
+            for (int i = 0; i < n; i++)
+                tmp[i] = 0;
+
+            for (int i = n - 2; i >= 0; i--)
+            {
+               res[i + 1] = (y.values[i + 1] - tmp[i + 1]);
+                for (int j = nd - 1; j >= 0; j--)
+                {
+                    tmp[i] += y.values[i + 1] * au[j,i];
+                }
+            }
+            res[0] = (y.values[0] - tmp[0]);
+            return new Vector(n, res);
         }
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка
@@ -132,13 +170,13 @@ namespace anonymous
         {
             get { return al; }
             set { al = value; }
-        }
+            }
 
         public double[,] AU
-        {
+            {
             get { return au; }
             set { au = value; }
-        }
+            }
 
         public double[] DI
         {
