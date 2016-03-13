@@ -402,22 +402,9 @@ namespace anonymous
                 n = Int32.Parse(lines[0]);
                 m = Int32.Parse(lines[1]);
                 int k = (m - 1) / 2;
-                au = new double[n, k];
                 int numberLine = 2;
-                for (int i = 0; i < n; i++,numberLine++)
-                {
-                    lines[numberLine] = lines[numberLine].Trim();
-                    lines[numberLine] = lines[numberLine].Replace('\t', ' ');
-                    lines[numberLine] = lines[numberLine].Replace("  ", " ");
-                    lines[numberLine] = lines[numberLine].Replace('.', ',');
-                    double[] row = lines[numberLine].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
-                    for(int j=0;j<k;j++)
-                    {
-                        au[i,j] = row[j];
-                    }
-                }
-                al = new double[n, k];
 
+                al = new double[n, k];
                 for (int i = 0; i < n; i++, numberLine++)
                 {
                     lines[numberLine] = lines[numberLine].Trim();
@@ -430,6 +417,20 @@ namespace anonymous
                         al[i, j] = row[j];
                     }
                 }
+
+                au = new double[n, k];                
+                for (int i = 0; i < n; i++,numberLine++)
+                {
+                    lines[numberLine] = lines[numberLine].Trim();
+                    lines[numberLine] = lines[numberLine].Replace('\t', ' ');
+                    lines[numberLine] = lines[numberLine].Replace("  ", " ");
+                    lines[numberLine] = lines[numberLine].Replace('.', ',');
+                    double[] row = lines[numberLine].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
+                    for(int j=0;j<k;j++)
+                    {
+                        au[i,j] = row[j];
+                    }
+                }                
 
                 diag = new double[n];
                 lines[numberLine] = lines[numberLine].Trim();

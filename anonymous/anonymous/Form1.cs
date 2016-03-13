@@ -529,6 +529,12 @@ namespace anonymous
             }
             return true;
         }
+
+        private void Form1_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            HelpForm Help = new HelpForm();
+            Help.Show();
+        }
     }
 
     public static class Data

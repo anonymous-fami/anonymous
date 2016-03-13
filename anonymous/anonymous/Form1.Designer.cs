@@ -393,6 +393,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Решатель 2000";
+            this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.Form1_HelpRequested);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
