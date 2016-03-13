@@ -249,19 +249,85 @@ namespace anonymous
                                 case 1: //Диагональный
                                     {                                        
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        preconditioner.createDiag(SLAE);                                        
+                                        preconditioner.createDiag(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    //solver = new LOS();
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 2: //LLT
                                     {
+                                        IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+                                        preconditioner.createLLT(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    //solver = new LOS();
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 3: //LU
                                     {
+                                        IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+                                        preconditioner.createLU(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    //solver = new MSG();
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 4: //LUsq
                                     {
+                                        IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+                                        preconditioner.createLUsq(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    //solver = new MSG();
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                             }
