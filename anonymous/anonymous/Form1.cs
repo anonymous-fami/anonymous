@@ -328,8 +328,10 @@ namespace anonymous
             Vector x = A.ReverseProgress(tempX);  
             */
 
-            /*Плотная матрица*/
 
+
+            /*Плотная матрица*/
+            /*
             //LU-разложение
             Data.preconditioner = 3;
             int n = 3;
@@ -346,6 +348,18 @@ namespace anonymous
             Vector f = new Vector(n, new double[3] { 13, 55, 224 });//x={1,2,3}
             Vector tempX = Slae.PMatrix.getMatrix().DirectProgress(f);
             Vector x = Slae.PMatrix.getMatrix().ReverseProgress(tempX);
+            */
+
+            // double[] au = { 7, 8, 50 };
+            double[] au = { 4, 5, 47 };
+            double[] al = { 4, 5, 47 };
+            int[] ia = { 0, 0, 1, 3 };
+            double[] di = { 1, 32, 103 };
+            int n = 3;
+            Slae<ProfileMatrix> Slae = new Slae<ProfileMatrix>();
+            Slae.Matrix = new ProfileMatrix(au, al,di,ia,n);
+            IPreconditioner<ProfileMatrix> precond = new ProfilePreconditioner();
+            bool a= precond.createLLT(Slae);
 
         }
 
