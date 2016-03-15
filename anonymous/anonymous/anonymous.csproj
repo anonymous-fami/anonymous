@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BSGstab.cs" />
     <Compile Include="DenseMatrix.cs" />
     <Compile Include="DiagonalMatrix.cs" />
     <Compile Include="DisperseMatrix.cs" />

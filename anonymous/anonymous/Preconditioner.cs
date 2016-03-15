@@ -283,18 +283,54 @@ namespace anonymous
 
         public void createLLT(Slae<DisperseMatrix> Slae)
         {
+
             throw new NotImplementedException();
         }
 
         public void createLU(Slae<DisperseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            int i, j, p, m, k = 0;
+            double s = 0;
+            DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
+            //обработка исключений
+            try
+            {
+                foreach (double x in temp.DI)
+                {
+                    if (x == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                for (i = 0; i < temp.N; i++)
+                {
+                    for (j = 0; j < temp.IA[i + 1] - temp.IA[i]; j++, k++)
+                    {
+                        for (m = j, s = 0, p = temp.IA[temp.JA[k]]; m > 0 && p < temp.IA[temp.JA[k] + 1]; )
+                            if (temp.JA[p] == temp.JA[k - m])
+                                s += temp.AL[k - m] * temp.AU[p++];
+                            else
+                                if (temp.JA[p] > temp.JA[k - m]) k--;
+                                else p++;
+                        temp.AL[k] = (temp.AL[k] - s) / temp.DI[temp.JA[k]];
+                        temp.AU[k] -= s;
+                    }
+                    for (m = k - j, s = 0; m < k; m++)
+                        s += temp.AL[m] * temp.AU[m];
+                    temp.DI[i] = temp.DI[i] - s;
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+
+            }
         }
 
         public void createLUsq(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
-            
+
             //int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
 
             double sumDiag, sumL, sumU;
@@ -348,7 +384,7 @@ namespace anonymous
                         sumDiag += temp.AL[ind] * temp.AU[ind];
                     }
 
-                    //необходимо добавить какой-нибудь экспешн.
+
                     if ((temp.DI[k1] - sumDiag) < 0)
                     {
                         throw new Exception("Извлечение корня из отрицательного числа.");
@@ -364,7 +400,9 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
+             
             }
+            
 
 
         }

@@ -32,7 +32,7 @@ namespace anonymous
             preconditioner_comboBox.SelectedItem = preconditioner_comboBox.Items[0];
 
             //Решатель
-            string[] solver = { "МСГ", "ЛОС" ,"$$$"};
+            string[] solver = { "МСГ", "ЛОС" ,"БСГ стаблилизированный"};
             solver_comboBox.Items.AddRange(solver);
             solver_comboBox.SelectedItem = solver_comboBox.Items[0];
         }
@@ -49,7 +49,7 @@ namespace anonymous
 
         private void solver_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1))
+            if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1) || (solver_comboBox.SelectedIndex == 2))
             {
                 if (!initial_checkBox.Checked) initial_button.Enabled = true;
                 initial_label.Enabled = true;
@@ -185,7 +185,34 @@ namespace anonymous
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2: //БСГ
+                                                {
+                                                    solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
+                                        break;
+                                    }
+                                case 1: //Диагональный
+                                    {
+                                        IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
+                                        preconditioner.createDiag(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -195,20 +222,68 @@ namespace anonymous
                                         }
                                         break;
                                     }
-                                case 1: //Диагональный
-                                    {
-                                        break;
-                                    }
                                 case 2: //LLT
                                     {
-                                        break;
+                                        IPreconditioner < DenseMatrix > preconditioner = new DensePreconditioner();
+                                        preconditioner.createLLT(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
+                                                break;
                                     }
                                 case 3: //LU
                                     {
+                                        IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
+                                        preconditioner.createLU(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 4: //LUsq
                                     {
+
+                                        IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
+                                        preconditioner.createLUsq(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                             }
@@ -243,6 +318,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2: //БСГ
+                                                {
+                                                    solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -260,8 +341,8 @@ namespace anonymous
                                                 }
                                             case 1: //ЛОС
                                                 {
-                                                    //solver = new LOS();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }
@@ -281,8 +362,8 @@ namespace anonymous
                                                 }
                                             case 1: //ЛОС
                                                 {
-                                                    //solver = new LOS();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }
@@ -296,8 +377,8 @@ namespace anonymous
                                         {
                                             case 0: //МСГ
                                                 {
-                                                    //solver = new MSG();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
@@ -317,8 +398,8 @@ namespace anonymous
                                         {
                                             case 0: //МСГ
                                                 {
-                                                    //solver = new MSG();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
@@ -366,23 +447,89 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2: //БСГ
+                                                {
+                                                    solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
                                 case 1: //Диагональный
                                     {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 2: //LLT
                                     {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 3: //LU
                                     {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 4: //LUsq
                                     {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                             }
@@ -417,23 +564,97 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2: //БСГ
+                                                {
+                                                    solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
                                 case 1: //Диагональный
                                     {
+                                        IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
+                                        preconditioner.createDiag(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 2: //LLT
                                     {
+                                        IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
+                                        preconditioner.createLLT(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 3: //LU
                                     {
+                                        IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
+                                        preconditioner.createLU(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 4: //LUsq
                                     {
+                                        IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
+                                        preconditioner.createLUsq(SLAE);
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                             }
@@ -577,7 +798,7 @@ namespace anonymous
                 return false;
             }
 
-            if ((Data.solver == 0) || (Data.solver == 1))
+            if ((Data.solver == 0) || (Data.solver == 1) || (Data.solver == 2))
             {
                 if (Data.rightpartPath == null)
                 {
@@ -600,6 +821,11 @@ namespace anonymous
         {
             HelpForm Help = new HelpForm();
             Help.Show();
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
