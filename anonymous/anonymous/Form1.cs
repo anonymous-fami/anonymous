@@ -350,16 +350,42 @@ namespace anonymous
             Vector x = Slae.PMatrix.getMatrix().ReverseProgress(tempX);
             */
 
-            // double[] au = { 7, 8, 50 };
-            double[] au = { 4, 5, 47 };
+            //// double[] au = { 7, 8, 50 };
+            //double[] au = { 4, 5, 47 };
+            //double[] al = { 4, 5, 47 };
+            //int[] ia = { 0, 0, 1, 3 };
+            //double[] di = { 1, 32, 103 };
+            //int n = 3;
+
+
+            //матрица для проверки LUsq
+
+
+            //double[] au = { 3, 10, 21, 24, 48, 27, 54, 63 };
+            //double[] al = { 2, 8, 18, 21, 49, 24, 56, 64 };
+            //int[] ia = { 0, 0, 1, 1, 3, 5, 8 };
+            //double[] di = { 1, 10, 9, 78, 81, 108 };
+            //int n = 6;
+
+            //int[] ja = { 0, 1, 2, 2, 3, 2, 2, 3, 4 };
+
+
+            //Slae<ProfileMatrix> Slae = new Slae<ProfileMatrix>();
+            //Slae.Matrix = new ProfileMatrix(au, al, di, ia, n);
+            //IPreconditioner<ProfileMatrix> precond = new ProfilePreconditioner();
+            //bool a = precond.createLUsq(Slae);
+
+
+            double[] au = { 7, 8, 50 };
             double[] al = { 4, 5, 47 };
             int[] ia = { 0, 0, 1, 3 };
             double[] di = { 1, 32, 103 };
+            int[] ja = { 0, 0, 1 };
             int n = 3;
-            Slae<ProfileMatrix> Slae = new Slae<ProfileMatrix>();
-            Slae.Matrix = new ProfileMatrix(au, al,di,ia,n);
-            IPreconditioner<ProfileMatrix> precond = new ProfilePreconditioner();
-            bool a= precond.createLLT(Slae);
+            Slae<DisperseMatrix> Slae = new Slae<DisperseMatrix>();
+            Slae.Matrix = new DisperseMatrix(au, al, di, ia, ja, n);
+            IPreconditioner<DisperseMatrix> precond = new DispersePreconditioner();
+            bool a = precond.createLUsq(Slae);
 
         }
 

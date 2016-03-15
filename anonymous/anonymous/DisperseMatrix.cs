@@ -40,7 +40,7 @@ namespace anonymous
             Array.Copy(Original.ia, this.ia, Original.n + 1);
 
             this.ja = new int[this.ia[this.n]];
-            Array.Copy(Original.ja, this.ja, this.ja[this.n]);
+            Array.Copy(Original.ja, this.ja, this.ia[this.n]);
 
             this.al = new double[this.ia[this.n]];
             Array.Copy(Original.al, this.al, this.ia[this.n]);
