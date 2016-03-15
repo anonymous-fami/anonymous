@@ -91,7 +91,7 @@ namespace anonymous
         {
             double[] x = new double[n];
             double[] temp = new double[n];
-            int i, j, k;
+            int i, j;
             for (i = 0; i < n; i++) temp[i] = y.values[i];
             for (i = n - 1; i >= 0; i--)
             {
@@ -139,6 +139,14 @@ namespace anonymous
         public DenseMatrix getMatrix()
         {
             return this;
+        }
+
+        public bool CheckSymmetry()
+        {
+            for (int i = 0; i < n - 1; i++)
+                for (int j = i + 1; j < n; j++)
+                    if (Plot[i, j] != Plot[j, i]) return false;
+            return true;
         }
 
         public double[,] PLOT

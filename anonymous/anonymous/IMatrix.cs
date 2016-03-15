@@ -17,5 +17,6 @@ namespace anonymous
         Vector DirectProgress(Vector f);
         Vector ReverseProgress(Vector f);
         Type getMatrix();
+        bool CheckSymmetry();
     }   
 }

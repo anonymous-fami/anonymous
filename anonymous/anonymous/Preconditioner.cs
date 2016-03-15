@@ -8,22 +8,22 @@ using System.Windows.Forms;
 
 namespace anonymous
 {
-    interface IPreconditioner<T>//интерфейс не наследует iMatrix, было убрано чтобы избежать реализацию интерфейса предка.
+    interface IPreconditioner<T>
     {
         //диагональное предобуславливание
-        void createDiag(Slae<T> slae);
+        bool createDiag(Slae<T> slae);
         //LU разложение
-        void createLU(Slae<T> slae);
+        bool createLU(Slae<T> slae);
         //LLT разложение
-        void createLLT(Slae<T> slae);
+        bool createLLT(Slae<T> slae);
         //LU(sq) разложение
-        void createLUsq(Slae<T> slae);
+        bool createLUsq(Slae<T> slae);
     }
     #region Профильный формат(1)
 
     class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
-        public void createDiag(Slae<ProfileMatrix> Slae)
+        public bool createDiag(Slae<ProfileMatrix> Slae)
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
@@ -35,10 +35,12 @@ namespace anonymous
             }
             //т.к. все кроме диагонали 0
             double[] al = null;
-            Slae.PMatrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);                   
+            Slae.PMatrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);
+
+            return true;                   
         }
 
-        public void createLLT(Slae<ProfileMatrix> Slae)
+        public bool createLLT(Slae<ProfileMatrix> Slae)
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
@@ -49,7 +51,7 @@ namespace anonymous
                     throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
 
                 double sumDi, sumL;
-                int length, k, stolb, temp1, j ;
+                int length, k, stolb, temp1, j;
                 for (int i = 0; i < temp.N; i++)
                 {
                     sumDi = 0;
@@ -64,7 +66,7 @@ namespace anonymous
                                 temp1 = i - length + k - stolb + temp.IA[stolb + 1] - temp.IA[stolb];
                                 sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
                             }
-                        if(temp.DI[stolb]==0)
+                        if (temp.DI[stolb] == 0)
                         {
                             throw new Exception("LLt: Деление на ноль.");
                         }
@@ -72,7 +74,7 @@ namespace anonymous
                         temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
                         sumDi += temp.AL[j] * temp.AL[j];
                     }
-                    if(temp.DI[i] < sumDi)
+                    if (temp.DI[i] < sumDi)
                     {
                         throw new Exception("LLt: Извлечение корня из отрицательного числа.");
                     }
@@ -84,66 +86,12 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
+                return false;
             }
-            #region old
-
-            /*int[] ia = new int[matrix.N + 1];
-            for (int i = 0; i < matrix.N + 1; i++)
-            {
-                ia[i] = matrix.IA[i];
-            }
-            double[] L = new double[ia[matrix.N] - 1];
-            double[] Di = new double[matrix.N];
-            double epsForFirstElem = 1e-5;
-            if(Math.Abs(matrix.DI[0])< epsForFirstElem)
-            {
-                for (int i = 0; i < matrix.N; i++)
-                {
-                    Di[i] = matrix.DI[i] + epsForFirstElem;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < matrix.N; i++)
-                {
-                    Di[i] = matrix.DI[i];
-                }
-            }
-            for (int i = 0; i < matrix.N; i++)
-            {
-                double sumDi = 0;
-                for (int j = ia[i]; j < ia[i + 1]; j++)
-                {
-                    int length = ia[i + 1] - ia[i];
-                    int k = 0;
-                    int stolb = i - (ia[i + 1] - j);
-                    double sumL = 0;
-                    for (k = 0; k < j - ia[i]; k++) 
-                    {
-                        //int temp = i - length + k;
-                        //int temp2 = stolb - (ia[stolb + 1] - ia[stolb]);
-                        //if (stolb + k - (ia[stolb + 1] - ia[stolb]) - (i - length + k) > 0)
-                        //   continue;
-                        int temp1 = 0;
-                        while (stolb + temp1 - (ia[stolb + 1] - ia[stolb]) != (i - length + k)
-                            && (ia[stolb + 1] - ia[stolb]) != 0)
-                        {
-                            temp1++;
-                            continue;
-                        }
-                        if (ia[stolb + 1] - ia[stolb] == 0) continue;
-                        sumL += L[ia[i] + k] * L[ia[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
-                    }
-                    L[j] = (matrix.AL[j] - sumL) / Di[stolb] ;
-                    sumDi += L[j] * L[j];
-                }
-                Di[i] = Math.Sqrt(Di[i] - sumDi);
-            }
-            */
-            #endregion
+            return true;
         }
 
-        public void createLU(Slae<ProfileMatrix> Slae)
+        public bool createLU(Slae<ProfileMatrix> Slae)
         {
             int i, j, ii, k, jbeg, jend, beg, end, j0, i0, ial, iau;
             double tl, tu, tdi;
@@ -198,10 +146,12 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
+                return false;
             }
+            return true;
         }
 
-        public void createLUsq(Slae<ProfileMatrix> Slae)  
+        public bool createLUsq(Slae<ProfileMatrix> Slae)  
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());           
             int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
@@ -252,21 +202,25 @@ namespace anonymous
                     {
                         temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDiag);
                        Slae.PMatrix = temp;
+                       
                     }
                 }
+               
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
-            }            
+                return false;
+            }
+            return true;
         }
     }
     #endregion
     #region Разреженный формат(4)
     class DispersePreconditioner : IPreconditioner<DisperseMatrix>
     {
-        public void createDiag(Slae<DisperseMatrix> Slae)
+        public bool createDiag(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
             int[] ia = new int[temp.N + 1];
@@ -279,19 +233,57 @@ namespace anonymous
             //т.к. все кроме диагонали 0
             double[] al = null;
             Slae.PMatrix = new DisperseMatrix(al, al, temp.DI, ia, ja, temp.N);
+            return true;
         }
 
-        public void createLLT(Slae<DisperseMatrix> Slae)
+        public bool createLLT(Slae<DisperseMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLU(Slae<DisperseMatrix> Slae)
+        public bool createLU(Slae<DisperseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            int i, j, p, m, k = 0;
+            double s = 0;
+            DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
+            //обработка исключений
+            try
+            {
+                foreach (double x in temp.DI)
+                {
+                    if (x == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                for (i = 0; i < temp.N; i++)
+                {
+                    for (j = 0; j < temp.IA[i + 1] - temp.IA[i]; j++, k++)
+                    {
+                        for (m = j, s = 0, p = temp.IA[temp.JA[k]]; m > 0 && p < temp.IA[temp.JA[k] + 1];)
+                            if (temp.JA[p] == temp.JA[k - m])
+                                s += temp.AL[k - m] * temp.AU[p++];
+                            else
+                            if (temp.JA[p] > temp.JA[k - m]) k--;
+                            else p++;
+                        temp.AL[k] = (temp.AL[k] - s) / temp.DI[temp.JA[k]];
+                        temp.AU[k] -= s;
+                    }
+                    for (m = k - j, s = 0; m < k; m++)
+                        s += temp.AL[m] * temp.AU[m];
+                    temp.DI[i] = temp.DI[i] - s;
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
+    
 
-        public void createLUsq(Slae<DisperseMatrix> Slae)
+        public bool createLUsq(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
             
@@ -348,7 +340,7 @@ namespace anonymous
                         sumDiag += temp.AL[ind] * temp.AU[ind];
                     }
 
-                    //необходимо добавить какой-нибудь экспешн.
+                 
                     if ((temp.DI[k1] - sumDiag) < 0)
                     {
                         throw new Exception("Извлечение корня из отрицательного числа.");
@@ -364,8 +356,9 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
+                return false;
             }
-
+            return true;
 
         }
     }
@@ -376,7 +369,7 @@ namespace anonymous
     #region Плотный формат(0)
     class DensePreconditioner : IPreconditioner<DenseMatrix>
     {
-        public void createDiag(Slae<DenseMatrix> Slae)
+        public bool createDiag(Slae<DenseMatrix> Slae)
         {
             DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
             for (int i = 0; i < temp.N; i++)
@@ -386,14 +379,15 @@ namespace anonymous
                     temp.PLOT[j, i] = 0;
                 }
             Slae.PMatrix = new DenseMatrix(temp.PLOT, temp.N);
+            return true;
         }
 
-        public void createLLT(Slae<DenseMatrix> Slae)
+        public bool createLLT(Slae<DenseMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLU(Slae<DenseMatrix> Slae)
+        public bool createLU(Slae<DenseMatrix> Slae)
         {
             DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
             double td, tl, tu;
@@ -429,10 +423,12 @@ namespace anonymous
             {
                 MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
+                return false;
             }
+            return true;
         }
 
-        public void createLUsq(Slae<DenseMatrix> Slae)
+        public bool createLUsq(Slae<DenseMatrix> Slae)
         {
             throw new NotImplementedException();
         }
@@ -441,22 +437,22 @@ namespace anonymous
     #region Диагональный формат(3)
     class DiagonalPreconditioner : IPreconditioner<DiagonalMatrix>
     {
-        public void createDiag(Slae<DiagonalMatrix> Slae)
+        public bool createDiag(Slae<DiagonalMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLLT(Slae<DiagonalMatrix> Slae)
+        public bool createLLT(Slae<DiagonalMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLU(Slae<DiagonalMatrix> Slae)
+        public bool createLU(Slae<DiagonalMatrix> Slae)
         {
             throw new NotImplementedException();
         }
 
-        public void createLUsq(Slae<DiagonalMatrix> Slae)
+        public bool createLUsq(Slae<DiagonalMatrix> Slae)
         {
             throw new NotImplementedException();
         }

@@ -166,6 +166,14 @@ namespace anonymous
             return this;
         }
 
+        public bool CheckSymmetry()
+        {
+            for (int i = 0; i < nd; i++)
+                for (int j=0; j< n - ia[0] - i; j++)
+                    if (al[i,j] != au[i,j]) return false;
+            return true;
+        }
+
         public double[,] AL
         {
             get { return al; }

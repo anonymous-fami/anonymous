@@ -173,6 +173,13 @@ namespace anonymous
              return this;    
         }
 
+        public bool CheckSymmetry()
+        {
+            for (int i = 0; i < ia[n]; i++)
+                if (al[i] != au[i]) return false;
+            return true;
+        }
+
         public double[] AL
         {
             get { return al; }
