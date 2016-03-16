@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DenseMatrix.cs" />
+    <Compile Include="DiagonalMatrix.cs" />
+    <Compile Include="DiagonalSLAE.cs" />
+    <Compile Include="DisperseMatrix.cs" />
+    <Compile Include="DisperseSLAE.cs" />
     <Compile Include="ProfilSLAE.cs" />
     <Compile Include="ISLAE.cs" />
     <Compile Include="Form1.cs">
