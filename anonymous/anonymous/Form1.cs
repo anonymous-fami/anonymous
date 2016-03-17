@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZedGraph;
 
 namespace anonymous
 {
@@ -35,6 +36,8 @@ namespace anonymous
             string[] solver = { "МСГ", "ЛОС", "BSG Стабилизированный"};
             solver_comboBox.Items.AddRange(solver);
             solver_comboBox.SelectedItem = solver_comboBox.Items[0];
+
+            setupGraph();
         }
 
         private void matrix_comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -148,10 +151,13 @@ namespace anonymous
             bool success;
 
             if (checkinput())
-            {
+            {               
                 success = true;
                 richTextBox1.Clear();
                 Data.richtextbox = richTextBox1;
+
+                Data.ZedGraph.GraphPane.CurveList.Clear();
+                InputOutput.points.Clear();
 
                 Vector Initial;
                 ISolver solver;
@@ -214,7 +220,7 @@ namespace anonymous
                                                     break;
                                                 }
                                             case 2: //БСГ стаб
-                                                {
+                                                {                                                    
                                                     solver = new BSGstab();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
@@ -348,7 +354,7 @@ namespace anonymous
                                                         break;
                                                     }
                                                     solver = new MSG();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
@@ -961,8 +967,6 @@ namespace anonymous
                             break;
                         }
                 }
-
-                //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
             }
             else success = false;
 
@@ -970,128 +974,6 @@ namespace anonymous
                 MessageBox.Show("Сохраните ответ в файл на вкладке \"Вывод\".", "Решение завершено!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("В процессе решения возникла ошибка.", "Решение не завершено!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            /*
-            IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
-            IMatrix<ProfileMatrix> PMatrix;
-
-            Vector RightPart = new Vector(Data.rightpartPath);
-            Vector Initial = new Vector(Data.initialPath);
-            Vector Result;
-
-            IPreconditioner<ProfileMatrix> Preconditioner = new ProfilePreconditioner();
-            Preconditioner.createDiag(Matrix, out PMatrix);
-
-            ISolver solver = new MSG();
-            Result = solver.Solve(Matrix,RightPart,Initial,100,1e-16);
-            */
-
-            //Проверка работоспособности прямого и обратого хода.
-            /*
-                        { 0, 4, 5 }
-            MatrixA = { 0, 4, 5 }
-                        { 1, 20, 70 }
-            */
-
-            /*Профильная матрица*/
-
-            /*
-            //LLT-разложение
-            Data.preconditioner = 2;
-            int n = 3;
-            int[] ia = { 0, 0, 1, 3 };
-            int[] ja = { 0, 1 };
-            double[] al = { 0, 4, 5 };
-            double[] au = { 0, 4, 5 };
-            double[] di = { 1, 20, 70 };
-
-            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
-            IMatrix<ProfileMatrix> PMatrixA;
-            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-
-            preconditioner.createLLT(MatrixA, out PMatrixA);
-            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
-            Vector tempX = PMatrixA.getMatrix().DirectProgress(f);
-            Vector x = PMatrixA.getMatrix().ReverseProgress(tempX);
-            */
-
-            /*
-            //LU-разложение
-            Data.preconditioner = 3;
-            int n = 3;
-            int[] ia = { 0, 0, 1, 3 };
-            int[] ja = { 0, 1 };
-            double[] al = { 0, 4, 5 };
-            double[] au = { 0, 4, 5 };
-            double[] di = { 1, 20, 70 };
-
-            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
-            IMatrix<ProfileMatrix> PMatrixA;
-            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-
-            preconditioner.createLU(MatrixA, out PMatrixA);
-            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
-            Vector tempX = PMatrixA.getMatrix().DirectProgress(f);
-            Vector x = PMatrixA.getMatrix().ReverseProgress(tempX);
-            */
-
-            /*
-            //LUsq-разложение
-            Data.preconditioner = 4;
-            int n = 3;
-            int[] ia = { 0, 0, 1, 3 };
-            int[] ja = { 0, 1 };
-            double[] al = { 0, 4, 5 };
-            double[] au = { 0, 4, 5 };
-            double[] di = { 1, 20, 70 };
-
-            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
-            IMatrix<ProfileMatrix> PMatrixA;
-            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-
-            preconditioner.createLUsq(MatrixA, out PMatrixA);
-            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
-            Vector tempX = PMatrixA.getMatrix().DirectProgress(f);
-            Vector x = PMatrixA.getMatrix().ReverseProgress(tempX);
-            */
-
-            /*Разреженная матрица*/
-
-            /*
-            //LU-разложение
-            Data.preconditioner = 3;
-            double[] al = { 4, 0.25 };
-            double[] au = { 4, 5 };
-            double[] di = { 1, 20, 52.75 };
-            int[] ja = { 0, 1 };
-            int[] ia = { 0, 0, 0, 2 };
-            int n = 3;
-            DisperseMatrix A = new DisperseMatrix(au, al, di, ia, ja, n);
-            Vector f = new Vector(3, new double[3] { 13, 55, 224 });//x={1,2,3}
-            Vector tempX = A.DirectProgress(f);
-            Vector x = A.ReverseProgress(tempX);  
-            */
-
-            /*Плотная матрица*/
-
-            /*
-            //LU-разложение
-            Data.preconditioner = 3;
-            int n = 3;
-            //double[,] Plot = { { 1, 4, 5 }, { 4, 20, 32 }, { 5, 32, 70 } };
-            double[,] Plot = { { 1, 0, 4 }, { 0, 20, 5 }, { 4, 5, 70 } };
-
-            Slae<DenseMatrix> Slae = new Slae<DenseMatrix>();
-            Slae.Matrix = new DenseMatrix(Plot, n);
-
-            IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
-            preconditioner.createLU(Slae);
-
-            //Vector f = new Vector(n, new double[3] { 24, 140, 279 });//x={1,2,3}
-            Vector f = new Vector(n, new double[3] { 13, 55, 224 });//x={1,2,3}
-            Vector tempX = Slae.PMatrix.getMatrix().DirectProgress(f);
-            Vector x = Slae.PMatrix.getMatrix().ReverseProgress(tempX);
-            */
         }
 
         private bool checkinput()
@@ -1120,7 +1002,7 @@ namespace anonymous
                 }
             }
             return true;
-        }
+        }        
 
         private void Form1_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
@@ -1133,6 +1015,27 @@ namespace anonymous
             richTextBox1.SelectionStart = richTextBox1.Text.Length;
             richTextBox1.ScrollToCaret();
         }
+
+        private void setupGraph()
+        {
+            Data.ZedGraph = zedGraphControl1;           
+            Data.ZedGraph.GraphPane.Title.Text = "График нормы";
+            Data.ZedGraph.GraphPane.YAxis.Type = AxisType.Log;
+            Data.ZedGraph.GraphPane.YAxis.Title.Text = "Норма";
+            Data.ZedGraph.GraphPane.XAxis.Title.Text = "Итерация";
+        }
+
+        private void zedGraphControl1_ContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
+        {
+            menuStrip.Items[0].Text = "Копировать";
+            menuStrip.Items[1].Text = "Сохранить изображение как";
+            menuStrip.Items[2].Enabled = false;
+            menuStrip.Items[3].Text = "Печать";
+            menuStrip.Items[4].Text = "Показывать значения в узлах";
+            menuStrip.Items[5].Enabled = false;
+            menuStrip.Items[6].Enabled = false;
+            menuStrip.Items[7].Enabled = false;
+        }
     }
 
     public static class Data
@@ -1144,69 +1047,7 @@ namespace anonymous
         public static int preconditioner;       //Выбранный предобуславливатель
         public static int solver;               //Выбранный решатель
         public static Vector result;            //Вектор с ответом
-        public static RichTextBox richtextbox;  
+        public static RichTextBox richtextbox;
+        public static ZedGraphControl ZedGraph;
     }
-    
-    /*
-    interface IIterationLogger
-    {
-        int IterationNumber { get; set; }
-        IVector Residual { get; set; }
-        IVector CurrentSolution { get; set; }
-        ISolver CurrentSolver { get; set; }
-    }
-    */
-
-    /*
-    class IterationLogger : IIterationLogger // Реализация интерфейса IIterationLogger
-    {
-        public int IterationNumber
-        {
-            get
-    {
-                throw new NotImplementedException();
-            }
-            set
-        {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IVector Residual
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-        {
-                throw new NotImplementedException();
-        }
-    }
-
-        public IVector CurrentSolution
-        {
-            get
-    {
-                throw new NotImplementedException();
-            }
-            set
-        {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ISolver CurrentSolver
-        {
-            get
-        {
-                throw new NotImplementedException();
-        }
-            set
-        {
-                throw new NotImplementedException();
-            }
-        }
-    }
-    */
 }

@@ -23,7 +23,7 @@ namespace anonymous
                 Vector z = new Vector(r);
                 Vector p = new Vector(SLAE.Matrix.Multiply(z));
 
-                residual = r.Scalar(r) / SLAE.RightPart.Norm();
+                residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
 
                 for (int iterNum = 0; iterNum < maxiter && residual >= eps; iterNum++)
                 {
@@ -36,7 +36,7 @@ namespace anonymous
                     z = r.Sum(z.Mult(betta));
                     p = Ar.Sum(p.Mult(betta));
 
-                    residual = r.Scalar(r) / SLAE.RightPart.Norm();
+                    residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
                     if (!InputOutput.OutputIterationToForm(iterNum, residual))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
@@ -49,7 +49,7 @@ namespace anonymous
                     Vector z = new Vector(SLAE.PMatrix.ReverseProgress(r));
                     Vector p = new Vector(SLAE.PMatrix.DirectProgress(SLAE.Matrix.Multiply(z)));
 
-                    residual = r.Scalar(r) / SLAE.RightPart.Norm();
+                    residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
 
                     for (int iterNum = 0; iterNum < maxiter && residual >= eps; iterNum++)
                     {
@@ -62,7 +62,7 @@ namespace anonymous
                         z = SLAE.PMatrix.ReverseProgress(r).Sum(z.Mult(betta));
                         p = Ar.Sum(p.Mult(betta));
 
-                        residual = r.Scalar(r) / SLAE.RightPart.Norm();
+                        residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
                         if (!InputOutput.OutputIterationToForm(iterNum, residual))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }

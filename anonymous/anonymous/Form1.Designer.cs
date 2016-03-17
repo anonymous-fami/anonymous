@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.matrix_combobox = new System.Windows.Forms.ComboBox();
             this.matrix_textBox = new System.Windows.Forms.TextBox();
@@ -55,6 +56,7 @@
             this.maxiter_numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.initial_checkBox = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.save_label = new System.Windows.Forms.Label();
             this.save_button = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
@@ -71,7 +73,7 @@
             this.matrix_combobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.matrix_combobox.FormattingEnabled = true;
             this.matrix_combobox.Location = new System.Drawing.Point(337, 32);
-            this.matrix_combobox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.matrix_combobox.Margin = new System.Windows.Forms.Padding(4);
             this.matrix_combobox.Name = "matrix_combobox";
             this.matrix_combobox.Size = new System.Drawing.Size(195, 24);
             this.matrix_combobox.TabIndex = 0;
@@ -369,6 +371,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.zedGraphControl1);
             this.tabPage3.Controls.Add(this.save_label);
             this.tabPage3.Controls.Add(this.save_button);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -379,6 +382,28 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Вывод";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // zedGraphControl1
+            // 
+            this.zedGraphControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.zedGraphControl1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.zedGraphControl1.IsEnableHZoom = false;
+            this.zedGraphControl1.IsEnableVZoom = false;
+            this.zedGraphControl1.IsEnableWheelZoom = false;
+            this.zedGraphControl1.IsShowPointValues = true;
+            this.zedGraphControl1.Location = new System.Drawing.Point(3, 237);
+            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl1.Name = "zedGraphControl1";
+            this.zedGraphControl1.ScrollGrace = 0D;
+            this.zedGraphControl1.ScrollMaxX = 0D;
+            this.zedGraphControl1.ScrollMaxY = 0D;
+            this.zedGraphControl1.ScrollMaxY2 = 0D;
+            this.zedGraphControl1.ScrollMinX = 0D;
+            this.zedGraphControl1.ScrollMinY = 0D;
+            this.zedGraphControl1.ScrollMinY2 = 0D;
+            this.zedGraphControl1.Size = new System.Drawing.Size(550, 411);
+            this.zedGraphControl1.TabIndex = 3;
+            this.zedGraphControl1.ContextMenuBuilder += new ZedGraph.ZedGraphControl.ContextMenuBuilderEventHandler(this.zedGraphControl1_ContextMenuBuilder);
             // 
             // save_label
             // 
@@ -408,7 +433,7 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Решатель 2000";
@@ -456,6 +481,7 @@
         private System.Windows.Forms.Button save_button;
         private System.Windows.Forms.Label save_label;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private ZedGraph.ZedGraphControl zedGraphControl1;
     }
 }
 

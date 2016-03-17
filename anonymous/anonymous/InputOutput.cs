@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
+using ZedGraph;
 
 namespace anonymous
 {
     public static class InputOutput
     {
         public static bool debug = false;
+        public static PointPairList points = new PointPairList();
         //
         //Ввод плотной матрицы
         // n - размерность матрицы
@@ -553,12 +556,27 @@ namespace anonymous
             }
         }
 
-        public static bool OutputIterationToForm(int number_it, double residual)
+        public static bool OutputIterationToForm(int it, double residual)
         {
             try
             {
-                number_it++;
-                Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + number_it + " Норма: " + residual + "\n";
+                it++;
+                if (it <= 100) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                else
+                    if ((it > 100) && (it <= 1000) && (it % 100 == 0)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                    else
+                        if ((it > 1000) && (it <= 10000) && (it % 1000 == 0)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+
+                Data.ZedGraph.GraphPane.CurveList.Clear();
+
+                points.Add(it, residual);
+
+                LineItem Norm = Data.ZedGraph.GraphPane.AddCurve("Норма", points, Color.Blue, SymbolType.None);
+
+                Data.ZedGraph.AxisChange();
+
+                Data.ZedGraph.Invalidate();
+
                 return true;
             }
             catch (Exception error)
