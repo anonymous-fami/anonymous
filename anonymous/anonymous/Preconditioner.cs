@@ -442,7 +442,15 @@ namespace anonymous
     {
         public bool createDiag(Slae<DiagonalMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DiagonalMatrix temp = new DiagonalMatrix(Slae.Matrix.getMatrix());
+            for (int i = 0; i < temp.N - temp.IA[0]; i++)
+                for (int j = 0; j < temp.ND; j++)
+                {
+                    temp.AU[i, j] = 0;
+                    temp.AL[i, j] = 0;
+                }
+            Slae.PMatrix = new DiagonalMatrix(temp.AU, temp.AL, temp.DI, temp.IA, temp.N, temp.ND);
+            return true;
         }
 
         public bool createLLT(Slae<DiagonalMatrix> Slae)
