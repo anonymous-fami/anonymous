@@ -760,7 +760,7 @@ namespace anonymous
         public static RichTextBox richtextbox;
         public static string convert_enter_file;    //Путь файла для конвертирования
         public static string convert_exit_file;     //Путь файла куда конвертировать
-        public static int convert_state = 1;    //режим работы конвертера
+        public static int convert_state = 1;    //режим работы конвертер
     }
     
     /*
