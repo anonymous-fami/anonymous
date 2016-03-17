@@ -19,7 +19,7 @@ namespace anonymous
         //LU(sq) разложение
         bool createLUsq(Slae<T> slae);
     }
-    #region Профильный формат(1)
+    #region Профильный формат
 
     class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
@@ -27,9 +27,9 @@ namespace anonymous
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
-            int[] ia = new int[temp.N+1];
+            int[] ia = new int[temp.N + 1];
             
-            for (int i = 0; i <temp.N+1; i++)
+            for (int i = 0; i < temp.N + 1; i++)
             {
                 ia[i] = 0;  // подразумевает что ia[0] начинается  с 0, как и во всем проекте.
             }
@@ -89,7 +89,7 @@ namespace anonymous
                 return false;
             }
             return true;
-        }
+          }
 
         public bool createLU(Slae<ProfileMatrix> Slae)
         {
@@ -154,14 +154,14 @@ namespace anonymous
         public bool createLUsq(Slae<ProfileMatrix> Slae)  
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());           
-            int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
+            int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r, ind;
             double sumDiag, sumL, sumU;         
             //обработка исключений
             try
             {
                 foreach (double x in temp.DI)
                 {
-                    if (x==0)
+                    if (x == 0)
                     throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                 }               
                 for (i = 0; i < temp.N; i++)
@@ -171,7 +171,7 @@ namespace anonymous
                     j = i - (i1 - i0);
                     sumDiag = 0;
 
-                    for (int ind = i0; ind < i1; ind++, j++)
+                    for (ind = i0; ind < i1; ind++, j++)
                     {
                         sumL = 0;
                         sumU = 0;
@@ -193,19 +193,18 @@ namespace anonymous
                         temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[j];
                         sumDiag += temp.AL[ind] * temp.AU[ind];
                     }
-                    //необходимо добавить какой-нибудь экспешн.
-                    if ((temp.DI[i] - sumDiag)<0)
+
+                    if ((temp.DI[i] - sumDiag) < 0)
                     {
                         throw new Exception("Извлечение корня из отрицательного числа.");
                     }
                     else
                     {
                         temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDiag);
-                       Slae.PMatrix = temp;
                        
                     }
                 }
-               
+                Slae.PMatrix = temp;
             }
             catch (Exception error)
             {
@@ -217,7 +216,7 @@ namespace anonymous
         }
     }
     #endregion
-    #region Разреженный формат(4)
+    #region Разреженный формат
     class DispersePreconditioner : IPreconditioner<DisperseMatrix>
     {
         public bool createDiag(Slae<DisperseMatrix> Slae)
@@ -287,11 +286,9 @@ namespace anonymous
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
             
-            //int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r;
-
             double sumDiag, sumL, sumU;
             int iaEnd;
-            int i, j, k, k1, i0, i1, j0, j1;
+            int i, j, k, k1, i0, i1, j0, j1, ind;
 
 
             //обработка исключений
@@ -314,7 +311,7 @@ namespace anonymous
 
                     sumDiag = 0;
 
-                    for (int ind = i0; ind < i1; ind++)
+                    for (ind = i0; ind < i1; ind++)
                     {
                         sumL = 0;
                         sumU = 0;
@@ -335,8 +332,9 @@ namespace anonymous
                             }
 
 
-                        temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[ind];
-                        temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[ind];
+                        temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[temp.JA[ind]];
+                        temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[temp.JA[ind]];
+
                         sumDiag += temp.AL[ind] * temp.AU[ind];
                     }
 
@@ -348,9 +346,10 @@ namespace anonymous
                     else
                     {
                         temp.DI[k1] = Math.Sqrt(temp.DI[k1] - sumDiag);
-                        Slae.PMatrix = temp;
                     }
                 }
+                Slae.PMatrix = temp;
+
             }
             catch (Exception error)
             {
@@ -363,10 +362,7 @@ namespace anonymous
         }
     }
     #endregion
-    #region Ленточный формат(2)
-
-    #endregion
-    #region Плотный формат(0)
+    #region Плотный формат
     class DensePreconditioner : IPreconditioner<DenseMatrix>
     {
         public bool createDiag(Slae<DenseMatrix> Slae)
@@ -394,9 +390,9 @@ namespace anonymous
             int i, k, j;
             try
             {
-                for (i=0;i<temp.N;i++)
+                for (i = 0; i < temp.N; i++)
                 {
-                    if (temp.PLOT[i,i] == 0)
+                    if (temp.PLOT[i, i] == 0)
                         throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                 }
                 for (i = 0; i < temp.N; i++) //проходим по всем строкам
@@ -434,7 +430,7 @@ namespace anonymous
         }
     }
     #endregion
-    #region Диагональный формат(3)
+    #region Диагональный формат
     class DiagonalPreconditioner : IPreconditioner<DiagonalMatrix>
     {
         public bool createDiag(Slae<DiagonalMatrix> Slae)
