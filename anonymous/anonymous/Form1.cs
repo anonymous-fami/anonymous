@@ -649,6 +649,103 @@ namespace anonymous
             HelpForm Help = new HelpForm();
             Help.Show();
         }
+
+        private void conv_button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                conv_textBox1.Text = OFD.FileName;   //Путь файла с матрицей
+
+                Data.convert_enter_file = conv_textBox1.Text;
+            }
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+        }
+
+        private void conv_button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                conv_textBox2.Text = OFD.FileName;   //Путь файла с матрицей
+
+                Data.convert_exit_file = conv_textBox2.Text;
+            }
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+        }
+
+        private void conv_button3_Click(object sender, EventArgs e)
+        {
+            //конвертирование
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = Application.StartupPath + @"\Конвертер.exe";
+            p.StartInfo.Arguments = Data.convert_state + " " + Data.convert_enter_file + " " + Data.convert_exit_file;
+            p.Start();
+        }
+
+        /*private void conv_checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            conv_checkBox2.Checked = false;
+            conv_checkBox2.CheckState = unchecked(conv_checkBox2.CheckState);
+            Data.convert_state = 1;
+        }
+
+        private void conv_checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            conv_checkBox1.Checked = false;
+            conv_checkBox1.CheckState = unchecked(conv_checkBox1.CheckState);
+            Data.convert_state = 2;
+        }*/
+
+        private void conv_checkBox1_Click(object sender, EventArgs e)
+        {
+            conv_checkBox2.Checked = false;
+            conv_checkBox2.CheckState = unchecked(conv_checkBox2.CheckState);
+
+            conv_checkBox1.Checked = true;
+            conv_checkBox1.CheckState = checked(conv_checkBox1.CheckState);
+
+            Data.convert_state = 1;
+        }
+
+        private void conv_checkBox2_Click(object sender, EventArgs e)
+        {
+            conv_checkBox1.Checked = false;
+            conv_checkBox1.CheckState = unchecked(conv_checkBox1.CheckState);
+
+            conv_checkBox2.Checked = true;
+            conv_checkBox2.CheckState = checked(conv_checkBox2.CheckState);
+
+            Data.convert_state = 2;
+        }
+
+        private void conv_textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+            Data.convert_enter_file = conv_textBox1.Text;
+        }
+
+        private void conv_textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+            Data.convert_exit_file = conv_textBox2.Text;
+        }
     }
 
     public static class Data
@@ -660,7 +757,10 @@ namespace anonymous
         public static int preconditioner;       //Выбранный предобуславливатель
         public static int solver;               //Выбранный решатель
         public static Vector result;            //Вектор с ответом
-        public static RichTextBox richtextbox;  
+        public static RichTextBox richtextbox;
+        public static string convert_enter_file;    //Путь файла для конвертирования
+        public static string convert_exit_file;     //Путь файла куда конвертировать
+        public static int convert_state = 1;
     }
     
     /*
