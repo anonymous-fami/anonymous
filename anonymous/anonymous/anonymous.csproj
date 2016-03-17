@@ -116,6 +116,7 @@
     <Content Include="tests\разреженная\матрица.txt" />
     <Content Include="tests\разреженная\правая часть.txt" />
     <Content Include="tests\разреженная\приближение.txt" />
+    <Content Include="Конвертер.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
