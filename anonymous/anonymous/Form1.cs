@@ -144,9 +144,12 @@ namespace anonymous
         private void solve_button_Click(object sender, EventArgs e)
         {
             //Запуск решения
-                   
+
+            bool success;
+
             if (checkinput())
             {
+                success = true;
                 richTextBox1.Clear();
                 Data.richtextbox = richTextBox1;
 
@@ -167,7 +170,7 @@ namespace anonymous
                         {
                             Slae<DenseMatrix> SLAE = new Slae<DenseMatrix>();
                             SLAE.Matrix = new DenseMatrix(Data.matrixPath);
-                            SLAE.RightPart = new Vector(Data.rightpartPath);                                   
+                            SLAE.RightPart = new Vector(Data.rightpartPath);
 
                             if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
                             else Initial = new Vector(Data.initialPath);
@@ -175,12 +178,14 @@ namespace anonymous
                             if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0) || (SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
                             if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
@@ -195,6 +200,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -219,7 +225,13 @@ namespace anonymous
                                 case 1: //Диагональный
                                     {
                                         IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
-                                        preconditioner.createDiag(SLAE);
+
+                                        if (!preconditioner.createDiag(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -227,6 +239,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -244,13 +257,23 @@ namespace anonymous
                                     }
                                 case 2: //LLT
                                     {
+                                        /*
+                                        Не реализовано!
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            success = false;
                                             break;
                                         }
+
                                         IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
-                                        preconditioner.createLLT(SLAE);
+
+                                        if (!preconditioner.createLLT(SLAE)
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -266,12 +289,19 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                                 case 3: //LU
                                     {
                                         IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
-                                        preconditioner.createLU(SLAE);
+
+                                        if (!preconditioner.createLU(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -279,6 +309,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -296,8 +327,16 @@ namespace anonymous
                                     }
                                 case 4: //LUsq
                                     {
+                                        /*
+                                        Не реализовано!
                                         IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
-                                        preconditioner.createLUsq(SLAE);
+
+                                        if (!preconditioner.createLUsq(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -305,10 +344,11 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
-                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
@@ -318,6 +358,7 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                             }
@@ -335,12 +376,14 @@ namespace anonymous
                             if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0) || (SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
                             if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
@@ -355,6 +398,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -377,9 +421,15 @@ namespace anonymous
                                         break;
                                     }
                                 case 1: //Диагональный
-                                    {                                        
+                                    {
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        preconditioner.createDiag(SLAE);
+
+                                        if (!preconditioner.createDiag(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -387,6 +437,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -407,14 +458,22 @@ namespace anonymous
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            success = false;
                                             break;
                                         }
+
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        preconditioner.createLLT(SLAE);
+
+                                        if (!preconditioner.createLLT(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
-                                                {                                                    
+                                                {
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
@@ -432,7 +491,13 @@ namespace anonymous
                                 case 3: //LU
                                     {
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        preconditioner.createLU(SLAE);
+
+                                        if (!preconditioner.createLU(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -440,6 +505,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -458,7 +524,13 @@ namespace anonymous
                                 case 4: //LUsq
                                     {
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
-                                        preconditioner.createLUsq(SLAE);
+
+                                        if (!preconditioner.createLUsq(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -466,6 +538,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -500,12 +573,14 @@ namespace anonymous
                             if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0) || (SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
                             if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
@@ -520,6 +595,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -543,8 +619,16 @@ namespace anonymous
                                     }
                                 case 1: //Диагональный
                                     {
+                                        /*
+                                        Не реализовано!
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
-                                        preconditioner.createDiag(SLAE);
+
+                                        if (!preconditioner.createDiag(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -552,6 +636,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -565,17 +650,28 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                                 case 2: //LLT
                                     {
+                                        /*
+                                        Не реализовано!
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            success = false;
                                             break;
                                         }
+
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
-                                        preconditioner.createLLT(SLAE);
+                                        
+                                        if (!preconditioner.createLLT(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -591,12 +687,21 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                                 case 3: //LU
                                     {
+                                        /*
+                                        Не реализовано!
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
-                                        preconditioner.createLU(SLAE);
+
+                                        if (!preconditioner.createLU(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -604,6 +709,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -617,12 +723,21 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                                 case 4: //LUsq
                                     {
+                                        /*
+                                        Не реализовано!
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
-                                        preconditioner.createLUsq(SLAE);
+
+                                        if (!preconditioner.createLUsq(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -630,6 +745,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -643,6 +759,7 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                             }
@@ -660,12 +777,14 @@ namespace anonymous
                             if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0) || (SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
                             if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
                                 MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
                                 break;
                             }
 
@@ -680,6 +799,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -704,7 +824,13 @@ namespace anonymous
                                 case 1: //Диагональный
                                     {
                                         IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
-                                        preconditioner.createDiag(SLAE);
+
+                                        if (!preconditioner.createDiag(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -712,6 +838,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -729,34 +856,51 @@ namespace anonymous
                                     }
                                 case 2: //LLT
                                     {
+                                        /*
+                                        Не реализовано!
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            success = false;
                                             break;
                                         }
+
                                         IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
-                                        preconditioner.createLLT(SLAE);
+
+                                        if (!preconditioner.createLLT(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
                                                 {
                                                     solver = new MSG();
-                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
-                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }
+                                        */
                                         break;
                                     }
                                 case 3: //LU
                                     {
                                         IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
-                                        preconditioner.createLU(SLAE);
+
+                                        if (!preconditioner.createLU(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -764,6 +908,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -782,7 +927,13 @@ namespace anonymous
                                 case 4: //LUsq
                                     {
                                         IPreconditioner<DisperseMatrix> preconditioner = new DispersePreconditioner();
-                                        preconditioner.createLUsq(SLAE);
+
+                                        if (!preconditioner.createLUsq(SLAE))
+                                        {
+                                            success = false;
+                                            break;
+                                        }
+
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -790,6 +941,7 @@ namespace anonymous
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
                                                         break;
                                                     }
                                                     solver = new MSG();
@@ -812,7 +964,12 @@ namespace anonymous
 
                 //tabControl1.SelectedIndex = 2; <-- Закомменчено пока не готова вкладка "Вывод"
             }
-            
+            else success = false;
+
+            if (success)
+                MessageBox.Show("Сохраните ответ в файл на вкладке \"Вывод\".", "Решение завершено!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("В процессе решения возникла ошибка.", "Решение не завершено!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             /*
             IMatrix<ProfileMatrix> Matrix = new ProfileMatrix(Data.matrixPath);
@@ -831,9 +988,9 @@ namespace anonymous
 
             //Проверка работоспособности прямого и обратого хода.
             /*
-                      { 0, 4, 5 }
+                        { 0, 4, 5 }
             MatrixA = { 0, 4, 5 }
-                      { 1, 20, 70 }
+                        { 1, 20, 70 }
             */
 
             /*Профильная матрица*/
@@ -847,7 +1004,7 @@ namespace anonymous
             double[] al = { 0, 4, 5 };
             double[] au = { 0, 4, 5 };
             double[] di = { 1, 20, 70 };
-                                
+
             IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
             IMatrix<ProfileMatrix> PMatrixA;
             IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
@@ -867,7 +1024,7 @@ namespace anonymous
             double[] al = { 0, 4, 5 };
             double[] au = { 0, 4, 5 };
             double[] di = { 1, 20, 70 };
-                                
+
             IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
             IMatrix<ProfileMatrix> PMatrixA;
             IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
@@ -887,7 +1044,7 @@ namespace anonymous
             double[] al = { 0, 4, 5 };
             double[] au = { 0, 4, 5 };
             double[] di = { 1, 20, 70 };
-                                
+
             IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
             IMatrix<ProfileMatrix> PMatrixA;
             IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
@@ -946,7 +1103,7 @@ namespace anonymous
                 return false;
             }
 
-            if ((Data.solver == 0) || (Data.solver == 1))
+            if ((Data.solver == 0) || (Data.solver == 1) || (Data.solver == 2))
             {
                 if (Data.rightpartPath == null)
                 {
@@ -969,6 +1126,12 @@ namespace anonymous
         {
             HelpForm Help = new HelpForm();
             Help.Show();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
         }
     }
 

@@ -64,6 +64,16 @@ namespace anonymous
             return res;
         }
 
+        public double MultiplyL(int index, Vector x)//функция для Гаусс-Зейделя, нижний треугольник
+        {
+            throw new NotImplementedException();
+        }
+
+        public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
+        {
+            throw new NotImplementedException();
+        }
+
         public Vector TMultiply(Vector x)//умножение транспонированной матрицы на вектор
         {
             double[] values_res = new double[x.size];

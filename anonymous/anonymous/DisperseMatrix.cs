@@ -68,6 +68,7 @@ namespace anonymous
                 }
             return res;
         }
+
         public double MultiplyL(int index,Vector x)//функция для Гаусс-Зейделя, нижний треугольник
         {
             double res=0;
@@ -76,6 +77,7 @@ namespace anonymous
   
             return res;
         }
+
         public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
         {
             double res = 0;
