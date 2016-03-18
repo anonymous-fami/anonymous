@@ -456,7 +456,47 @@ namespace anonymous
 
         public bool createLU(Slae<DiagonalMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DiagonalMatrix temp = new DiagonalMatrix(Slae.Matrix.getMatrix());
+            double td, tl, tu;
+            int i, k, j;
+            try
+            {
+                for (i = 0; i < temp.N; i++)
+                {
+                    if (temp.DI[i] == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                for (i = 0; i < temp.N - temp.IA[0]; i++) //проходим по всем столбцам
+                {
+                    td = 0;
+                    for (j = 0; j < temp.ND && temp.IA[j] + i < temp.N; j++) //проходим по всем даигоналям
+                    {
+                        tl = 0;
+                        tu = 0;
+                        for (k = 0; k + 1 < temp.ND && k < i; k++)
+                        {
+                            if (i >= temp.IA[k])
+                            {
+                                tl += temp.AL[k + 1, i - temp.IA[k]] * temp.AU[k, i - temp.IA[k]];
+                                tu += temp.AL[k, i - temp.IA[k]] * temp.AU[k + 1, i - temp.IA[k]];
+                            }
+                        }
+                        temp.AL[j, i] = (temp.AL[j, i] - tl) / temp.DI[i];
+                        temp.AU[j, i] = (temp.AU[j, i] - tu);
+                    }
+                    for (k = 0; k < temp.ND && i >= temp.IA[k] - 1; k++)
+                        td += temp.AL[k, i - temp.IA[k] + 1] * temp.AU[k, i - temp.IA[k] + 1];
+                    temp.DI[i + temp.IA[0]] -= td;
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
 
         public bool createLUsq(Slae<DiagonalMatrix> Slae)
