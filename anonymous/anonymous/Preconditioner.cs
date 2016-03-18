@@ -429,6 +429,57 @@ namespace anonymous
 
         public bool createLUsq(Slae<DenseMatrix> Slae)
         {
+            int i, j, k,flag;
+            double sumDiag, sumL, sumU;
+            DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
+
+            try
+            {
+                for (i = 0; i < temp.N; i++)
+                {
+                    if (temp.PLOT[i, i] == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                for (i = 0; i < temp.N; i++) 
+                {
+                    sumDiag = 0;
+                    for (j = 0; j < i; j++) 
+                    {
+                        sumL = 0;
+                        sumU = 0;
+                        for (k = 0; k < j; k++)
+                        {
+                            sumL += temp.PLOT[k, j] * temp.PLOT[i, k];
+                            sumU += temp.PLOT[j, k] * temp.PLOT[k, i];
+                        }
+
+                        temp.PLOT[i, j] = (temp.PLOT[i, j] - sumL) / temp.PLOT[j, j];
+                        temp.PLOT[j, i] = (temp.PLOT[j, i] - sumU) / temp.PLOT[j, j];
+                        sumDiag += temp.PLOT[i, j] * temp.PLOT[j, i];
+                    }
+                    
+
+
+                    if ((temp.PLOT[i,i] - sumDiag) < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.PLOT[i,i] = Math.Sqrt(temp.PLOT[i, i] - sumDiag);
+                    }
+                }
+
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
+
             throw new NotImplementedException();
         }
     }
