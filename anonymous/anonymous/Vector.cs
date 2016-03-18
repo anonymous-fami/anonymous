@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace anonymous
 {
+<<<<<<< HEAD
     public class Vector 
+=======
+    public class Vector
+>>>>>>> 7c2739d6c03b5c534016dd9396dd8a5c53bb086d
     {
         public int size;
         public double[] values;
@@ -15,11 +19,6 @@ namespace anonymous
         {
             this.size = size;
             this.values = values;
-        }
-
-        public Vector()//конструктор
-        {
-            InputOutput.InputRightPart(out this.size, Data.vectorPath, out this.values);
         }
 
         public double Norm()//норма вектора
@@ -73,13 +72,18 @@ namespace anonymous
             return res;
         }
 
-        public double Scalar(Vector A)//скалярное произведение векторов
+        public Vector Scalar(Vector A)//скалярное произведение векторов
         {
+<<<<<<< HEAD
            
             double res = 0;
+=======
+            double[] values_res = new double[size];
+            var res = new Vector(size, values_res);
+>>>>>>> 7c2739d6c03b5c534016dd9396dd8a5c53bb086d
             for (int i = 0; i < size; i++)
             {
-                res+= this.values[i] * A.values[i];
+                res.values[i] = this.values[i] * A.values[i];
 
             }
             return res;
