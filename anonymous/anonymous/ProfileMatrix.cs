@@ -118,7 +118,26 @@ namespace anonymous
             this.di = matrix.di;
             this.ia = matrix.ia;
             this.n = matrix.n;
-          
+
+        }
+        double MultiplyL(int index, Vector x)
+        {
+            double res = 0;
+            int p;
+            p = index - (this.ia[index + 1] - this.ia[index]);
+            for (int j = p, r = this.ia[index]; j < index; j++, r++)
+                res += x.values[j] * this.al[r];
+            return res;
+        }
+
+        double MultiplyU(int index, Vector x)
+        {
+            double res = 0;
+            int p;
+            p = index - (this.ia[index + 1] - this.ia[index]);
+            for (int j = p, r = this.ia[index]; j < index; j++, r++)
+                res += x.values[j] * this.au[r];
+            return res;
         }
 
         public ProfileMatrix getMatrix()
