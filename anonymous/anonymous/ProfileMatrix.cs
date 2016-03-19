@@ -64,16 +64,6 @@ namespace anonymous
             return res;
         }
 
-        public double MultiplyL(int index, Vector x)//функция для Гаусс-Зейделя, нижний треугольник
-        {
-            throw new NotImplementedException();
-        }
-
-        public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
-        {
-            throw new NotImplementedException();
-        }
-
         public Vector TMultiply(Vector x)//умножение транспонированной матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -177,6 +167,25 @@ namespace anonymous
             this.ia = matrix.ia;
             this.n = matrix.n;
         }
+        double MultiplyL(int index, Vector x)
+        {
+            double res = 0;
+            int p;
+            p = index - (this.ia[index + 1] - this.ia[index]);
+            for (int j = p, r = this.ia[index]; j < index; j++, r++)
+                res += x.values[j] * this.al[r];
+            return res;
+        }
+
+        double MultiplyU(int index, Vector x)
+        {
+            double res = 0;
+            int p;
+            p = index - (this.ia[index + 1] - this.ia[index]);
+            for (int j = p, r = this.ia[index]; j < index; j++, r++)
+                res += x.values[j] * this.au[r];
+            return res;
+        }
 
         public ProfileMatrix getMatrix()
         {
@@ -184,14 +193,14 @@ namespace anonymous
         }
 
         public bool CheckSymmetry()
-        {
+            {
             for (int i = 0; i < ia[n]; i++)
                 if (al[i] != au[i]) return false;
             return true;
-        }
+            }
 
         public double[] AL
-        {
+            {
             get { return al; }
             set { al = value; }
         }

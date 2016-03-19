@@ -32,6 +32,22 @@ namespace anonymous
             Array.Copy(Original.Plot, this.Plot, this.n * this.n);
         }
 
+        public double MultiplyL(int index, Vector x)//функция для Гаусс-Зейделя, нижний треугольник
+        {
+            double res = 0;
+            for (int j = 0; j < index; j++)
+                res += Plot[index, j] * x.values[j];  
+            return res;
+        }
+
+        public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
+        {
+            double res = 0;
+            for (int j = index+1; j < n; j++)
+                res += Plot[index,j] * x.values[j];
+            return res;
+        }
+
         public Vector Multiply(Vector x)//умножение матрицы на вектор
         {
             double[] values_res = new double[x.size];
@@ -48,17 +64,6 @@ namespace anonymous
                 }
             return res;
         }
-
-        public double MultiplyL(int index, Vector x)//функция для Гаусс-Зейделя, нижний треугольник
-        {
-            throw new NotImplementedException();
-        }
-
-        public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
-        {
-            throw new NotImplementedException();
-        }
-
         public Vector TMultiply(Vector x)//умножение транспонированной матрицы на вектор
         {
             double[] values_res = new double[x.size];
