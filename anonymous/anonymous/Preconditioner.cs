@@ -486,7 +486,50 @@ namespace anonymous
 
         public bool createLLT(Slae<DenseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
+
+            //обработка исключений
+            try
+            {
+
+                if (temp.PLOT[0, 0] <= 0)
+                    throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
+
+                int i, j, p;
+                double sumDi, sumL;
+                for (i = 0; i < temp.N; i++)
+                {
+                    sumDi = 0;
+                    for (j = 0; j < i; j++)
+                    {
+                        sumL = 0;
+                        for (p = 0; p < j; p++)
+                        {
+                            sumL += temp.PLOT[j, p] * temp.PLOT[i, p];
+                            sumDi += temp.PLOT[i, p] * temp.PLOT[i, p];
+                        }
+                        if (temp.PLOT[j, j] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        temp.PLOT[i,j]=(temp.PLOT[i,j]-sumL)/ temp.PLOT[j, j];
+                        temp.PLOT[j, i] = temp.PLOT[i, j];
+                    }
+                    if (temp.PLOT[i, i] < sumDi)
+                    {
+                        throw new Exception("LLt: Извлечение корня из отрицательного числа.");
+                    }
+                    temp.PLOT[i,i] = Math.Sqrt(temp.PLOT[i,i] - sumDi);
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
 
         public bool createLU(Slae<DenseMatrix> Slae)
