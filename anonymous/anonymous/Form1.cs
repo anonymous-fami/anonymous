@@ -263,8 +263,6 @@ namespace anonymous
                                     }
                                 case 2: //LLT
                                     {
-                                        /*
-                                        Не реализовано!
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -274,7 +272,7 @@ namespace anonymous
 
                                         IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
 
-                                        if (!preconditioner.createLLT(SLAE)
+                                        if (!preconditioner.createLLT(SLAE))
                                         {
                                             success = false;
                                             break;
@@ -295,7 +293,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                                 case 3: //LU
@@ -651,8 +648,6 @@ namespace anonymous
                                     }
                                 case 2: //LLT
                                     {
-                                        /*
-                                        Не реализовано!
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -683,7 +678,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                                 case 3: //LU
@@ -866,13 +860,13 @@ namespace anonymous
                                             case 0: //МСГ
                                                 {
                                                     solver = new MSG();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
-                                                    //Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
                                         }
