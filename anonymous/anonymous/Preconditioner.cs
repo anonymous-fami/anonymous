@@ -28,7 +28,7 @@ namespace anonymous
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
             int[] ia = new int[temp.N + 1];
-            
+
             for (int i = 0; i < temp.N + 1; i++)
             {
                 ia[i] = 0;  // подразумевает что ia[0] начинается  с 0, как и во всем проекте.
@@ -37,59 +37,60 @@ namespace anonymous
             double[] al = null;
             Slae.PMatrix = new ProfileMatrix(al, al, temp.DI, ia, temp.N);
 
-            return true;                   
+            return true;
         }
 
         public bool createLLT(Slae<ProfileMatrix> Slae)
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
 
-            //обработка исключений
-            try
-            {
-                if (temp.DI[0] <= 0)
-                    throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
-
-                double sumDi, sumL;
-                int length, k, stolb, temp1, j;
-                for (int i = 0; i < temp.N; i++)
+                //обработка исключений
+                try
                 {
-                    sumDi = 0;
-                    for (j = temp.IA[i]; j < temp.IA[i + 1]; j++)
+                    if (temp.DI[0] <= 0)
+                        throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
+
+                    double sumDi, sumL;
+                    int length, k, stolb, temp1, j;
+                    for (int i = 0; i < temp.N; i++)
                     {
-                        length = temp.IA[i + 1] - temp.IA[i];   //колличество элементов в строке
-                        stolb = i - (temp.IA[i + 1] - j);       //номер столбца вычисляемого элемента
-                        sumL = 0;
-                        if (temp.IA[stolb + 1] - temp.IA[stolb] != 0)
-                            for (k = 0; k < j - temp.IA[i]; k++)
-                            {
-                                temp1 = i - length + k - stolb + temp.IA[stolb + 1] - temp.IA[stolb];
-                                sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
-                            }
-                        if (temp.DI[stolb] == 0)
+                        sumDi = 0;
+                        for (j = temp.IA[i]; j < temp.IA[i + 1]; j++)
                         {
-                            throw new Exception("LLt: Деление на ноль.");
+                            length = temp.IA[i + 1] - temp.IA[i];   //колличество элементов в строке
+                            stolb = i - (temp.IA[i + 1] - j);       //номер столбца вычисляемого элемента
+                            sumL = 0;
+                            if (temp.IA[stolb + 1] - temp.IA[stolb] != 0)
+                                for (k = 0; k < j - temp.IA[i]; k++)
+                                {
+                                    temp1 = i - length + k - stolb + temp.IA[stolb + 1] - temp.IA[stolb];
+                                    sumL += temp.AL[temp.IA[i] + k] * temp.AL[temp.IA[stolb] + temp1];    // L[i,j]=1/L[j,j](A[i,j]-(SUM(L[i,k]*L[j,k]),K=1 to j-1))
+                                }
+                            if (temp.DI[stolb] == 0)
+                            {
+                                throw new Exception("LLt: Деление на ноль.");
+                            }
+                            temp.AL[j] = (temp.AL[j] - sumL) / temp.DI[stolb];
+                            temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
+                            sumDi += temp.AL[j] * temp.AL[j];
                         }
-                        temp.AL[j] = (temp.AL[j] - sumL) / temp.DI[stolb];
-                        temp.AU[j] = temp.AL[j]; //добавлено для заполнения верхнего треугольника, если что уберите.
-                        sumDi += temp.AL[j] * temp.AL[j];
+                        if (temp.DI[i] < sumDi)
+                        {
+                            throw new Exception("LLt: Извлечение корня из отрицательного числа.");
+                        }
+                        temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
                     }
-                    if (temp.DI[i] < sumDi)
-                    {
-                        throw new Exception("LLt: Извлечение корня из отрицательного числа.");
-                    }
-                    temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDi);
+                    Slae.PMatrix = temp;
                 }
-                Slae.PMatrix = temp;
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                    Slae.PMatrix = null;
+                    return false;
+                }
+                return true;
+            
             }
-            catch (Exception error)
-            {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
-                Slae.PMatrix = null;
-                return false;
-            }
-            return true;
-          }
 
         public bool createLU(Slae<ProfileMatrix> Slae)
         {
@@ -99,11 +100,6 @@ namespace anonymous
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
                 for (i = 1; i < temp.N; i++)     //пробегаем все строки матрицы
                 {
                     tdi = 0;
@@ -135,6 +131,10 @@ namespace anonymous
                             temp.AL[ii] -= tl;
                             temp.AU[ii] -= tu;
                         }
+                        if (temp.DI[j]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
                         temp.AL[ii] = temp.AL[ii] / temp.DI[j];
                         tdi += temp.AL[ii] * temp.AU[ii];       // вычисление диагонали
                     }
@@ -151,19 +151,14 @@ namespace anonymous
             return true;
         }
 
-        public bool createLUsq(Slae<ProfileMatrix> Slae)  
+        public bool createLUsq(Slae<ProfileMatrix> Slae)
         {
-            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());           
+            ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
             int i0, i1, j0, j1, i, j, mi, mj, kol_i, kol_j, kol_r, ind;
-            double sumDiag, sumL, sumU;         
+            double sumDiag, sumL, sumU;
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                    throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }               
                 for (i = 0; i < temp.N; i++)
                 {
                     i0 = temp.IA[i];
@@ -189,9 +184,17 @@ namespace anonymous
                             sumL += temp.AL[mi] * temp.AU[mj];
                             sumU += temp.AU[mi] * temp.AL[mj];
                         }
-                        temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[j];
-                        temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[j];
-                        sumDiag += temp.AL[ind] * temp.AU[ind];
+                        if (temp.DI[j]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        else
+                        {
+                            temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[j];
+                            temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[j];
+                            sumDiag += temp.AL[ind] * temp.AU[ind];
+                        }
+
                     }
 
                     if ((temp.DI[i] - sumDiag) < 0)
@@ -201,7 +204,7 @@ namespace anonymous
                     else
                     {
                         temp.DI[i] = Math.Sqrt(temp.DI[i] - sumDiag);
-                       
+
                     }
                 }
                 Slae.PMatrix = temp;
@@ -237,7 +240,79 @@ namespace anonymous
 
         public bool createLLT(Slae<DisperseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
+
+            double sumDiag, sumL, sumU;
+            int iaEnd;
+            int i, j, k, k1, i0, i1, j0, j1, ind;
+
+
+            //обработка исключений
+            try
+            {
+                iaEnd = temp.IA[temp.N];
+
+                //LLt
+                for (k = 1, k1 = 0; k <= temp.N; k++, k1++)
+                {
+
+                    i0 = temp.IA[k1];
+                    i1 = temp.IA[k];
+
+                    sumDiag = 0;
+
+                    for (ind = i0; ind < i1; ind++)
+                    {
+                        sumL = 0;
+                        sumU = 0;
+
+                        j0 = temp.IA[temp.JA[ind]];
+                        j1 = temp.IA[temp.JA[ind] + 1];
+
+
+
+                        for (i = i0; i < ind; i++)
+                            for (j = j0; j0 < j1; j++)
+                            {
+                                if ((temp.JA[i] == temp.JA[j]))
+                                {
+                                    sumL += temp.AL[i] * temp.AU[j];
+                                    sumU += temp.AU[i] * temp.AL[j];
+                                }
+                                j0++;
+                            }
+                        if (temp.DI[temp.JA[ind]] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        else
+                        {
+                            temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[temp.JA[ind]];
+                            temp.AU[ind] = temp.AL[ind]; // для заполнения верхнего треугольника
+                            sumDiag += temp.AL[ind] * temp.AL[ind];
+                        }
+                    }
+
+
+                    if ((temp.DI[k1] - sumDiag) < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[k1] = Math.Sqrt(temp.DI[k1] - sumDiag);
+                    }
+                }
+                Slae.PMatrix = temp;
+
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
 
         public bool createLU(Slae<DisperseMatrix> Slae)
@@ -248,11 +323,6 @@ namespace anonymous
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
                 for (i = 0; i < temp.N; i++)
                 {
                     for (j = 0; j < temp.IA[i + 1] - temp.IA[i]; j++, k++)
@@ -263,6 +333,10 @@ namespace anonymous
                             else
                             if (temp.JA[p] > temp.JA[k - m]) k--;
                             else p++;
+                        if (temp.DI[temp.JA[k]]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
                         temp.AL[k] = (temp.AL[k] - s) / temp.DI[temp.JA[k]];
                         temp.AU[k] -= s;
                     }
@@ -280,12 +354,11 @@ namespace anonymous
             }
             return true;
         }
-    
 
         public bool createLUsq(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
-            
+
             double sumDiag, sumL, sumU;
             int iaEnd;
             int i, j, k, k1, i0, i1, j0, j1, ind;
@@ -294,12 +367,6 @@ namespace anonymous
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
-
                 iaEnd = temp.IA[temp.N];
 
                 //LU(sq)
@@ -331,15 +398,18 @@ namespace anonymous
                                 }
                                     j0++;
                             }
-
-
-                        temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[temp.JA[ind]];
-                        temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[temp.JA[ind]];
-
-                        sumDiag += temp.AL[ind] * temp.AU[ind];
+                        if (temp.DI[temp.JA[ind]] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        else
+                        {
+                            temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[temp.JA[ind]];
+                            temp.AU[ind] = (temp.AU[ind] - sumU) / temp.DI[temp.JA[ind]];
+                            sumDiag += temp.AL[ind] * temp.AU[ind];
+                        }
                     }
 
-                 
                     if ((temp.DI[k1] - sumDiag) < 0)
                     {
                         throw new Exception("Извлечение корня из отрицательного числа.");
@@ -350,7 +420,6 @@ namespace anonymous
                     }
                 }
                 Slae.PMatrix = temp;
-
             }
             catch (Exception error)
             {
@@ -359,7 +428,6 @@ namespace anonymous
                 return false;
             }
             return true;
-
         }
     }
     #endregion
@@ -391,11 +459,6 @@ namespace anonymous
             int i, k, j;
             try
             {
-                for (i = 0; i < temp.N; i++)
-                {
-                    if (temp.PLOT[i, i] == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
                 for (i = 0; i < temp.N; i++) //проходим по всем строкам
                 {
                     td = 0;
@@ -407,6 +470,10 @@ namespace anonymous
                         {
                             tl += temp.PLOT[k, j] * temp.PLOT[i, k];
                             tu += temp.PLOT[j, k] * temp.PLOT[k, i];
+                        }
+                        if (temp.PLOT[j, j] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                         }
                         temp.PLOT[i, j] = (temp.PLOT[i, j] - tl) / temp.PLOT[j, j];
                         temp.PLOT[j, i] = (temp.PLOT[j, i] - tu);
@@ -433,11 +500,6 @@ namespace anonymous
 
             try
             {
-                for (i = 0; i < temp.N; i++)
-                {
-                    if (temp.PLOT[i, i] == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
                 for (i = 0; i < temp.N; i++) 
                 {
                     sumDiag = 0;
@@ -451,12 +513,18 @@ namespace anonymous
                             sumU += temp.PLOT[j, k] * temp.PLOT[k, i];
                         }
 
-                        temp.PLOT[i, j] = (temp.PLOT[i, j] - sumL) / temp.PLOT[j, j];
-                        temp.PLOT[j, i] = (temp.PLOT[j, i] - sumU) / temp.PLOT[j, j];
-                        sumDiag += temp.PLOT[i, j] * temp.PLOT[j, i];
-                    }
+                        if (temp.PLOT[j,j]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        else
+                        {
+                            temp.PLOT[i, j] = (temp.PLOT[i, j] - sumL) / temp.PLOT[j, j];
+                            temp.PLOT[j, i] = (temp.PLOT[j, i] - sumU) / temp.PLOT[j, j];
+                            sumDiag += temp.PLOT[i, j] * temp.PLOT[j, i];
+                        }
                     
-
+                    }
 
                     if ((temp.PLOT[i,i] - sumDiag) < 0)
                     {
@@ -477,8 +545,6 @@ namespace anonymous
                 return false;
             }
             return true;
-
-            throw new NotImplementedException();
         }
     }
     #endregion
@@ -510,11 +576,6 @@ namespace anonymous
             int i, k, j;
             try
             {
-                for (i = 0; i < temp.N; i++)
-                {
-                    if (temp.DI[i] == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
                 for (i = 0; i < temp.N - temp.IA[0]; i++) //проходим по всем столбцам
                 {
                     td = 0;
@@ -529,6 +590,10 @@ namespace anonymous
                                 tl += temp.AL[k + 1, i - temp.IA[k]] * temp.AU[k, i - temp.IA[k]];
                                 tu += temp.AL[k, i - temp.IA[k]] * temp.AU[k + 1, i - temp.IA[k]];
                             }
+                        }
+                        if (temp.DI[i]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                         }
                         temp.AL[j, i] = (temp.AL[j, i] - tl) / temp.DI[i];
                         temp.AU[j, i] = (temp.AU[j, i] - tu);
@@ -555,11 +620,6 @@ namespace anonymous
             int i, k, j;
             try
             {
-                for (i = 0; i < temp.N; i++)
-                {
-                    if (temp.DI[i] == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
                 for (i = 0; i < temp.N - temp.IA[0]; i++)
                 {
                     sumDiag = 0;
@@ -575,8 +635,15 @@ namespace anonymous
                                 sumU += temp.AL[k, i - temp.IA[k]] * temp.AU[k + 1, i - temp.IA[k]];
                             }
                         }
+                        if (temp.DI[i] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        else
+                        {
                         temp.AL[j, i] = (temp.AL[j, i] - sumL) / temp.DI[i];
-                        temp.AU[j, i] = (temp.AU[j, i] - sumU)/temp.DI[i];
+                            temp.AU[j, i] = (temp.AU[j, i] - sumU) / temp.DI[i];
+                        }
                     }
                     for (k = 0; k < temp.ND && i >= temp.IA[k] - 1; k++)
                         sumDiag += temp.AL[k, i - temp.IA[k] + 1] * temp.AU[k, i - temp.IA[k] + 1];

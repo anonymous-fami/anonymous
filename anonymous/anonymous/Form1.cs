@@ -721,8 +721,6 @@ namespace anonymous
                                     }
                                 case 4: //LUsq
                                     {
-                                        /*
-                                        Не реализовано!
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
 
                                         if (!preconditioner.createLUsq(SLAE))
@@ -752,7 +750,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                             }
@@ -849,8 +846,6 @@ namespace anonymous
                                     }
                                 case 2: //LLT
                                     {
-                                        /*
-                                        Не реализовано!
                                         if (!SLAE.Matrix.CheckSymmetry())
                                         {
                                             MessageBox.Show("Для выбранного предобуславливателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -881,7 +876,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                                 case 3: //LU
