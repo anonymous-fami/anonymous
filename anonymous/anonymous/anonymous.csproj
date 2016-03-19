@@ -139,6 +139,11 @@
     <Content Include="tests\разреженная\2\матрица.txt" />
     <Content Include="tests\разреженная\2\правая часть.txt" />
     <Content Include="tests\разреженная\2\приближение.txt" />
+    <Content Include="tests\разреженная\3\матрица.txt" />
+    <Content Include="tests\разреженная\3\правая часть.txt" />
+    <Content Include="tests\разреженная\3\приближение.txt" />
+    <Content Include="tests\разреженная\4\матрица.txt" />
+    <Content Include="tests\разреженная\4\правая часть.txt" />
     <Content Include="Конвертер.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -14,6 +14,7 @@ namespace anonymous
     {
         public static bool debug = false;
         public static PointPairList points = new PointPairList();
+        private static int previt;
         //
         //Ввод плотной матрицы
         // n - размерность матрицы
@@ -560,18 +561,43 @@ namespace anonymous
         {
             try
             {                
-                it++;
+                it++;                
                 if (!last)
                 {
-                    if (it <= 100) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                    if (it <= 100)
+                    {
+                        Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                        previt = it;
+                    }
                     else
-                    if ((it > 100) && (it <= 1000) && (it % 100 == 0)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
-                    else
-                        if ((it > 1000) && (it <= 10000) && (it % 1000 == 0)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                    {
+                        if ((it > 100) && (it <= 1000) && (it % 100 == 0))
+                        {
+                            Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                            previt = it;
+                        }
+                        else
+                        {
+                            if ((it > 1000) && (it <= 10000) && (it % 1000 == 0))
+                            {
+                                Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                                previt = it;
+                            }
+                            else
+                            {
+                                if ((it > 10000) && (it <= 100000) && (it % 10000 == 0))
+                                {
+                                    Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                                    previt = it;
+                                }
+                            }
+                        }
+                    }
+                    
                 }
                 else
                 {
-                    if (it != maxiter) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                    if ((it != maxiter) && (it != previt)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
                 }
 
                 Data.ZedGraph.GraphPane.CurveList.Clear();
