@@ -118,11 +118,11 @@ namespace anonymous
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
+                //foreach (double x in temp.DI)
+                //{
+                //    if (x == 0)
+                //        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                //}
                 for (i = 1; i < temp.N; i++)     //пробегаем все строки матрицы
                 {
                     tdi = 0;
@@ -153,6 +153,10 @@ namespace anonymous
                             }
                             temp.AL[ii] -= tl;
                             temp.AU[ii] -= tu;
+                        }
+                        if (temp.DI[j]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                         }
                         temp.AL[ii] = temp.AL[ii] / temp.DI[j];
                         tdi += temp.AL[ii] * temp.AU[ii];       // вычисление диагонали
@@ -275,11 +279,11 @@ namespace anonymous
             //обработка исключений
             try
             {
-                foreach (double x in temp.DI)
-                {
-                    if (x == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
+                //foreach (double x in temp.DI)
+                //{
+                //    if (x == 0)
+                //        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                //}
                 for (i = 0; i < temp.N; i++)
                 {
                     for (j = 0; j < temp.IA[i + 1] - temp.IA[i]; j++, k++)
@@ -290,6 +294,10 @@ namespace anonymous
                             else
                             if (temp.JA[p] > temp.JA[k - m]) k--;
                             else p++;
+                        if (temp.DI[temp.JA[k]]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
                         temp.AL[k] = (temp.AL[k] - s) / temp.DI[temp.JA[k]];
                         temp.AU[k] -= s;
                     }
@@ -423,11 +431,11 @@ namespace anonymous
             int i, k, j;
             try
             {
-                for (i = 0; i < temp.N; i++)
-                {
-                    if (temp.PLOT[i, i] == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
+                //for (i = 0; i < temp.N; i++)
+                //{
+                //    if (temp.PLOT[i, i] == 0)
+                //        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                //}
                 for (i = 0; i < temp.N; i++) //проходим по всем строкам
                 {
                     td = 0;
@@ -439,6 +447,10 @@ namespace anonymous
                         {
                             tl += temp.PLOT[k, j] * temp.PLOT[i, k];
                             tu += temp.PLOT[j, k] * temp.PLOT[k, i];
+                        }
+                        if (temp.PLOT[j, j] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                         }
                         temp.PLOT[i, j] = (temp.PLOT[i, j] - tl) / temp.PLOT[j, j];
                         temp.PLOT[j, i] = (temp.PLOT[j, i] - tu);
@@ -548,11 +560,11 @@ namespace anonymous
             int i, k, j;
             try
             {
-                for (i = 0; i < temp.N; i++)
-                {
-                    if (temp.DI[i] == 0)
-                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
-                }
+                //for (i = 0; i < temp.N; i++)
+                //{
+                //    if (temp.DI[i] == 0)
+                //        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                //}
                 for (i = 0; i < temp.N - temp.IA[0]; i++) //проходим по всем столбцам
                 {
                     td = 0;
@@ -567,6 +579,10 @@ namespace anonymous
                                 tl += temp.AL[k + 1, i - temp.IA[k]] * temp.AU[k, i - temp.IA[k]];
                                 tu += temp.AL[k, i - temp.IA[k]] * temp.AU[k + 1, i - temp.IA[k]];
                             }
+                        }
+                        if (temp.DI[i]==0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
                         }
                         temp.AL[j, i] = (temp.AL[j, i] - tl) / temp.DI[i];
                         temp.AU[j, i] = (temp.AU[j, i] - tu);
