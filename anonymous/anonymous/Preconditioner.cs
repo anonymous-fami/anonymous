@@ -323,15 +323,16 @@ namespace anonymous
                         j1 = temp.IA[temp.JA[ind] + 1];
 
 
+
                         for (i = i0; i < ind; i++)
                             for (j = j0; j0 < j1; j++)
                             {
-                                if (temp.JA[i] == temp.JA[j])
+                                if ((temp.JA[i] == temp.JA[j]))
                                 {
                                     sumL += temp.AL[i] * temp.AU[j];
                                     sumU += temp.AU[i] * temp.AL[j];
-                                    j0++;
                                 }
+                                    j0++;
                             }
 
 

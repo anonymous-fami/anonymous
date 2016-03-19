@@ -366,7 +366,7 @@ namespace anonymous
             double[] di = { 1, 10, 9, 78, 81, 108 };
             int n = 6;
 
-            int[] ja = { 0, 1, 2, 2, 3, 2, 2, 3, 4 };
+            int[] ja = { 0, 1, 2, 2, 3, 2, 3, 4 };
 
 
 
@@ -394,10 +394,10 @@ namespace anonymous
             bool d_a = DensePrecond.createLUsq(DSlae);
 
             //разреженная
-            //Slae<DisperseMatrix> Slae = new Slae<DisperseMatrix>();
-            //Slae.Matrix = new DisperseMatrix(au, al, di, ia, ja, n);
-            //IPreconditioner<DisperseMatrix> precond = new DispersePreconditioner();
-            //bool a = precond.createLUsq(Slae);
+            Slae<DisperseMatrix> Slae = new Slae<DisperseMatrix>();
+            Slae.Matrix = new DisperseMatrix(au, al, di, ia, ja, n);
+            IPreconditioner<DisperseMatrix> precond = new DispersePreconditioner();
+            bool a = precond.createLUsq(Slae);
 
             //диагональная
             double[] diagDI = { 1, 32, 103 };
