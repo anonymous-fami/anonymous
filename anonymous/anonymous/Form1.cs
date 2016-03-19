@@ -357,64 +357,86 @@ namespace anonymous
             //double[] di = { 1, 32, 103 };
             //int n = 3;
 
-            
+
 
             //матрица для проверки LUsq
+            #region LUSQ
+            //double[] au = { 3, 10, 21, 24, 48, 27, 54, 63 };
+            //double[] al = { 2, 8, 18, 21, 49, 24, 56, 64 };
+            //int[] ia = { 0, 0, 1, 1, 3, 5, 8 };
+            //double[] di = { 1, 10, 9, 78, 81, 108 };
+            //int n = 6;
 
-            double[] au = { 3, 10, 21, 24, 48, 27, 54, 63 };
-            double[] al = { 2, 8, 18, 21, 49, 24, 56, 64 };
-            int[] ia = { 0, 0, 1, 1, 3, 5, 8 };
-            double[] di = { 1, 10, 9, 78, 81, 108 };
-            int n = 6;
-
-            int[] ja = { 0, 1, 2, 2, 3, 2, 3, 4 };
+            //int[] ja = { 0, 1, 2, 2, 3, 2, 3, 4 };
 
 
 
-            //double[] au = { 7, 8, 50 };
-            //double[] al = { 4, 5, 47 };
-            //int[] ia = { 0, 0, 1, 3 };
-            //double[] di = { 1, 32, 103 };
-            //int[] ja = { 0, 0, 1 };
-            //int n = 3;
+            ////double[] au = { 7, 8, 50 };
+            ////double[] al = { 4, 5, 47 };
+            ////int[] ia = { 0, 0, 1, 3 };
+            ////double[] di = { 1, 32, 103 };
+            ////int[] ja = { 0, 0, 1 };
+            ////int n = 3;
+
+            ////профильаня матрица
+            //Slae<ProfileMatrix> PSlae = new Slae<ProfileMatrix>();
+            //PSlae.Matrix = new ProfileMatrix(au, al, di, ia, n);
+            //IPreconditioner<ProfileMatrix> ProfPrecond = new ProfilePreconditioner();
+            //bool p_a = ProfPrecond.createLUsq(PSlae);
+
+            ////плотная
+
+            ////double[,] Plot = { { 1, 7, 8 }, { 4, 32, 50 }, { 5, 47, 103 } };
+            //double[,] Plot = { { 1, 3, 0, 0, 0, 0 }, { 2, 10, 0, 10, 0, 0 }, { 0, 0, 9, 21, 24, 27 }, { 0, 8, 18, 78, 48, 54 }, { 0, 0, 21, 49, 81, 63 }, { 0, 0, 24, 56, 64, 108 } };
+
+            //Slae<DenseMatrix> DSlae = new Slae<DenseMatrix>();
+            //DSlae.Matrix = new DenseMatrix(Plot, n);
+            //IPreconditioner<DenseMatrix> DensePrecond = new DensePreconditioner();
+            //bool d_a = DensePrecond.createLUsq(DSlae);
+
+            ////разреженная
+            //Slae<DisperseMatrix> Slae = new Slae<DisperseMatrix>();
+            //Slae.Matrix = new DisperseMatrix(au, al, di, ia, ja, n);
+            //IPreconditioner<DisperseMatrix> precond = new DispersePreconditioner();
+            //bool a = precond.createLUsq(Slae);
+
+            ////диагональная
+            //double[] diagDI = { 1, 32, 103 };
+            //int[] diagIA = { 1, 2 };
+            //double[,] diagAL = { { 4, 47 }, { 5, 0 } };
+            //double[,] diagAU = { { 7, 50 }, { 8, 0 } };
+            //int diagN = 3;
+            //int diagND = 2;
+
+
+            //Slae<DiagonalMatrix> DiagSlae = new Slae<DiagonalMatrix>();
+            //DiagSlae.Matrix = new DiagonalMatrix(diagAU, diagAL, diagDI, diagIA, diagN, diagND);
+            //IPreconditioner<DiagonalMatrix> DiagonalPrecond = new DiagonalPreconditioner();
+            //bool diag_a = DiagonalPrecond.createLUsq(DiagSlae);
+            #endregion
+
+            #region LLT
+            double[] al = { 4, 5, 32 };
+            double[] au = { 4, 5, 32 };
+            double[] di = { 1, 20, 70 };
+            int[] ia = { 0, 0, 1, 3 };
+            int[] ja = { 0, 0, 1};
+            int n = 3;
 
             //профильаня матрица
             Slae<ProfileMatrix> PSlae = new Slae<ProfileMatrix>();
             PSlae.Matrix = new ProfileMatrix(au, al, di, ia, n);
             IPreconditioner<ProfileMatrix> ProfPrecond = new ProfilePreconditioner();
-            bool p_a = ProfPrecond.createLUsq(PSlae);
-
-            //плотная
-
-            //double[,] Plot = { { 1, 7, 8 }, { 4, 32, 50 }, { 5, 47, 103 } };
-            double[,] Plot = { { 1, 3, 0, 0, 0, 0 }, { 2, 10, 0, 10, 0, 0 }, { 0, 0, 9, 21, 24, 27 }, { 0, 8, 18, 78, 48, 54 }, { 0, 0, 21, 49, 81, 63 }, { 0, 0, 24, 56, 64, 108 } };
-
-            Slae<DenseMatrix> DSlae = new Slae<DenseMatrix>();
-            DSlae.Matrix = new DenseMatrix(Plot, n);
-            IPreconditioner<DenseMatrix> DensePrecond = new DensePreconditioner();
-            bool d_a = DensePrecond.createLUsq(DSlae);
+            bool p_a = ProfPrecond.createLLT(PSlae);
 
             //разреженная
             Slae<DisperseMatrix> Slae = new Slae<DisperseMatrix>();
             Slae.Matrix = new DisperseMatrix(au, al, di, ia, ja, n);
             IPreconditioner<DisperseMatrix> precond = new DispersePreconditioner();
-            bool a = precond.createLUsq(Slae);
+            bool a = precond.createLLT(Slae);
 
-            //диагональная
-            double[] diagDI = { 1, 32, 103 };
-            int[] diagIA = { 1, 2 };
-            double[,] diagAL = { { 4, 47 }, { 5, 0 } };
-            double[,] diagAU = { { 7, 50 }, { 8, 0 } };
-            int diagN = 3;
-            int diagND = 2;
+            #endregion
 
-
-            Slae<DiagonalMatrix> DiagSlae = new Slae<DiagonalMatrix>();
-            DiagSlae.Matrix = new DiagonalMatrix(diagAU, diagAL, diagDI, diagIA, diagN, diagND);
-            IPreconditioner<DiagonalMatrix> DiagonalPrecond = new DiagonalPreconditioner();
-            bool diag_a = DiagonalPrecond.createLUsq(DiagSlae);
-
-            
             #region OLDLUTEST
             //int n = 3;
             ////int[] ia = { 0, 0, 1, 3 };
@@ -429,7 +451,7 @@ namespace anonymous
             //double[] au = { 4, 5, 26 };
             //double[] di = { 1, 18, 64 }; //1, 18, 64
 
-            
+
             //Slae<ProfileMatrix> PLSlae = new Slae<ProfileMatrix>();
             //PLSlae.Matrix = new ProfileMatrix(au, al, di, ia, n); 
             //IPreconditioner<ProfileMatrix> ProfilePreconditioner = new ProfilePreconditioner();

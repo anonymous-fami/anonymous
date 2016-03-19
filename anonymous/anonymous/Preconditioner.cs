@@ -252,7 +252,87 @@ namespace anonymous
 
         public bool createLLT(Slae<DisperseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
+
+            double sumDiag, sumL, sumU;
+            int iaEnd;
+            int i, j, k, k1, i0, i1, j0, j1, ind;
+
+
+            //обработка исключений
+            try
+            {
+
+                //foreach (double x in temp.DI)
+                //{
+                //    if (x == 0)
+                //        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                //}
+
+                iaEnd = temp.IA[temp.N];
+
+                //LLt
+                for (k = 1, k1 = 0; k <= temp.N; k++, k1++)
+                {
+
+                    i0 = temp.IA[k1];
+                    i1 = temp.IA[k];
+
+                    sumDiag = 0;
+
+                    for (ind = i0; ind < i1; ind++)
+                    {
+                        sumL = 0;
+                        sumU = 0;
+
+                        j0 = temp.IA[temp.JA[ind]];
+                        j1 = temp.IA[temp.JA[ind] + 1];
+
+
+
+                        for (i = i0; i < ind; i++)
+                            for (j = j0; j0 < j1; j++)
+                            {
+                                if ((temp.JA[i] == temp.JA[j]))
+                                {
+                                    sumL += temp.AL[i] * temp.AU[j];
+                                    sumU += temp.AU[i] * temp.AL[j];
+                                }
+                                j0++;
+                            }
+                        if (temp.DI[temp.JA[ind]] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        else
+                        {
+                            temp.AL[ind] = (temp.AL[ind] - sumL) / temp.DI[temp.JA[ind]];
+                            temp.AU[ind] = temp.AL[ind]; // для заполнения верхнего треугольника
+                            sumDiag += temp.AL[ind] * temp.AL[ind];
+                        }
+                    }
+
+
+                    if ((temp.DI[k1] - sumDiag) < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[k1] = Math.Sqrt(temp.DI[k1] - sumDiag);
+                    }
+                }
+                Slae.PMatrix = temp;
+
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
+            //throw new NotImplementedException();
         }
 
         public bool createLU(Slae<DisperseMatrix> Slae)
