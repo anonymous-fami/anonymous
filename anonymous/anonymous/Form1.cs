@@ -357,6 +357,7 @@ namespace anonymous
             //double[] di = { 1, 32, 103 };
             //int n = 3;
 
+            /*
 
             //матрица для проверки LUsq
 
@@ -386,10 +387,10 @@ namespace anonymous
             //плотная
 
             //double[,] Plot = { { 1, 7, 8 }, { 4, 32, 50 }, { 5, 47, 103 } };
-            double[,] Plot = { { 1,3,0,0,0,0}, { 2,10,0,10,0,0}, { 0,0,9,21,24,27}, { 0, 8,18,78,48,54}, { 0, 0, 21, 49, 81, 63 }, { 0,0,24,56,64,108} };
+            double[,] Plot = { { 1, 3, 0, 0, 0, 0 }, { 2, 10, 0, 10, 0, 0 }, { 0, 0, 9, 21, 24, 27 }, { 0, 8, 18, 78, 48, 54 }, { 0, 0, 21, 49, 81, 63 }, { 0, 0, 24, 56, 64, 108 } };
 
             Slae<DenseMatrix> DSlae = new Slae<DenseMatrix>();
-            DSlae.Matrix = new DenseMatrix(Plot,n);
+            DSlae.Matrix = new DenseMatrix(Plot, n);
             IPreconditioner<DenseMatrix> DensePrecond = new DensePreconditioner();
             bool d_a = DensePrecond.createLUsq(DSlae);
 
@@ -400,24 +401,38 @@ namespace anonymous
             bool a = precond.createLUsq(Slae);
 
             //диагональная
-            double[] diagDI = { 1, 32, 103 };
-            int[] diagIA = { 1, 2 };
-            double[,] diagAL = { { 4, 47 }, { 5, 0 } };
-            double[,] diagAU = { { 7, 50 }, { 8, 0 } };
-            int diagN = 3;
-            int diagND = 2;
+            //double[] diagDI = { 1, 32, 103 };
+            //int[] diagIA = { 1, 2 };
+            //double[,] diagAL = { { 4, 47 }, { 5, 0 } };
+            //double[,] diagAU = { { 7, 50 }, { 8, 0 } };
+            //int diagN = 3;
+            //int diagND = 2;
 
-            //double[] diagDI = { 1, 10, 9, 78, 81, 108 };
-            //double[,] diagAL = { { 2, 0, 18, 49, 64 }, { 0, 8, 21, 56, 0 }, { 0, 0, 24, 0, 0} };
-            //double[,] diagAU = { { 3, 0, 21, 48, 63 }, { 0, 10, 24, 54, 0 }, { 0, 0, 27, 0, 0} };
-            //int[] diagIA = { 1, 2, 3 };
-            //int diagN = 6;
-            //int diagND = 3;
+            double[] diagDI = { 1, 10, 9, 78, 81, 108 };
+            double[,] diagAL = { { 2, 0, 18, 49, 64 }, { 0, 8, 21, 56, 0 }, { 0, 0, 24, 0, 0 } };
+            double[,] diagAU = { { 3, 0, 21, 48, 63 }, { 0, 10, 24, 54, 0 }, { 0, 0, 27, 0, 0 } };
+            int[] diagIA = { 1, 2, 3 };
+            int diagN = 6;
+            int diagND = 3;
             Slae<DiagonalMatrix> DiagSlae = new Slae<DiagonalMatrix>();
-            DiagSlae.Matrix = new DiagonalMatrix(diagAU, diagAL,diagDI, diagIA,diagN,diagND);
+            DiagSlae.Matrix = new DiagonalMatrix(diagAU, diagAL, diagDI, diagIA, diagN, diagND);
             IPreconditioner<DiagonalMatrix> DiagonalPrecond = new DiagonalPreconditioner();
             bool diag_a = DiagonalPrecond.createLUsq(DiagSlae);
-            
+
+            */
+            int n = 3;
+            int[] ia = { 0, 0, 1, 3 };
+            int[] ja = { 0, 0, 1 };
+            double[] al = { 4, 5, 32 };
+            double[] au = { 4, 1, 32 };
+            double[] di = { 1, 20, 70 };
+
+            IMatrix<ProfileMatrix> MatrixA = new ProfileMatrix(au, al, di, ia, n);
+            Slae<ProfileMatrix> LSlae = new Slae<ProfileMatrix>();
+            LSlae.Matrix = MatrixA;
+            IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
+
+            preconditioner.createLLT(LSlae);
 
         }
 
