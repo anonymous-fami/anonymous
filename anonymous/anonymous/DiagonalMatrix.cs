@@ -41,11 +41,11 @@ namespace anonymous
             this.ia = new int[Original.nd];
             Array.Copy(Original.ia, this.ia, Original.nd);
 
-            this.al = new double[this.nd, this.n-1];
-            Array.Copy(Original.al, this.al, this.nd*(this.n - 1));
-        
-            this.au = new double[this.nd, this.n-1];
-            Array.Copy(Original.au, this.au, (this.nd)*( this.n - 1));
+            this.al = new double[this.nd, this.n - 1];
+            Array.Copy(Original.al, this.al, this.nd * (this.n - 1));
+
+            this.au = new double[this.nd, this.n - 1];
+            Array.Copy(Original.au, this.au, (this.nd) * (this.n - 1));
 
             this.di = new double[this.n];
             Array.Copy(Original.di, this.di, this.n);
@@ -65,21 +65,46 @@ namespace anonymous
                 for (int j = 0; j < N - ia[i]; j++)
                 {
                     ir = j + ia[i];
-                    res.values[ir] += al[i,j] * x.values[j];
-                    res.values[j] += au[i,j] * x.values[ir];
+                    res.values[ir] += al[i, j] * x.values[j];
+                    res.values[j] += au[i, j] * x.values[ir];
                 }
             return res;
         }
 
         public double MultiplyL(int index, Vector x)//функция для Гаусс-Зейделя, нижний треугольник
         {
-            throw new NotImplementedException();
+            double[] values_res = new double[x.size];
+
+            var res = new Vector(x.size, values_res);
+
+            for (int i = 0; i < n; i++)
+                res.values[i] = 0;
+
+            for (int i = 0, ir = 0; i < nd; i++)
+                for (int j = 0; j < n - ia[i]; j++)
+                {
+                    ir = j + ia[i];
+                    res.values[ir] += al[i, j] * x.values[j];
+                }
+            return res.values[index];
         }
 
         public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
         {
-            throw new NotImplementedException();
-        }
+            double[] values_res = new double[x.size];
+
+            var res = new Vector(x.size, values_res);
+
+            for (int i = 0; i < n; i++)
+                res.values[i] = 0;
+
+            for (int i = 0; i < nd; i++)
+                for (int j = ia[i], k = 0; k < index && k < (n - 1); k++)
+                {
+                    res.values[k + j] += au[i, k] * x.values[k];                    
+                }
+            return res.values[index];
+        } 
 
         public Vector TMultiply(Vector x)//умножение транспонированной матрицы на вектор
         {
