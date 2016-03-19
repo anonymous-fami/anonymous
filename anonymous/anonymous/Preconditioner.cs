@@ -246,16 +246,13 @@ namespace anonymous
             int iaEnd;
             int i, j, k, k1, i0, i1, j0, j1, ind;
 
-
             //обработка исключений
             try
             {
                 iaEnd = temp.IA[temp.N];
 
-                //LLt
                 for (k = 1, k1 = 0; k <= temp.N; k++, k1++)
                 {
-
                     i0 = temp.IA[k1];
                     i1 = temp.IA[k];
 
@@ -268,8 +265,6 @@ namespace anonymous
 
                         j0 = temp.IA[temp.JA[ind]];
                         j1 = temp.IA[temp.JA[ind] + 1];
-
-
 
                         for (i = i0; i < ind; i++)
                             for (j = j0; j0 < j1; j++)
@@ -292,7 +287,6 @@ namespace anonymous
                             sumDiag += temp.AL[ind] * temp.AL[ind];
                         }
                     }
-
 
                     if ((temp.DI[k1] - sumDiag) < 0)
                     {
@@ -449,7 +443,50 @@ namespace anonymous
 
         public bool createLLT(Slae<DenseMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
+
+            //обработка исключений
+            try
+            {
+
+                if (temp.PLOT[0, 0] <= 0)
+                    throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
+
+                int i, j, p;
+                double sumDi, sumL;
+                for (i = 0; i < temp.N; i++)
+                {
+                    sumDi = 0;
+                    for (j = 0; j < i; j++)
+                    {
+                        sumL = 0;
+                        for (p = 0; p < j; p++)
+                        {
+                            sumL += temp.PLOT[j, p] * temp.PLOT[i, p];
+                            sumDi += temp.PLOT[i, p] * temp.PLOT[i, p];
+                        }
+                        if (temp.PLOT[j, j] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        temp.PLOT[i,j]=(temp.PLOT[i,j]-sumL)/ temp.PLOT[j, j];
+                        temp.PLOT[j, i] = temp.PLOT[i, j];
+                    }
+                    if (temp.PLOT[i, i] < sumDi)
+                    {
+                        throw new Exception("LLt: Извлечение корня из отрицательного числа.");
+                    }
+                    temp.PLOT[i,i] = Math.Sqrt(temp.PLOT[i,i] - sumDi);
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
 
         public bool createLU(Slae<DenseMatrix> Slae)
@@ -566,7 +603,54 @@ namespace anonymous
 
         public bool createLLT(Slae<DiagonalMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DiagonalMatrix temp = new DiagonalMatrix(Slae.Matrix.getMatrix());
+            double td, tl, tu;
+            int i, k, j;
+            try
+            {
+                for (i = 0; i < temp.N - temp.IA[0]; i++) //проходим по всем столбцам
+                {
+                    td = 0;
+                    for (j = 0; j < temp.ND && temp.IA[j] + i < temp.N; j++) //проходим по всем даигоналям
+                    {
+                        tl = 0;
+                        tu = 0;
+                        for (k = 0; k + 1 < temp.ND && k < i; k++)
+                        {
+                            if (i >= temp.IA[k])
+                            {
+                                tl += temp.AL[k + 1, i - temp.IA[k]] * temp.AU[k, i - temp.IA[k]];
+                                tu += temp.AL[k, i - temp.IA[k]] * temp.AU[k + 1, i - temp.IA[k]];
+                            }
+                        }
+                        if (temp.DI[i] == 0)
+                        {
+                            throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                        }
+                        temp.AL[j, i] = (temp.AL[j, i] - tl) / temp.DI[i];
+                        temp.AU[j, i] = temp.AL[j, i];
+                    }
+                    for (k = 0; k < temp.ND && i >= temp.IA[k] - 1; k++)
+                        td += temp.AL[k, i - temp.IA[k] + 1] * temp.AU[k, i - temp.IA[k] + 1];
+
+                    if ((temp.DI[i + temp.IA[0]] - td) < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[i + temp.IA[0]] = Math.Sqrt(temp.DI[i + temp.IA[0]] - td);
+                    }
+                }
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
 
         public bool createLU(Slae<DiagonalMatrix> Slae)
