@@ -107,20 +107,27 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="tests\диагональная\матрица.txt" />
-    <Content Include="tests\диагональная\правая часть.txt" />
-    <Content Include="tests\диагональная\приближение.txt" />
-    <Content Include="tests\плотная\матрица.txt" />
-    <Content Include="tests\плотная\правая часть.txt" />
-    <Content Include="tests\плотная\приближение.txt" />
-    <Content Include="tests\профильная\матрица.txt" />
-    <Content Include="tests\профильная\правая часть.txt" />
-    <Content Include="tests\профильная\приближение.txt" />
-    <Content Include="tests\разреженная\матрица.txt" />
-    <Content Include="tests\разреженная\правая часть.txt" />
-    <Content Include="tests\разреженная\приближение.txt" />
+    <Folder Include="tests\диагональная\2\" />
+    <Folder Include="tests\плотная\2\" />
+    <Folder Include="tests\плотная\3\" />
+    <Folder Include="tests\плотная\4\" />
+    <Folder Include="tests\профильная\2\" />
+    <Folder Include="tests\разреженная\2\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tests\диагональная\1\матрица.txt" />
+    <Content Include="tests\диагональная\1\правая часть.txt" />
+    <Content Include="tests\диагональная\1\приближение.txt" />
+    <Content Include="tests\плотная\1\матрица.txt" />
+    <Content Include="tests\плотная\1\правая часть.txt" />
+    <Content Include="tests\плотная\1\приближение.txt" />
+    <Content Include="tests\профильная\1\матрица.txt" />
+    <Content Include="tests\профильная\1\правая часть.txt" />
+    <Content Include="tests\профильная\1\приближение.txt" />
+    <Content Include="tests\разреженная\1\матрица.txt" />
+    <Content Include="tests\разреженная\1\правая часть.txt" />
+    <Content Include="tests\разреженная\1\приближение.txt" />
     <Content Include="Конвертер.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

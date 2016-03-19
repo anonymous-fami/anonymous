@@ -60,6 +60,8 @@
             this.save_label = new System.Windows.Forms.Label();
             this.save_button = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.conv_checkBox2 = new System.Windows.Forms.CheckBox();
             this.conv_checkBox1 = new System.Windows.Forms.CheckBox();
             this.conv_textBox2 = new System.Windows.Forms.TextBox();
@@ -67,8 +69,6 @@
             this.conv_button3 = new System.Windows.Forms.Button();
             this.conv_button2 = new System.Windows.Forms.Button();
             this.conv_button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -230,7 +230,7 @@
             // 
             // solve_button
             // 
-            this.solve_button.Location = new System.Drawing.Point(457, 384);
+            this.solve_button.Location = new System.Drawing.Point(457, 383);
             this.solve_button.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.solve_button.Name = "solve_button";
             this.solve_button.Size = new System.Drawing.Size(75, 26);
@@ -304,7 +304,7 @@
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(406, 163);
+            this.richTextBox1.Size = new System.Drawing.Size(540, 201);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
@@ -351,7 +351,7 @@
             this.maxiter_numericUpDown.Location = new System.Drawing.Point(337, 134);
             this.maxiter_numericUpDown.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.maxiter_numericUpDown.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
@@ -456,6 +456,24 @@
             this.tabPage4.Text = "Конвертер";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(32, 139);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(175, 17);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Конвертированный файл";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(32, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 17);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Исходный файл";
+            // 
             // conv_checkBox2
             // 
             this.conv_checkBox2.AutoSize = true;
@@ -526,24 +544,6 @@
             this.conv_button1.Text = "Обзор";
             this.conv_button1.UseVisualStyleBackColor = true;
             this.conv_button1.Click += new System.EventHandler(this.conv_button1_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 17);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Исходный файл";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 139);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(175, 17);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Конвертированный файл";
             // 
             // Form1
             // 

@@ -22,7 +22,7 @@ namespace anonymous
         public DenseMatrix(string FilePath)//конструктор, считывает данные из файла
         {
             if (!InputOutput.InputMatrix(FilePath, out this.n, out this.Plot))
-                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
+                MessageBox.Show("Ошибка ввода матрицы.\nИспользуйте справку (F1).", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public DenseMatrix(DenseMatrix Original) //Конструктор копий 

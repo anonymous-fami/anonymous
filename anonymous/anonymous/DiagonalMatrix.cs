@@ -19,7 +19,7 @@ namespace anonymous
         public DiagonalMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
             if (!InputOutput.InputMatrix(FilePath, out this.n, out this.nd, out this.ia, out this.al, out this.au, out this.di))
-                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
+                MessageBox.Show("Ошибка ввода матрицы.\nИспользуйте справку (F1).", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public DiagonalMatrix(double[,] au, double[,] al, double[] di, int[] ia, int n, int nd) //Конструктор, получает данные на вход
@@ -41,11 +41,11 @@ namespace anonymous
             this.ia = new int[Original.nd];
             Array.Copy(Original.ia, this.ia, Original.nd);
 
-            this.al = new double[this.nd, this.n - 1];
-            Array.Copy(Original.al, this.al, this.nd * (this.n - 1));
+            this.al = new double[this.nd, this.n - this.ia[0]];
+            Array.Copy(Original.al, this.al, this.nd * (this.n - this.ia[0]));
 
             this.au = new double[this.nd, this.n - 1];
-            Array.Copy(Original.au, this.au, (this.nd) * (this.n - 1));
+            Array.Copy(Original.au, this.au, (this.nd) * (this.n - this.ia[0]));
 
             this.di = new double[this.n];
             Array.Copy(Original.di, this.di, this.n);

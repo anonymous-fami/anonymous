@@ -19,7 +19,7 @@ namespace anonymous
         public DisperseMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
             if (!InputOutput.InputMatrix(FilePath, out this.n, out this.ia, out this.ja, out this.al, out this.au, out this.di))
-                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
+                MessageBox.Show("Ошибка ввода матрицы.\nИспользуйте справку (F1).", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public DisperseMatrix(double[] au, double[] al, double[] di, int[] ia, int[] ja, int n) //Конструктор, получает данные на вход

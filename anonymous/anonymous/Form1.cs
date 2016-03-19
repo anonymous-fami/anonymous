@@ -224,7 +224,7 @@ namespace anonymous
                                                     solver = new BSGstab();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                        }
+                                                }
                                         }
                                         break;
                                     }
@@ -235,8 +235,8 @@ namespace anonymous
                                         if (!preconditioner.createDiag(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -277,8 +277,8 @@ namespace anonymous
                                         if (!preconditioner.createLLT(SLAE)
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -305,8 +305,8 @@ namespace anonymous
                                         if (!preconditioner.createLU(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -333,15 +333,13 @@ namespace anonymous
                                     }
                                 case 4: //LUsq
                                     {
-                                        /*
-                                        Не реализовано!
                                         IPreconditioner<DenseMatrix> preconditioner = new DensePreconditioner();
 
                                         if (!preconditioner.createLUsq(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -352,11 +350,11 @@ namespace anonymous
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                         success = false;
                                                         break;
-                            }
+                                                    }
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                            break;
-                        }
+                                                    break;
+                                                }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -364,7 +362,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                             }
@@ -422,7 +419,7 @@ namespace anonymous
                                                     solver = new BSGstab();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                        }
+                                                }
                                         }
                                         break;
                                     }
@@ -625,8 +622,6 @@ namespace anonymous
                                     }
                                 case 1: //Диагональный
                                     {
-                                        /*
-                                        Не реализовано!
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
 
                                         if (!preconditioner.createDiag(SLAE))
@@ -656,7 +651,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                                 case 2: //LLT
@@ -690,16 +684,14 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                            break;
-                                        }
+                                                    break;
+                                                }
                                         }
                                         */
                                         break;
                                     }
                                 case 3: //LU
                                     {
-                                        /*
-                                        Не реализовано!
                                         IPreconditioner<DiagonalMatrix> preconditioner = new DiagonalPreconditioner();
 
                                         if (!preconditioner.createLU(SLAE))
@@ -729,7 +721,6 @@ namespace anonymous
                                                     break;
                                                 }
                                         }
-                                        */
                                         break;
                                     }
                                 case 4: //LUsq
@@ -741,8 +732,8 @@ namespace anonymous
                                         if (!preconditioner.createLUsq(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -753,11 +744,11 @@ namespace anonymous
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                         success = false;
                                                         break;
-                            }
+                                                    }
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                            break;
-                        }
+                                                    break;
+                                                }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -823,7 +814,7 @@ namespace anonymous
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                        }
+                                                }
                                         }
                                         break;
                                     }
@@ -834,8 +825,8 @@ namespace anonymous
                                         if (!preconditioner.createDiag(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -876,8 +867,8 @@ namespace anonymous
                                         if (!preconditioner.createLLT(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
                                         {
@@ -904,30 +895,30 @@ namespace anonymous
                                         if (!preconditioner.createLU(SLAE))
                                         {
                                             success = false;
-                                        break;
-                                    }
+                                            break;
+                                        }
 
                                         switch (Data.solver)
-                                    {
+                                        {
                                             case 0: //МСГ
                                                 {
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                         success = false;
-                                        break;
-                                    }
+                                                        break;
+                                                    }
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                            }
+                                                }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                            break;
-                        }
-                }
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case 4: //LUsq
@@ -938,7 +929,7 @@ namespace anonymous
                                         {
                                             success = false;
                                             break;
-            }
+                                        }
             
                                         switch (Data.solver)
                                         {
@@ -1081,20 +1072,6 @@ namespace anonymous
             p.StartInfo.Arguments = Data.convert_state + " " + Data.convert_enter_file + " " + Data.convert_exit_file;
             p.Start();
         }
-
-        /*private void conv_checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            conv_checkBox2.Checked = false;
-            conv_checkBox2.CheckState = unchecked(conv_checkBox2.CheckState);
-            Data.convert_state = 1;
-        }
-
-        private void conv_checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            conv_checkBox1.Checked = false;
-            conv_checkBox1.CheckState = unchecked(conv_checkBox1.CheckState);
-            Data.convert_state = 2;
-        }*/
 
         private void conv_checkBox1_Click(object sender, EventArgs e)
         {

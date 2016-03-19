@@ -18,7 +18,7 @@ namespace anonymous
         public ProfileMatrix(string FilePath) //Конструктор, считывает данные из файла
         {
             if (!InputOutput.InputMatrix(FilePath, out this.n, out this.ia, out this.al, out this.au, out this.di))
-                MessageBox.Show("Ошибка ввода матрицы.", "Опаньки...", MessageBoxButtons.OK);
+                MessageBox.Show("Ошибка ввода матрицы.\nИспользуйте справку (F1).", "Опаньки...", MessageBoxButtons.OK);
         }
 
         public ProfileMatrix(double[] au, double[] al, double[] di, int[] ia, int n) //Конструктор, получает данные на вход
@@ -167,7 +167,7 @@ namespace anonymous
             this.ia = matrix.ia;
             this.n = matrix.n;
         }
-        double MultiplyL(int index, Vector x)
+        public double MultiplyL(int index, Vector x)
         {
             double res = 0;
             int p;
@@ -177,7 +177,7 @@ namespace anonymous
             return res;
         }
 
-        double MultiplyU(int index, Vector x)
+        public double MultiplyU(int index, Vector x)
         {
             double res = 0;
             int p;
