@@ -147,11 +147,11 @@ namespace anonymous
         private void solve_button_Click(object sender, EventArgs e)
         {
             //Запуск решения
-
+                   
             bool success;
 
             if (checkinput())
-            {               
+            {
                 success = true;
                 richTextBox1.Clear();
                 Data.richtextbox = richTextBox1;
@@ -177,7 +177,7 @@ namespace anonymous
                             Slae<DenseMatrix> SLAE = new Slae<DenseMatrix>();
                             SLAE.Matrix = new DenseMatrix(Data.matrixPath);
                             SLAE.RightPart = new Vector(Data.rightpartPath);
-
+        
                             if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
                             else Initial = new Vector(Data.initialPath);
 
@@ -224,7 +224,7 @@ namespace anonymous
                                                     solver = new BSGstab();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                                }
+                                        }
                                         }
                                         break;
                                     }
@@ -235,8 +235,8 @@ namespace anonymous
                                         if (!preconditioner.createDiag(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -277,8 +277,8 @@ namespace anonymous
                                         if (!preconditioner.createLLT(SLAE)
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -305,8 +305,8 @@ namespace anonymous
                                         if (!preconditioner.createLU(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -340,8 +340,8 @@ namespace anonymous
                                         if (!preconditioner.createLUsq(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -352,11 +352,11 @@ namespace anonymous
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                         success = false;
                                                         break;
-                                                    }
+                            }
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                                    break;
-                                                }
+                            break;
+                        }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -377,7 +377,7 @@ namespace anonymous
                             SLAE.RightPart = new Vector(Data.rightpartPath);
 
                             if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
-                            else Initial = new Vector(Data.initialPath);
+                            else Initial = new Vector(Data.initialPath);                            
 
                             if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0) || (SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
                             {
@@ -422,12 +422,12 @@ namespace anonymous
                                                     solver = new BSGstab();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                                }
+                                        }
                                         }
                                         break;
                                     }
                                 case 1: //Диагональный
-                                    {
+                                    {                                        
                                         IPreconditioner<ProfileMatrix> preconditioner = new ProfilePreconditioner();
 
                                         if (!preconditioner.createDiag(SLAE))
@@ -479,7 +479,7 @@ namespace anonymous
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
-                                                {
+                                                {                                                    
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
@@ -690,8 +690,8 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                                    break;
-                                                }
+                                            break;
+                                        }
                                         }
                                         */
                                         break;
@@ -741,8 +741,8 @@ namespace anonymous
                                         if (!preconditioner.createLUsq(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -753,11 +753,11 @@ namespace anonymous
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                         success = false;
                                                         break;
-                                                    }
+                            }
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                                    break;
-                                                }
+                            break;
+                        }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
@@ -823,7 +823,7 @@ namespace anonymous
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                                }
+                                        }
                                         }
                                         break;
                                     }
@@ -834,8 +834,8 @@ namespace anonymous
                                         if (!preconditioner.createDiag(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -876,8 +876,8 @@ namespace anonymous
                                         if (!preconditioner.createLLT(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
                                         {
@@ -904,30 +904,30 @@ namespace anonymous
                                         if (!preconditioner.createLU(SLAE))
                                         {
                                             success = false;
-                                            break;
-                                        }
+                                        break;
+                                    }
 
                                         switch (Data.solver)
-                                        {
+                                    {
                                             case 0: //МСГ
                                                 {
                                                     if (!SLAE.Matrix.CheckSymmetry())
                                                     {
                                                         MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                                         success = false;
-                                                        break;
-                                                    }
+                                        break;
+                                    }
                                                     solver = new MSG();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
-                                                }
+                            }
                                             case 1: //ЛОС
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
-                                                    break;
-                                                }
-                                        }
+                            break;
+                        }
+                }
                                         break;
                                     }
                                 case 4: //LUsq
@@ -938,8 +938,8 @@ namespace anonymous
                                         {
                                             success = false;
                                             break;
-                                        }
-
+            }
+            
                                         switch (Data.solver)
                                         {
                                             case 0: //МСГ
@@ -1002,7 +1002,7 @@ namespace anonymous
                 }
             }
             return true;
-        }        
+        }
 
         private void Form1_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
@@ -1018,7 +1018,7 @@ namespace anonymous
 
         private void setupGraph()
         {
-            Data.ZedGraph = zedGraphControl1;           
+            Data.ZedGraph = zedGraphControl1;
             Data.ZedGraph.GraphPane.Title.Text = "График нормы";
             Data.ZedGraph.GraphPane.YAxis.Type = AxisType.Log;
             Data.ZedGraph.GraphPane.YAxis.Title.Text = "Норма";
@@ -1036,6 +1036,103 @@ namespace anonymous
             menuStrip.Items[6].Enabled = false;
             menuStrip.Items[7].Enabled = false;
         }
+
+        private void conv_button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                conv_textBox1.Text = OFD.FileName;   //Путь файла с матрицей
+
+                Data.convert_enter_file = conv_textBox1.Text;
+            }
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+        }
+
+        private void conv_button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.RestoreDirectory = true;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                conv_textBox2.Text = OFD.FileName;   //Путь файла с матрицей
+
+                Data.convert_exit_file = conv_textBox2.Text;
+            }
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+        }
+
+        private void conv_button3_Click(object sender, EventArgs e)
+        {
+            //конвертирование
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = Application.StartupPath + @"\Конвертер.exe";
+            p.StartInfo.Arguments = Data.convert_state + " " + Data.convert_enter_file + " " + Data.convert_exit_file;
+            p.Start();
+        }
+
+        /*private void conv_checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            conv_checkBox2.Checked = false;
+            conv_checkBox2.CheckState = unchecked(conv_checkBox2.CheckState);
+            Data.convert_state = 1;
+        }
+
+        private void conv_checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            conv_checkBox1.Checked = false;
+            conv_checkBox1.CheckState = unchecked(conv_checkBox1.CheckState);
+            Data.convert_state = 2;
+        }*/
+
+        private void conv_checkBox1_Click(object sender, EventArgs e)
+        {
+            conv_checkBox2.Checked = false;
+            conv_checkBox2.CheckState = unchecked(conv_checkBox2.CheckState);
+
+            conv_checkBox1.Checked = true;
+            conv_checkBox1.CheckState = checked(conv_checkBox1.CheckState);
+
+            Data.convert_state = 1;
+        }
+
+        private void conv_checkBox2_Click(object sender, EventArgs e)
+        {
+            conv_checkBox1.Checked = false;
+            conv_checkBox1.CheckState = unchecked(conv_checkBox1.CheckState);
+
+            conv_checkBox2.Checked = true;
+            conv_checkBox2.CheckState = checked(conv_checkBox2.CheckState);
+
+            Data.convert_state = 2;
+        }
+
+        private void conv_textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+            Data.convert_enter_file = conv_textBox1.Text;
+        }
+
+        private void conv_textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (conv_textBox1.TextLength != 0 && conv_textBox2.TextLength != 0)
+                conv_button3.Enabled = true;
+            else conv_button3.Enabled = false;
+            Data.convert_exit_file = conv_textBox2.Text;
+        }
     }
 
     public static class Data
@@ -1047,7 +1144,10 @@ namespace anonymous
         public static int preconditioner;       //Выбранный предобуславливатель
         public static int solver;               //Выбранный решатель
         public static Vector result;            //Вектор с ответом
-        public static RichTextBox richtextbox;
+        public static RichTextBox richtextbox;  
         public static ZedGraphControl ZedGraph;
-    }
+        public static string convert_enter_file;    //Путь файла для конвертирования
+        public static string convert_exit_file;     //Путь файла куда конвертировать
+        public static int convert_state = 1;    //режим работы конвертер
+    }    
 }

@@ -59,12 +59,23 @@
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.save_label = new System.Windows.Forms.Label();
             this.save_button = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.conv_checkBox2 = new System.Windows.Forms.CheckBox();
+            this.conv_checkBox1 = new System.Windows.Forms.CheckBox();
+            this.conv_textBox2 = new System.Windows.Forms.TextBox();
+            this.conv_textBox1 = new System.Windows.Forms.TextBox();
+            this.conv_button3 = new System.Windows.Forms.Button();
+            this.conv_button2 = new System.Windows.Forms.Button();
+            this.conv_button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eps_numericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxiter_numericUpDown)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // matrix_combobox
@@ -233,6 +244,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -292,7 +304,7 @@
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(540, 200);
+            this.richTextBox1.Size = new System.Drawing.Size(406, 163);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
@@ -425,6 +437,114 @@
             this.save_button.UseVisualStyleBackColor = true;
             this.save_button.Click += new System.EventHandler(this.save_button_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.label2);
+            this.tabPage4.Controls.Add(this.label1);
+            this.tabPage4.Controls.Add(this.conv_checkBox2);
+            this.tabPage4.Controls.Add(this.conv_checkBox1);
+            this.tabPage4.Controls.Add(this.conv_textBox2);
+            this.tabPage4.Controls.Add(this.conv_textBox1);
+            this.tabPage4.Controls.Add(this.conv_button3);
+            this.tabPage4.Controls.Add(this.conv_button2);
+            this.tabPage4.Controls.Add(this.conv_button1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(556, 650);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Конвертер";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // conv_checkBox2
+            // 
+            this.conv_checkBox2.AutoSize = true;
+            this.conv_checkBox2.Location = new System.Drawing.Point(32, 278);
+            this.conv_checkBox2.Name = "conv_checkBox2";
+            this.conv_checkBox2.Size = new System.Drawing.Size(123, 21);
+            this.conv_checkBox2.TabIndex = 6;
+            this.conv_checkBox2.Text = "Наш -> общий";
+            this.conv_checkBox2.UseVisualStyleBackColor = true;
+            this.conv_checkBox2.Click += new System.EventHandler(this.conv_checkBox2_Click);
+            // 
+            // conv_checkBox1
+            // 
+            this.conv_checkBox1.AutoSize = true;
+            this.conv_checkBox1.Checked = true;
+            this.conv_checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.conv_checkBox1.Location = new System.Drawing.Point(32, 255);
+            this.conv_checkBox1.Name = "conv_checkBox1";
+            this.conv_checkBox1.Size = new System.Drawing.Size(124, 21);
+            this.conv_checkBox1.TabIndex = 5;
+            this.conv_checkBox1.Text = "Общий -> наш";
+            this.conv_checkBox1.UseVisualStyleBackColor = true;
+            this.conv_checkBox1.Click += new System.EventHandler(this.conv_checkBox1_Click);
+            // 
+            // conv_textBox2
+            // 
+            this.conv_textBox2.Location = new System.Drawing.Point(32, 188);
+            this.conv_textBox2.Name = "conv_textBox2";
+            this.conv_textBox2.Size = new System.Drawing.Size(391, 22);
+            this.conv_textBox2.TabIndex = 4;
+            this.conv_textBox2.TextChanged += new System.EventHandler(this.conv_textBox2_TextChanged);
+            // 
+            // conv_textBox1
+            // 
+            this.conv_textBox1.Location = new System.Drawing.Point(32, 86);
+            this.conv_textBox1.Name = "conv_textBox1";
+            this.conv_textBox1.Size = new System.Drawing.Size(391, 22);
+            this.conv_textBox1.TabIndex = 3;
+            this.conv_textBox1.TextChanged += new System.EventHandler(this.conv_textBox1_TextChanged);
+            // 
+            // conv_button3
+            // 
+            this.conv_button3.Enabled = false;
+            this.conv_button3.Location = new System.Drawing.Point(387, 255);
+            this.conv_button3.Name = "conv_button3";
+            this.conv_button3.Size = new System.Drawing.Size(149, 28);
+            this.conv_button3.TabIndex = 2;
+            this.conv_button3.Text = "Конвертировать";
+            this.conv_button3.UseVisualStyleBackColor = true;
+            this.conv_button3.Click += new System.EventHandler(this.conv_button3_Click);
+            // 
+            // conv_button2
+            // 
+            this.conv_button2.Location = new System.Drawing.Point(461, 186);
+            this.conv_button2.Name = "conv_button2";
+            this.conv_button2.Size = new System.Drawing.Size(75, 26);
+            this.conv_button2.TabIndex = 1;
+            this.conv_button2.Text = "Обзор";
+            this.conv_button2.UseVisualStyleBackColor = true;
+            this.conv_button2.Click += new System.EventHandler(this.conv_button2_Click);
+            // 
+            // conv_button1
+            // 
+            this.conv_button1.Location = new System.Drawing.Point(461, 84);
+            this.conv_button1.Name = "conv_button1";
+            this.conv_button1.Size = new System.Drawing.Size(75, 26);
+            this.conv_button1.TabIndex = 0;
+            this.conv_button1.Text = "Обзор";
+            this.conv_button1.UseVisualStyleBackColor = true;
+            this.conv_button1.Click += new System.EventHandler(this.conv_button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(32, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 17);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Исходный файл";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(32, 139);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(175, 17);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Конвертированный файл";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -433,7 +553,6 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Решатель 2000";
@@ -447,6 +566,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.maxiter_numericUpDown)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -482,6 +603,16 @@
         private System.Windows.Forms.Label save_label;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private ZedGraph.ZedGraphControl zedGraphControl1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button conv_button3;
+        private System.Windows.Forms.Button conv_button2;
+        private System.Windows.Forms.Button conv_button1;
+        private System.Windows.Forms.TextBox conv_textBox1;
+        private System.Windows.Forms.TextBox conv_textBox2;
+        private System.Windows.Forms.CheckBox conv_checkBox2;
+        private System.Windows.Forms.CheckBox conv_checkBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
