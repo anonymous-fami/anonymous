@@ -592,8 +592,6 @@ namespace anonymous
                 return false;
             }
             return true;
-
-            throw new NotImplementedException();
         }
     }
     #endregion
