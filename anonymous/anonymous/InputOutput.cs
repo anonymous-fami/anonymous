@@ -556,16 +556,23 @@ namespace anonymous
             }
         }
 
-        public static bool OutputIterationToForm(int it, double residual)
+        public static bool OutputIterationToForm(int it, double residual, int maxiter, bool last)
         {
             try
-            {
+            {                
                 it++;
-                if (it <= 100) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
-                else
+                if (!last)
+                {
+                    if (it <= 100) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                    else
                     if ((it > 100) && (it <= 1000) && (it % 100 == 0)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
                     else
                         if ((it > 1000) && (it <= 10000) && (it % 1000 == 0)) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                }
+                else
+                {
+                    if (it != maxiter) Data.richtextbox.Text = Data.richtextbox.Text + "Итерация: " + it + " Норма: " + residual + "\n";
+                }
 
                 Data.ZedGraph.GraphPane.CurveList.Clear();
 
