@@ -401,19 +401,14 @@ namespace anonymous
             bool a = precond.createLUsq(Slae);
 
             //диагональная
-            //double[] diagDI = { 1, 32, 103 };
-            //int[] diagIA = { 1, 2 };
-            //double[,] diagAL = { { 4, 47 }, { 5, 0 } };
-            //double[,] diagAU = { { 7, 50 }, { 8, 0 } };
-            //int diagN = 3;
-            //int diagND = 2;
+            double[] diagDI = { 1, 32, 103 };
+            int[] diagIA = { 1, 2 };
+            double[,] diagAL = { { 4, 47 }, { 5, 0 } };
+            double[,] diagAU = { { 7, 50 }, { 8, 0 } };
+            int diagN = 3;
+            int diagND = 2;
 
-            double[] diagDI = { 1, 10, 9, 78, 81, 108 };
-            double[,] diagAL = { { 2, 0, 18, 49, 64 }, { 0, 8, 21, 56, 0 }, { 0, 0, 24, 0, 0 } };
-            double[,] diagAU = { { 3, 0, 21, 48, 63 }, { 0, 10, 24, 54, 0 }, { 0, 0, 27, 0, 0 } };
-            int[] diagIA = { 1, 2, 3 };
-            int diagN = 6;
-            int diagND = 3;
+
             Slae<DiagonalMatrix> DiagSlae = new Slae<DiagonalMatrix>();
             DiagSlae.Matrix = new DiagonalMatrix(diagAU, diagAL, diagDI, diagIA, diagN, diagND);
             IPreconditioner<DiagonalMatrix> DiagonalPrecond = new DiagonalPreconditioner();

@@ -49,22 +49,6 @@ namespace anonymous
                 try
                 {
 
-                /*------------------------------------------------------------------------------------*/
-
-                if (temp.AU.Length != temp.AL.Length)
-                {
-                    throw new Exception("LLt: Матрица не симметрична.");
-                }
-                for (int i = 0; i < temp.AL.Length; i++)
-                {
-                    if (temp.AL[i] != temp.AU[i])
-                    {
-                        throw new Exception("LLt: Матрица не симметрична.");
-                    }
-                }
-                /*------------------------------------------------------------------------------------*/
-
-
                 if (temp.DI[0] <= 0)
                         throw new Exception("LLt: Первый диагональный элемент меньше или равен нулю.");
 
@@ -329,6 +313,7 @@ namespace anonymous
             //обработка исключений
             try
             {
+               
                 //foreach (double x in temp.DI)
                 //{
                 //    if (x == 0)
@@ -364,7 +349,7 @@ namespace anonymous
                                     sumL += temp.AL[i] * temp.AU[j];
                                     sumU += temp.AU[i] * temp.AL[j];
                                 }
-                                    j0++;
+                                j0++;
                             }
                         if (temp.DI[temp.JA[ind]] == 0)
                         {
@@ -390,7 +375,7 @@ namespace anonymous
                     }
                 }
                 Slae.PMatrix = temp;
-
+ 
             }
             catch (Exception error)
             {
