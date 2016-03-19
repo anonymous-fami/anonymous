@@ -320,15 +320,16 @@ namespace anonymous
                         j1 = temp.IA[temp.JA[ind] + 1];
 
 
+
                         for (i = i0; i < ind; i++)
                             for (j = j0; j0 < j1; j++)
                             {
-                                if (temp.JA[i] == temp.JA[j])
+                                if ((temp.JA[i] == temp.JA[j]))
                                 {
                                     sumL += temp.AL[i] * temp.AU[j];
                                     sumU += temp.AU[i] * temp.AL[j];
-                                    j0++;
                                 }
+                                    j0++;
                             }
 
 
@@ -426,7 +427,7 @@ namespace anonymous
 
         public bool createLUsq(Slae<DenseMatrix> Slae)
         {
-            int i, j, k,flag;
+            int i, j, k;
             double sumDiag, sumL, sumU;
             DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
 
@@ -549,7 +550,55 @@ namespace anonymous
 
         public bool createLUsq(Slae<DiagonalMatrix> Slae)
         {
-            throw new NotImplementedException();
+            DiagonalMatrix temp = new DiagonalMatrix(Slae.Matrix.getMatrix());
+            double sumDiag, sumL, sumU;
+            int i, k, j;
+            try
+            {
+                for (i = 0; i < temp.N; i++)
+                {
+                    if (temp.DI[i] == 0)
+                        throw new Exception("Элемент на диагонали нулевой. Деление на ноль.");
+                }
+                for (i = 0; i < temp.N - temp.IA[0]; i++)
+                {
+                    sumDiag = 0;
+                    for (j = 0; j < temp.ND && temp.IA[j] + i < temp.N; j++)
+                    {
+                        sumL = 0;
+                        sumU = 0;
+                        for (k = 0; k + 1 < temp.ND && k < i; k++)
+                        {
+                            if (i >= temp.IA[k])
+                            {
+                                sumL += temp.AL[k + 1, i - temp.IA[k]] * temp.AU[k, i - temp.IA[k]];
+                                sumU += temp.AL[k, i - temp.IA[k]] * temp.AU[k + 1, i - temp.IA[k]];
+                            }
+                        }
+                        temp.AL[j, i] = (temp.AL[j, i] - sumL) / temp.DI[i];
+                        temp.AU[j, i] = (temp.AU[j, i] - sumU)/temp.DI[i];
+                    }
+                    for (k = 0; k < temp.ND && i >= temp.IA[k] - 1; k++)
+                        sumDiag += temp.AL[k, i - temp.IA[k] + 1] * temp.AU[k, i - temp.IA[k] + 1];
+
+                    if ((temp.DI[i+temp.IA[0]] - sumDiag) < 0)
+                    {
+                        throw new Exception("Извлечение корня из отрицательного числа.");
+                    }
+                    else
+                    {
+                        temp.DI[i + temp.IA[0]] = Math.Sqrt(temp.DI[i + temp.IA[0]] - sumDiag);
+                    }
+                }                
+                Slae.PMatrix = temp;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                Slae.PMatrix = null;
+                return false;
+            }
+            return true;
         }
     }
     #endregion
