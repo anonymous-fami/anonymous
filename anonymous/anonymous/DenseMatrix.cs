@@ -28,7 +28,7 @@ namespace anonymous
         public DenseMatrix(DenseMatrix Original) //Конструктор копий 
         {
             this.n = Original.n;
-            this.Plot = new double[Original.n, Original.n];
+            this.Plot = new double[this.n, this.n];
             Array.Copy(Original.Plot, this.Plot, this.n * this.n);
         }
 

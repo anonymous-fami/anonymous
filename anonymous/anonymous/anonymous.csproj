@@ -107,27 +107,38 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tests\диагональная\2\" />
-    <Folder Include="tests\плотная\2\" />
-    <Folder Include="tests\плотная\3\" />
-    <Folder Include="tests\плотная\4\" />
-    <Folder Include="tests\профильная\2\" />
-    <Folder Include="tests\разреженная\2\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="tests\диагональная\1\матрица.txt" />
     <Content Include="tests\диагональная\1\правая часть.txt" />
     <Content Include="tests\диагональная\1\приближение.txt" />
+    <Content Include="tests\диагональная\2\матрица.txt" />
+    <Content Include="tests\диагональная\2\правая часть.txt" />
+    <Content Include="tests\диагональная\2\приближение.txt" />
     <Content Include="tests\плотная\1\матрица.txt" />
     <Content Include="tests\плотная\1\правая часть.txt" />
     <Content Include="tests\плотная\1\приближение.txt" />
+    <Content Include="tests\плотная\2\матрица.txt" />
+    <Content Include="tests\плотная\2\правая часть.txt" />
+    <Content Include="tests\плотная\2\приближение.txt" />
+    <Content Include="tests\плотная\3\матрица.txt" />
+    <Content Include="tests\плотная\3\правая часть.txt" />
+    <Content Include="tests\плотная\3\приближение.txt" />
+    <Content Include="tests\плотная\4\матрица.txt" />
+    <Content Include="tests\плотная\4\правая часть.txt" />
+    <Content Include="tests\плотная\4\приближение.txt" />
     <Content Include="tests\профильная\1\матрица.txt" />
     <Content Include="tests\профильная\1\правая часть.txt" />
     <Content Include="tests\профильная\1\приближение.txt" />
+    <Content Include="tests\профильная\2\матрица.txt" />
+    <Content Include="tests\профильная\2\правая часть.txt" />
+    <Content Include="tests\профильная\2\приближение.txt" />
     <Content Include="tests\разреженная\1\матрица.txt" />
     <Content Include="tests\разреженная\1\правая часть.txt" />
     <Content Include="tests\разреженная\1\приближение.txt" />
+    <Content Include="tests\разреженная\2\матрица.txt" />
+    <Content Include="tests\разреженная\2\правая часть.txt" />
+    <Content Include="tests\разреженная\2\приближение.txt" />
     <Content Include="Конвертер.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

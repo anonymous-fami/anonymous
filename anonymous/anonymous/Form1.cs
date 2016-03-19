@@ -22,7 +22,7 @@ namespace anonymous
             initial_textBox.ReadOnly = true;
 
             //Формат матрицы
-            string[] matrixformats = { "Плотный", "Профильный", "Ленточный", "Диагональный", "Разреженный" };
+            string[] matrixformats = { "Плотный", "Профильный", "Диагональный", "Разреженный" };
             
             matrix_combobox.Items.AddRange(matrixformats);
             matrix_combobox.SelectedItem = matrix_combobox.Items[0];
@@ -560,11 +560,7 @@ namespace anonymous
                             }
                             break;
                         }
-                    case 2: //Ленточная
-                        {
-                            break;
-                        }
-                    case 3: //Диагональная
+                    case 2: //Диагональная
                         {
                             Slae<DiagonalMatrix> SLAE = new Slae<DiagonalMatrix>();
                             SLAE.Matrix = new DiagonalMatrix(Data.matrixPath);
@@ -762,7 +758,7 @@ namespace anonymous
                             }
                             break;
                         }
-                    case 4: //Разреженая
+                    case 3: //Разреженая
                         {
                             Slae<DisperseMatrix> SLAE = new Slae<DisperseMatrix>();
                             SLAE.Matrix = new DisperseMatrix(Data.matrixPath);

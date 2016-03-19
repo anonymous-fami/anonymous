@@ -38,13 +38,13 @@ namespace anonymous
 
             this.nd = Original.nd;
 
-            this.ia = new int[Original.nd];
-            Array.Copy(Original.ia, this.ia, Original.nd);
+            this.ia = new int[this.nd];
+            Array.Copy(Original.ia, this.ia, this.nd);
 
             this.al = new double[this.nd, this.n - this.ia[0]];
             Array.Copy(Original.al, this.al, this.nd * (this.n - this.ia[0]));
 
-            this.au = new double[this.nd, this.n - 1];
+            this.au = new double[this.nd, this.n - this.ia[0]];
             Array.Copy(Original.au, this.au, (this.nd) * (this.n - this.ia[0]));
 
             this.di = new double[this.n];

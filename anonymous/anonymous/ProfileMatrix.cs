@@ -34,8 +34,8 @@ namespace anonymous
         {
             this.n = Original.n;
 
-            this.ia = new int[Original.n + 1];
-            Array.Copy(Original.ia, this.ia, Original.n + 1);
+            this.ia = new int[this.n + 1];
+            Array.Copy(Original.ia, this.ia, this.n + 1);
     
             this.al = new double[this.ia[this.n]];
             Array.Copy(Original.al, this.al, this.ia[this.n]);

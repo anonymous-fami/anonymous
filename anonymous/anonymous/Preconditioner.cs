@@ -490,8 +490,8 @@ namespace anonymous
             for (int i = 0; i < temp.N - temp.IA[0]; i++)
                 for (int j = 0; j < temp.ND; j++)
                 {
-                    temp.AU[i, j] = 0;
-                    temp.AL[i, j] = 0;
+                    temp.AU[j, i] = 0;
+                    temp.AL[j, i] = 0;
                 }
             Slae.PMatrix = new DiagonalMatrix(temp.AU, temp.AL, temp.DI, temp.IA, temp.N, temp.ND);
             return true;
