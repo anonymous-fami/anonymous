@@ -20,5 +20,6 @@ namespace anonymous
         Vector ReverseProgress(Vector f); //Обратный ход.
         Type getMatrix();
         bool CheckSymmetry(); //Проверка матрицы на симметричность.
+        double get_di(int index);
     }   
 }

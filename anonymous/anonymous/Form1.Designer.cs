@@ -69,6 +69,7 @@
             this.conv_button3 = new System.Windows.Forms.Button();
             this.conv_button2 = new System.Windows.Forms.Button();
             this.conv_button1 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -255,6 +256,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.matrixformat_label);
             this.tabPage1.Controls.Add(this.matrix_combobox);
             this.tabPage1.Controls.Add(this.matrix_label);
@@ -404,7 +406,7 @@
             this.zedGraphControl1.IsEnableWheelZoom = false;
             this.zedGraphControl1.IsShowPointValues = true;
             this.zedGraphControl1.Location = new System.Drawing.Point(3, 237);
-            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(5);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -449,8 +451,9 @@
             this.tabPage4.Controls.Add(this.conv_button2);
             this.tabPage4.Controls.Add(this.conv_button1);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Size = new System.Drawing.Size(556, 650);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Конвертер";
@@ -478,6 +481,7 @@
             // 
             this.conv_checkBox2.AutoSize = true;
             this.conv_checkBox2.Location = new System.Drawing.Point(32, 278);
+            this.conv_checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_checkBox2.Name = "conv_checkBox2";
             this.conv_checkBox2.Size = new System.Drawing.Size(123, 21);
             this.conv_checkBox2.TabIndex = 6;
@@ -491,6 +495,7 @@
             this.conv_checkBox1.Checked = true;
             this.conv_checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.conv_checkBox1.Location = new System.Drawing.Point(32, 255);
+            this.conv_checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_checkBox1.Name = "conv_checkBox1";
             this.conv_checkBox1.Size = new System.Drawing.Size(124, 21);
             this.conv_checkBox1.TabIndex = 5;
@@ -501,6 +506,7 @@
             // conv_textBox2
             // 
             this.conv_textBox2.Location = new System.Drawing.Point(32, 188);
+            this.conv_textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_textBox2.Name = "conv_textBox2";
             this.conv_textBox2.Size = new System.Drawing.Size(391, 22);
             this.conv_textBox2.TabIndex = 4;
@@ -509,6 +515,7 @@
             // conv_textBox1
             // 
             this.conv_textBox1.Location = new System.Drawing.Point(32, 86);
+            this.conv_textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_textBox1.Name = "conv_textBox1";
             this.conv_textBox1.Size = new System.Drawing.Size(391, 22);
             this.conv_textBox1.TabIndex = 3;
@@ -518,6 +525,7 @@
             // 
             this.conv_button3.Enabled = false;
             this.conv_button3.Location = new System.Drawing.Point(387, 255);
+            this.conv_button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_button3.Name = "conv_button3";
             this.conv_button3.Size = new System.Drawing.Size(149, 28);
             this.conv_button3.TabIndex = 2;
@@ -528,6 +536,7 @@
             // conv_button2
             // 
             this.conv_button2.Location = new System.Drawing.Point(461, 186);
+            this.conv_button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_button2.Name = "conv_button2";
             this.conv_button2.Size = new System.Drawing.Size(75, 26);
             this.conv_button2.TabIndex = 1;
@@ -538,12 +547,22 @@
             // conv_button1
             // 
             this.conv_button1.Location = new System.Drawing.Point(461, 84);
+            this.conv_button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.conv_button1.Name = "conv_button1";
             this.conv_button1.Size = new System.Drawing.Size(75, 26);
             this.conv_button1.TabIndex = 0;
             this.conv_button1.Text = "Обзор";
             this.conv_button1.UseVisualStyleBackColor = true;
             this.conv_button1.Click += new System.EventHandler(this.conv_button1_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(35, 387);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(316, 17);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Что-то непонятно? Используйте Справку! (F1)";
             // 
             // Form1
             // 
@@ -553,6 +572,7 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Решатель 2000";
@@ -613,6 +633,7 @@
         private System.Windows.Forms.CheckBox conv_checkBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
     }
 }
 

@@ -21,7 +21,7 @@ namespace anonymous
             rightpart_textBox.ReadOnly = true;
             initial_textBox.ReadOnly = true;
 
-            //Формат матрицы//
+            //Формат матрицы
             string[] matrixformats = { "Плотный", "Профильный", "Диагональный", "Разреженный" };
             
             matrix_combobox.Items.AddRange(matrixformats);
@@ -33,7 +33,7 @@ namespace anonymous
             preconditioner_comboBox.SelectedItem = preconditioner_comboBox.Items[0];
 
             //Решатель
-            string[] solver = { "МСГ", "ЛОС", "BSG Стабилизированный"};
+            string[] solver = { "МСГ", "ЛОС", "BSG Стабилизированный", "Метод Гаусса-Зейделя"};
             solver_comboBox.Items.AddRange(solver);
             solver_comboBox.SelectedItem = solver_comboBox.Items[0];
 
@@ -52,7 +52,7 @@ namespace anonymous
 
         private void solver_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1) || (solver_comboBox.SelectedIndex == 2))
+            if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1) || (solver_comboBox.SelectedIndex == 2) || (solver_comboBox.SelectedIndex == 3))
             {
                 if (!initial_checkBox.Checked) initial_button.Enabled = true;
                 initial_label.Enabled = true;
@@ -225,6 +225,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -256,6 +262,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -292,6 +310,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -325,6 +355,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -356,6 +398,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -417,6 +471,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -448,6 +508,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -485,6 +557,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -518,6 +602,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -549,6 +645,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -610,6 +718,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -641,6 +755,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -677,6 +803,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -710,6 +848,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -741,6 +891,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -802,6 +964,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -833,6 +1001,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -869,6 +1049,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -900,6 +1092,18 @@ namespace anonymous
                                                 {
                                                     solver = new LOS();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
                                                     break;
                                                 }
                                         }
@@ -935,6 +1139,18 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 2:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    MessageBox.Show("Для выбранного решателя предобуславливание недоступно.", "Такие дела.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    success = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -960,7 +1176,7 @@ namespace anonymous
                 return false;
             }
 
-            if ((Data.solver == 0) || (Data.solver == 1) || (Data.solver == 2))
+            if ((Data.solver == 0) || (Data.solver == 1) || (Data.solver == 2) || (Data.solver == 3))
             {
                 if (Data.rightpartPath == null)
                 {

@@ -43,7 +43,7 @@ namespace anonymous
         public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
         {
             double res = 0;
-            for (int j = index+1; j < n; j++)
+            for (int j = index; j < n; j++)
                 res += Plot[index,j] * x.values[j];
             return res;
         }
@@ -55,10 +55,11 @@ namespace anonymous
 
             //инциализация вектора
             for (int i = 0; i < x.size; i++)
-                res.values[i] = Plot[i, 0] * x.values[0];
+                res.values[i] = 0;
+            //res.values[i] = Plot[i, 0] * x.values[0];
 
             for (int i = 0; i < n; i++)
-                for (int j = 1; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
                     res.values[i] += Plot[i, j] * x.values[j];
                 }
@@ -71,12 +72,13 @@ namespace anonymous
 
             //инциализация вектора
             for (int i = 0; i < x.size; i++)
-                res.values[i] = Plot[0, i] * x.values[0];
+                res.values[i] = 0;
+            //res.values[i] = Plot[0, i] * x.values[0];
 
-            for (int i = 0; i < n; i++)
-                for (int j = 1; j < n; j++)
+            for (int j = 0; j < n; j++)
+                for (int i = 0; i < n; i++)
                 {
-                    res.values[i] += Plot[i, j] * x.values[i];
+                    res.values[j] += Plot[i, j] * x.values[i];
                 }
             return res;
         }
@@ -149,6 +151,11 @@ namespace anonymous
         {
             this.Plot = matrix.Plot;
             this.n = matrix.n;
+        }
+
+        public double get_di(int index)
+        {
+            return Plot[index, index];
         }
 
         public DenseMatrix getMatrix()

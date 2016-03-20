@@ -56,6 +56,7 @@
     <Compile Include="DenseMatrix.cs" />
     <Compile Include="DiagonalMatrix.cs" />
     <Compile Include="DisperseMatrix.cs" />
+    <Compile Include="GaussZeidel.cs" />
     <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +129,9 @@
     <Content Include="tests\плотная\4\матрица.txt" />
     <Content Include="tests\плотная\4\правая часть.txt" />
     <Content Include="tests\плотная\4\приближение.txt" />
+    <Content Include="tests\плотная\5\ГауссЗейдельМатрица.txt" />
+    <Content Include="tests\плотная\5\ГауссЗейдельПраваяЧасть.txt" />
+    <Content Include="tests\плотная\5\ГауссЗейдельПриближение.txt" />
     <Content Include="tests\полностью разреженный\1\матрица.txt" />
     <Content Include="tests\полностью разреженный\1\правая часть.txt" />
     <Content Include="tests\полностью разреженный\1\приближение.txt" />

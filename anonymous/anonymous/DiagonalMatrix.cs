@@ -92,16 +92,17 @@ namespace anonymous
         public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
         {
             double[] values_res = new double[x.size];
-
             var res = new Vector(x.size, values_res);
 
-            for (int i = 0; i < n; i++)
-                res.values[i] = 0;
 
-            for (int i = 0; i < nd; i++)
-                for (int j = ia[i], k = 0; k < index && k < (n - 1); k++)
+            for (int i = 0; i < n; i++)
+                res.values[i] = di[i] * x.values[i];
+
+            for (int i = 0, ir = 0; i < ND; i++)
+                for (int j = 0; j < N - ia[i]; j++)
                 {
-                    res.values[k + j] += au[i, k] * x.values[k];                    
+                    ir = j + ia[i];
+                    res.values[j] += au[i, j] * x.values[ir];
                 }
             return res.values[index];
         } 
@@ -184,6 +185,11 @@ namespace anonymous
             double norm_F = F.Norm();
             double norm_Ax_F = this.abs_discrepancy(x, F);
             return res = norm_Ax_F / norm_F;
+        }
+
+        public double get_di(int index)
+        {
+            return di[index];
         }
 
         public void setMatrix(DiagonalMatrix matrix)
