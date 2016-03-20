@@ -108,9 +108,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tests\полностью разреженный\4\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="tests\диагональная\1\матрица.txt" />
     <Content Include="tests\диагональная\1\правая часть.txt" />
@@ -141,6 +139,9 @@
     <Content Include="tests\полностью разреженный\3\приближение.txt" />
     <Content Include="tests\полностью разреженный\4545\матрица.txt" />
     <Content Include="tests\полностью разреженный\4545\правая часть.txt" />
+    <Content Include="tests\полностью разреженный\4\матрица.txt" />
+    <Content Include="tests\полностью разреженный\4\правая часть.txt" />
+    <Content Include="tests\полностью разреженный\4\приближение.txt" />
     <Content Include="tests\профильная\1\матрица.txt" />
     <Content Include="tests\профильная\1\правая часть.txt" />
     <Content Include="tests\профильная\1\приближение.txt" />
@@ -158,6 +159,9 @@
     <Content Include="tests\разреженная\3\приближение.txt" />
     <Content Include="tests\разреженная\4\матрица.txt" />
     <Content Include="tests\разреженная\4\правая часть.txt" />
+    <Content Include="tests\разреженная\5\матрица.txt" />
+    <Content Include="tests\разреженная\5\правая часть.txt" />
+    <Content Include="tests\разреженная\5\приближение.txt" />
     <Content Include="ZedGraph.dll" />
     <Content Include="Конвертер.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
