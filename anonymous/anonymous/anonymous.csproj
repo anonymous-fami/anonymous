@@ -46,7 +46,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZedGraph">
+    <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -144,6 +145,7 @@
     <Content Include="tests\разреженная\3\приближение.txt" />
     <Content Include="tests\разреженная\4\матрица.txt" />
     <Content Include="tests\разреженная\4\правая часть.txt" />
+    <Content Include="ZedGraph.dll" />
     <Content Include="Конвертер.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
