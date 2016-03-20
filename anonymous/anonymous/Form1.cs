@@ -21,7 +21,7 @@ namespace anonymous
             rightpart_textBox.ReadOnly = true;
             initial_textBox.ReadOnly = true;
 
-            //Формат матрицы
+            //Формат матрицы//
             string[] matrixformats = { "Плотный", "Профильный", "Диагональный", "Разреженный" };
             
             matrix_combobox.Items.AddRange(matrixformats);
