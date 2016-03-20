@@ -80,11 +80,19 @@ namespace anonymous
 
         public double MultiplyU(int index, Vector x)//функция для Гаусс-Зейделя, верхний треугольник
         {
-            double res = 0;
-            for (int j = ia[index]; j < ia[index + 1]; j++)
-                res += au[j] * x.values[ja[j]];
+            double[] values_res = new double[x.size];
+            var res = new Vector(x.size, values_res);
 
-            return res;
+            for (int i = 0; i < n; i++)
+                res.values[i] = di[i] * x.values[i];
+
+            for (int i = 0; i < n; i++)
+                for (int j = ia[i]; j < ia[i + 1]; j++)
+                {
+                    res.values[ja[j]] += au[j] * x.values[i];
+                }
+
+            return res.values[index];
         }
        
         public Vector TMultiply(Vector x)//умножение транспонированной матрицы на вектор
@@ -180,6 +188,11 @@ namespace anonymous
             double norm_F = F.Norm();
             double norm_Ax_F = this.abs_discrepancy(x, F);
             return res = norm_Ax_F / norm_F;
+        }
+
+        public double get_di(int index)
+        {
+            return di[index];
         }
 
         public void setMatrix(DisperseMatrix matrix)

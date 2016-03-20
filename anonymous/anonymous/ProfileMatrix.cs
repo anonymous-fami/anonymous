@@ -159,6 +159,11 @@ namespace anonymous
             return res = norm_Ax_F / norm_F;
         }
 
+        public double get_di(int index)
+        {
+            return di[index];
+        }
+
         public void setMatrix(ProfileMatrix matrix)
         {
             this.al = matrix.al;
@@ -180,10 +185,18 @@ namespace anonymous
         public double MultiplyU(int index, Vector x)
         {
             double res = 0;
-            int p;
-            p = index - (this.ia[index + 1] - this.ia[index]);
-            for (int j = p, r = this.ia[index]; j < index; j++, r++)
-                res += x.values[j] * this.au[r];
+            int m;
+            int g;
+            res += x.values[index] * di[index];
+            for (int i = 1, p = 1; ; i++, p++)
+            {
+                m = index + i;
+                if (m >= n) break;
+                g = (ia[m + 1] - ia[m]) - p;
+                if (g < 0) break;
+                res += x.values[m] * au[ia[m] + g];
+
+            }
             return res;
         }
 

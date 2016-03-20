@@ -12,8 +12,8 @@ namespace anonymous
         public Vector Solve(Slae<DenseMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum;
-            double pr, pr1, iner_mr, alpha, betta, residual;
-            Vector Az, Mr;
+            double pr, pr1, alpha, betta, residual;
+            Vector Az;
 
             Vector r = new Vector(SLAE.RightPart.Differ(SLAE.Matrix.Multiply(Initial)));
 
@@ -48,8 +48,8 @@ namespace anonymous
         public Vector Solve(Slae<ProfileMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum;
-            double pr, pr1, iner_mr, alpha, betta, residual;
-            Vector Az, Mr;
+            double pr, pr1, alpha, betta, residual;
+            Vector Az;
 
             Vector r = new Vector(SLAE.RightPart.Differ(SLAE.Matrix.Multiply(Initial)));
 
@@ -84,8 +84,8 @@ namespace anonymous
         public Vector Solve(Slae<DiagonalMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum;
-            double pr, pr1, iner_mr, alpha, betta, residual;
-            Vector Az, Mr;
+            double pr, pr1, alpha, betta, residual;
+            Vector Az;
 
             Vector r = new Vector(SLAE.RightPart.Differ(SLAE.Matrix.Multiply(Initial)));
 
@@ -120,8 +120,8 @@ namespace anonymous
         public Vector Solve(Slae<DisperseMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum;
-            double pr, pr1, iner_mr, alpha, betta, residual;
-            Vector Az, Mr;
+            double pr, pr1, alpha, betta, residual;
+            Vector Az;
 
             Vector r = new Vector(SLAE.RightPart.Differ(SLAE.Matrix.Multiply(Initial)));
 

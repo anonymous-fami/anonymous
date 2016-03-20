@@ -33,7 +33,7 @@ namespace anonymous
             preconditioner_comboBox.SelectedItem = preconditioner_comboBox.Items[0];
 
             //Решатель
-            string[] solver = { "МСГ", "ЛОС", "BSG Стабилизированный"};
+            string[] solver = { "МСГ", "ЛОС", "BSG Стабилизированный", "Метод Гаусса-Зейделя"};
             solver_comboBox.Items.AddRange(solver);
             solver_comboBox.SelectedItem = solver_comboBox.Items[0];
 
@@ -52,7 +52,7 @@ namespace anonymous
 
         private void solver_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1) || (solver_comboBox.SelectedIndex == 2))
+            if ((solver_comboBox.SelectedIndex == 0) || (solver_comboBox.SelectedIndex == 1) || (solver_comboBox.SelectedIndex == 2) || (solver_comboBox.SelectedIndex == 3))
             {
                 if (!initial_checkBox.Checked) initial_button.Enabled = true;
                 initial_label.Enabled = true;
@@ -222,6 +222,12 @@ namespace anonymous
                                             case 2: //БСГ стаб
                                                 {                                                    
                                                     solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
@@ -414,6 +420,12 @@ namespace anonymous
                                             case 2: //БСГ стаб
                                                 {
                                                     solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
@@ -610,6 +622,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -802,6 +820,12 @@ namespace anonymous
                                                     Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
                                                     break;
                                                 }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -960,7 +984,7 @@ namespace anonymous
                 return false;
             }
 
-            if ((Data.solver == 0) || (Data.solver == 1) || (Data.solver == 2))
+            if ((Data.solver == 0) || (Data.solver == 1) || (Data.solver == 2) || (Data.solver == 3))
             {
                 if (Data.rightpartPath == null)
                 {
@@ -1093,6 +1117,11 @@ namespace anonymous
                 conv_button3.Enabled = true;
             else conv_button3.Enabled = false;
             Data.convert_exit_file = conv_textBox2.Text;
+        }
+
+        private void matrix_label_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
