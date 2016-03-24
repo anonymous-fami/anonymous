@@ -9,6 +9,8 @@ namespace anonymous
 {
     public class GaussZeidel : ISolver
     {
+        bool autotest = false;
+
         public Vector Solve(Slae<DenseMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum, vec_index;
@@ -27,11 +29,17 @@ namespace anonymous
                     result.values[vec_index] += diff / SLAE.Matrix.get_di(vec_index);
                 }
                 residual = SLAE.RightPart.Differ(SLAE.Matrix.Multiply(result)).Norm() / SLAE.RightPart.Norm();
-                if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                }
+            }
+            if (!autotest)
+            {
+                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                     MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
-            if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             return result;
         }
 
@@ -54,11 +62,17 @@ namespace anonymous
                     result.values[vec_index] += diff / SLAE.Matrix.get_di(vec_index);
                 }
                 residual = SLAE.RightPart.Differ(SLAE.Matrix.Multiply(result)).Norm() / SLAE.RightPart.Norm();
-                if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                }
+            }
+            if (!autotest)
+            {
+                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                     MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
-            if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             return result;
         }
 
@@ -80,11 +94,17 @@ namespace anonymous
                     result.values[vec_index] += diff / SLAE.Matrix.get_di(vec_index);
                 }
                 residual = SLAE.RightPart.Differ(SLAE.Matrix.Multiply(result)).Norm() / SLAE.RightPart.Norm();
-                if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                }
+            }
+            if (!autotest)
+            {
+                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                     MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
-            if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             return result;
         }
 
@@ -106,12 +126,23 @@ namespace anonymous
                     result.values[vec_index] += diff / SLAE.Matrix.get_di(vec_index);
                 }
                 residual = SLAE.RightPart.Differ(SLAE.Matrix.Multiply(result)).Norm() / SLAE.RightPart.Norm();
-                if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                }
+            }
+            if (!autotest)
+            {
+                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                     MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
-            if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             return result;
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
         }
     }
 }

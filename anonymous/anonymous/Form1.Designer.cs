@@ -48,6 +48,7 @@
             this.solve_button = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.eps_numericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -69,7 +70,6 @@
             this.conv_button3 = new System.Windows.Forms.Button();
             this.conv_button2 = new System.Windows.Forms.Button();
             this.conv_button1 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -273,6 +273,15 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Матрица";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(35, 387);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(316, 17);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Что-то непонятно? Используйте Справку! (F1)";
             // 
             // tabPage2
             // 
@@ -555,15 +564,6 @@
             this.conv_button1.UseVisualStyleBackColor = true;
             this.conv_button1.Click += new System.EventHandler(this.conv_button1_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 387);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(316, 17);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Что-то непонятно? Используйте Справку! (F1)";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -572,11 +572,13 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Решатель 2000";
             this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.Form1_HelpRequested);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

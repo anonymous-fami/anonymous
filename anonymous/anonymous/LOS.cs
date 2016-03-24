@@ -9,6 +9,8 @@ namespace anonymous
 {
     public class LOS: ISolver
     {
+        bool autotest = false;
+
         public Vector Solve(Slae<DenseMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum;
@@ -38,11 +40,17 @@ namespace anonymous
                     p = Ar.Sum(p.Mult(betta));
 
                     residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//LU или LU(sq)-предобуславливание
@@ -66,13 +74,19 @@ namespace anonymous
                         p = Ar.Sum(p.Mult(betta));
 
                         residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
-            }
-            return result;
+                }
+                return result;
         }
 
         public Vector Solve(Slae<ProfileMatrix> SLAE, Vector Initial, int maxiter, double eps)
@@ -104,11 +118,17 @@ namespace anonymous
                     p = Ar.Sum(p.Mult(betta));
 
                     residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if(Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//LU или LU(sq)-предобуславливание
@@ -132,11 +152,17 @@ namespace anonymous
                         p = Ar.Sum(p.Mult(betta));
 
                         residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
                 return result;
         }
@@ -170,11 +196,17 @@ namespace anonymous
                     p = Ar.Sum(p.Mult(betta));
 
                     residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//LU или LU(sq)-предобуславливание
@@ -198,11 +230,17 @@ namespace anonymous
                         p = Ar.Sum(p.Mult(betta));
 
                         residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
                                 MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
                 }
                 return result;
         }
@@ -236,11 +274,17 @@ namespace anonymous
                     p = Ar.Sum(p.Mult(betta));
 
                     residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//LU или LU(sq)-предобуславливание
@@ -264,13 +308,24 @@ namespace anonymous
                         p = Ar.Sum(p.Mult(betta));
 
                         residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
                 return result;
-        }       
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
+        }
     }
 }

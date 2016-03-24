@@ -9,6 +9,8 @@ namespace anonymous
 {
     public class MSG: ISolver
     {
+        bool autotest = false;
+
         public Vector Solve(Slae<DenseMatrix> SLAE, Vector Initial, int maxiter, double eps)
         {
             int iterNum;
@@ -34,11 +36,17 @@ namespace anonymous
                     z = r.Sum(z.Mult(betta));
 
                     residual = r.Norm() / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//диагональное предобуславливание или Неполное разложение Холесского
@@ -57,11 +65,17 @@ namespace anonymous
                         z = Mr.Sum(z.Mult(betta));
 
                         residual = r.Norm() / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
                 return result;
         }
@@ -91,11 +105,17 @@ namespace anonymous
                     z = r.Sum(z.Mult(betta));
 
                     residual = r.Norm() / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//диагональное предобуславливание или Неполное разложение Холесского
@@ -114,11 +134,17 @@ namespace anonymous
                         z = Mr.Sum(z.Mult(betta));
 
                         residual = r.Norm() / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
                 return result;
         }
@@ -148,11 +174,17 @@ namespace anonymous
                     z = r.Sum(z.Mult(betta));
 
                     residual = r.Norm() / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//диагональное предобуславливание или Неполное разложение Холесского
@@ -171,11 +203,17 @@ namespace anonymous
                         z = Mr.Sum(z.Mult(betta));
 
                         residual = r.Norm() / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
                 return result;
         }
@@ -205,11 +243,17 @@ namespace anonymous
                     z = r.Sum(z.Mult(betta));
 
                     residual = r.Norm() / SLAE.RightPart.Norm();
-                    if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                         MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
-                if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                    MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
             }
             else
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//диагональное предобуславливание или Неполное разложение Холесского
@@ -228,13 +272,24 @@ namespace anonymous
                         z = Mr.Sum(z.Mult(betta));
 
                         residual = r.Norm() / SLAE.RightPart.Norm();
-                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                        if (!autotest)
+                        {
+                            if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                                MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                        }
+                    }
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
                             MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                     }
-                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
-                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
                 }
                 return result;
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
         }
     }
 

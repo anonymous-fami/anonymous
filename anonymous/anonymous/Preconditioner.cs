@@ -18,11 +18,15 @@ namespace anonymous
         bool createLLT(Slae<T> slae);
         //LU(sq) разложение
         bool createLUsq(Slae<T> slae);
+
+        void set_autotest(bool flag);
     }
     #region Профильный формат
 
     class ProfilePreconditioner : IPreconditioner<ProfileMatrix>
     {
+        bool autotest = false;
+
         public bool createDiag(Slae<ProfileMatrix> Slae)
         {
             ProfileMatrix temp = new ProfileMatrix(Slae.Matrix.getMatrix());
@@ -84,7 +88,7 @@ namespace anonymous
                 }
                 catch (Exception error)
                 {
-                    MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                    if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                     Slae.PMatrix = null;
                     return false;
                 }
@@ -144,7 +148,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -211,17 +215,24 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
             return true;
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
         }
     }
     #endregion
     #region Разреженный формат
     class DispersePreconditioner : IPreconditioner<DisperseMatrix>
     {
+        bool autotest = false;
+
         public bool createDiag(Slae<DisperseMatrix> Slae)
         {
             DisperseMatrix temp = new DisperseMatrix(Slae.Matrix.getMatrix());
@@ -302,7 +313,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -342,7 +353,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -417,17 +428,24 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
             return true;
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
         }
     }
     #endregion
     #region Плотный формат
     class DensePreconditioner : IPreconditioner<DenseMatrix>
     {
+        bool autotest = false;
+
         public bool createDiag(Slae<DenseMatrix> Slae)
         {
             DenseMatrix temp = new DenseMatrix(Slae.Matrix.getMatrix());
@@ -482,7 +500,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -522,7 +540,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -577,17 +595,24 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
             return true;
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
         }
     }
     #endregion
     #region Диагональный формат
     class DiagonalPreconditioner : IPreconditioner<DiagonalMatrix>
     {
+        bool autotest = false;
+
         public bool createDiag(Slae<DiagonalMatrix> Slae)
         {
             DiagonalMatrix temp = new DiagonalMatrix(Slae.Matrix.getMatrix());
@@ -646,7 +671,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -690,7 +715,7 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
@@ -745,11 +770,16 @@ namespace anonymous
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
+                if (!autotest) MessageBox.Show(error.Message, "Ошибка Предобуславливателя.", MessageBoxButtons.OK);
                 Slae.PMatrix = null;
                 return false;
             }
             return true;
+        }
+
+        public void set_autotest(bool flag)
+        {
+            autotest = flag;
         }
     }
     #endregion
