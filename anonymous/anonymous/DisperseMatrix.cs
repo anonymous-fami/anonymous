@@ -118,24 +118,33 @@ namespace anonymous
             double s;
             double[] temp = new double[n];
             k = 0;
-            for (i = 0; i < n; i++)
+
+            try
             {
-                s = 0;
-                kol_str = ia[i + 1] - ia[i];
-                for (j = 0; j < kol_str; j++)
+                for (i = 0; i < n; i++)
                 {
-                    s += al[k] * temp[ja[k]];
-                    k++;
+                    s = 0;
+                    kol_str = ia[i + 1] - ia[i];
+                    for (j = 0; j < kol_str; j++)
+                    {
+                        s += al[k] * temp[ja[k]];
+                        k++;
+                    }
+                    if (Data.preconditioner == 3)
+                        temp[i] = (f.values[i] - s);
+                    else
+                        if (di[i] == 0)
+                        throw new Exception("DirectProgress: Нулевой элемент на диагонале. Деление на ноль.");
+                    else
+                        temp[i] = (f.values[i] - s) / di[i];
                 }
-                if (Data.preconditioner == 3)
-                    temp[i] = (f.values[i] - s);
-                else
-                    if (di[i] == 0)
-                    throw new Exception("DirectProgress: Деление на ноль.");
-                else
-                    temp[i] = (f.values[i] - s) / di[i];
+                return new Vector(n, temp);
             }
-            return new Vector(n, temp);
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка.", MessageBoxButtons.OK);
+                return null;
+            }
         }
 
         public Vector ReverseProgress(Vector y)     //Ux=y
@@ -145,24 +154,33 @@ namespace anonymous
             int i, j, k, kol_str;
             for (i = 0; i < n; i++) temp[i] = y.values[i];
             k = ia[n] - 1;
-            for (i = n - 1; i >= 0; i--)
+
+            try
             {
-                if (di[i] == 0)
-                    throw new Exception("ReverseProgress: Деление на ноль.");
-                else
-                    x[i] = temp[i] / di[i];
-                kol_str = ia[i + 1] - ia[i];
-                for (j = 0; j < kol_str; j++)
+                for (i = n - 1; i >= 0; i--)
                 {
-                    temp[ja[k]] -= au[k] * x[i];
-                    k--;
+                    if (di[i] == 0)
+                        throw new Exception("ReverseProgress: Нулевой элемент на диагонале. Деление на ноль.");
+                    else
+                        x[i] = temp[i] / di[i];
+                    kol_str = ia[i + 1] - ia[i];
+                    for (j = 0; j < kol_str; j++)
+                    {
+                        temp[ja[k]] -= au[k] * x[i];
+                        k--;
+                    }
                 }
+                if (di[0] == 0)
+                    throw new Exception("ReverseProgress: Нулевой элемент на диагонале. Деление на ноль.");
+                else
+                    x[0] = temp[0] / di[0];
+                return new Vector(n, x);
             }
-            if (di[0] == 0)
-                throw new Exception("ReverseProgress: Деление на ноль.");
-            else
-                x[0] = temp[0] / di[0];
-            return new Vector(n, x);
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message, "Ошибка.", MessageBoxButtons.OK);
+                return null;
+            }
         }
 
         public double abs_discrepancy(Vector x, Vector F)//абсолютная невязка

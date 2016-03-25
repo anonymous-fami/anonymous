@@ -60,6 +60,8 @@ namespace anonymous
                     Vector z = new Vector(SLAE.PMatrix.ReverseProgress(r));
                     Vector p = new Vector(SLAE.PMatrix.DirectProgress(SLAE.Matrix.Multiply(z)));
 
+                    if ((r == null) || (z == null) || (p == null)) return null;
+
                     residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
 
                     for (iterNum = 0; iterNum < maxiter && residual >= eps; iterNum++)
@@ -293,6 +295,8 @@ namespace anonymous
                     Vector r = new Vector(SLAE.PMatrix.DirectProgress(fAx));
                     Vector z = new Vector(SLAE.PMatrix.ReverseProgress(r));
                     Vector p = new Vector(SLAE.PMatrix.DirectProgress(SLAE.Matrix.Multiply(z)));
+
+                    if ((r == null) || (z == null) || (p == null)) return null;
 
                     residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
 

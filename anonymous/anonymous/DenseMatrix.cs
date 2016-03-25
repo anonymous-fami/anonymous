@@ -97,7 +97,7 @@ namespace anonymous
                     temp[i] = (f.values[i] - s);
                 else
                     if (Plot[i, i] == 0)
-                    throw new Exception("DirectProgress: Деление на ноль.");
+                    throw new Exception("DirectProgress: Нулевой элемент на диагонале. Деление на ноль.");
                 else
                     temp[i] = (f.values[i] - s) / Plot[i, i];
             }
@@ -113,7 +113,7 @@ namespace anonymous
             for (i = n - 1; i >= 0; i--)
             {
                 if (Plot[i, i] == 0)
-                    throw new Exception("ReverseProgress: Деление на ноль.");
+                    throw new Exception("ReverseProgress: Нулевой элемент на диагонале. Деление на ноль.");
                 else
                     x[i] = temp[i] / Plot[i, i];
                 for (j = i; j >= 0; j--)

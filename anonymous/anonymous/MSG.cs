@@ -259,15 +259,24 @@ namespace anonymous
                 if (Data.preconditioner == 1 || Data.preconditioner == 2 || Data.preconditioner == 3 || Data.preconditioner == 4)//диагональное предобуславливание или Неполное разложение Холесского
                 {
                     Vector z = new Vector(SLAE.PMatrix.ReverseProgress(SLAE.PMatrix.DirectProgress(r)));
+
+                    if (z == null) return null;
+
                     for (iterNum = 0; iterNum < maxiter && residual >= eps; iterNum++)
                     {
                         Mr = SLAE.PMatrix.ReverseProgress(SLAE.PMatrix.DirectProgress(r));//M^-1*r(k-1)
+
+                        if (Mr == null) return null;
+
                         Az = SLAE.Matrix.Multiply(z);//A*z(k-1)
                         alpha = Mr.Scalar(r) / Az.Scalar(z);
                         result = result.Sum(z.Mult(alpha));
                         iner_mr = Mr.Scalar(r);//(M^-1*r(k-1),r(k-1))
                         r = r.Differ(Az.Mult(alpha));
+
                         Mr = SLAE.PMatrix.ReverseProgress(SLAE.PMatrix.DirectProgress(r));
+                        if (Mr == null) return null;
+
                         betta = Mr.Scalar(r) / iner_mr;
                         z = Mr.Sum(z.Mult(betta));
 

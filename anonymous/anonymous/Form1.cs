@@ -1326,150 +1326,159 @@ namespace anonymous
 
                 for (i = 1; i <= n; i++)
                 {
-                    eps = 1e-16;                    
-                    Data.matrixformat = 3;                    
+                    eps = 1e-16;
+                    Data.matrixformat = 3;
                     Data.matrixPath = "./tests/auto/m" + i + ".txt";
                     Data.rightpartPath = "./tests/auto/r" + i + ".txt";
+                    System.IO.Directory.CreateDirectory("./tests/auto/ans");
                     preconditioner.set_autotest(true);
 
-                    Slae<DisperseMatrix> SLAE = new Slae<DisperseMatrix>();
-                    SLAE.Matrix = new DisperseMatrix(Data.matrixPath);
-                    SLAE.RightPart = new Vector(Data.rightpartPath);
-                    Initial = new Vector(SLAE.Matrix.getMatrix().N);
-
-                    if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0))
+                    if ((System.IO.File.Exists(Data.matrixPath)) && (System.IO.File.Exists(Data.rightpartPath)))
                     {
-                        MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        continue;
-                    }
+                        Slae<DisperseMatrix> SLAE = new Slae<DisperseMatrix>();
+                        SLAE.Matrix = new DisperseMatrix(Data.matrixPath);
+                        SLAE.RightPart = new Vector(Data.rightpartPath);
+                        Initial = new Vector(SLAE.Matrix.getMatrix().N);
 
-                    if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
-                    {
-                        MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        continue;
-                    }                    
-
-                    if (SLAE.Matrix.getMatrix().N <= 1000) iter = 20000;
-                    else iter = 2000;
-
-                    if (SLAE.Matrix.CheckSymmetry())
-                    {
-                        Data.preconditioner = 0;
-                        solver = new MSG();
-                        solver.set_autotest(true);
-                        Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                        solver.set_autotest(false);
-                        InputOutput.OutputVector("./tests/auto/x" + i +" MSG.txt", Data.result);
-
-                        Data.preconditioner = 1;
-                        if (preconditioner.createDiag(SLAE))
+                        if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0))
                         {
+                            MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.\nОшибка ввода матрицы.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            continue;
+                        }
+
+                        if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
+                        {
+                            MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            continue;
+                        }
+
+                        if (SLAE.Matrix.getMatrix().N <= 1000) iter = 20000;
+                        else iter = 2000;
+
+                        if (SLAE.Matrix.CheckSymmetry())
+                        {
+                            Data.preconditioner = 0;
                             solver = new MSG();
                             solver.set_autotest(true);
                             Data.result = solver.Solve(SLAE, Initial, iter, eps);
                             solver.set_autotest(false);
-                            InputOutput.OutputVector("./tests/auto/x" + i + " MSG_DIAG.txt", Data.result);
+                            InputOutput.OutputVector("./tests/auto/ans/x" + i + " MSG.txt", Data.result);
+
+                            Data.preconditioner = 1;
+                            if (preconditioner.createDiag(SLAE))
+                            {
+                                solver = new MSG();
+                                solver.set_autotest(true);
+                                Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                                solver.set_autotest(false);
+                                if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " MSG_DIAG.txt", Data.result);
+                            }
+
+                            Data.preconditioner = 2;
+                            if (preconditioner.createLLT(SLAE))
+                            {
+                                solver = new MSG();
+                                solver.set_autotest(true);
+                                Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                                solver.set_autotest(false);
+                                if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " MSG_LLT.txt", Data.result);
+                            }
+
+                            Data.preconditioner = 3;
+                            if (preconditioner.createLU(SLAE))
+                            {
+                                solver = new MSG();
+                                solver.set_autotest(true);
+                                Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                                solver.set_autotest(false);
+                                if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " MSG_LU.txt", Data.result);
+                            }
+
+                            Data.preconditioner = 4;
+                            if (preconditioner.createLUsq(SLAE))
+                            {
+                                solver = new MSG();
+                                solver.set_autotest(true);
+                                Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                                solver.set_autotest(false);
+                                if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " MSG_LUsq.txt", Data.result);
+                            }
                         }
 
-                        Data.preconditioner = 2;
-                        if (preconditioner.createLLT(SLAE))
-                        {                            
-                            solver = new MSG();
-                            solver.set_autotest(true);
-                            Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                            solver.set_autotest(false);
-                            InputOutput.OutputVector("./tests/auto/x" + i + " MSG_LLT.txt", Data.result);
-                        }
-
-                        Data.preconditioner = 3;
-                        if (preconditioner.createLU(SLAE))
-                        {                            
-                            solver = new MSG();
-                            solver.set_autotest(true);
-                            Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                            solver.set_autotest(false);
-                            InputOutput.OutputVector("./tests/auto/x" + i + " MSG_LU.txt", Data.result);
-                        }
-
-                        Data.preconditioner = 4;
-                        if (preconditioner.createLUsq(SLAE))
-                        {                            
-                            solver = new MSG();
-                            solver.set_autotest(true);
-                            Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                            solver.set_autotest(false);
-                            InputOutput.OutputVector("./tests/auto/x" + i + " MSG_LUsq.txt", Data.result);
-                        }
-                    }
-
-                    Data.preconditioner = 0;
-                    solver = new LOS();
-                    solver.set_autotest(true);
-                    Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                    solver.set_autotest(false);
-                    InputOutput.OutputVector("./tests/auto/x" + i + " LOS.txt", Data.result);
-
-                    Data.preconditioner = 1;
-                    if (preconditioner.createDiag(SLAE))
-                    {
+                        Data.preconditioner = 0;
                         solver = new LOS();
                         solver.set_autotest(true);
                         Data.result = solver.Solve(SLAE, Initial, iter, eps);
                         solver.set_autotest(false);
-                        InputOutput.OutputVector("./tests/auto/x" + i + " LOS_DIAG.txt", Data.result);
-                    }
+                        if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " LOS.txt", Data.result);
 
-                    if (SLAE.Matrix.CheckSymmetry())
-                    {
-                        Data.preconditioner = 2;
-                        if (preconditioner.createLLT(SLAE))
+                        Data.preconditioner = 1;
+                        if (preconditioner.createDiag(SLAE))
                         {
                             solver = new LOS();
                             solver.set_autotest(true);
                             Data.result = solver.Solve(SLAE, Initial, iter, eps);
                             solver.set_autotest(false);
-                            InputOutput.OutputVector("./tests/auto/x" + i + " LOS_LLT.txt", Data.result);
+                            if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " LOS_DIAG.txt", Data.result);
                         }
-                    }
 
-                    Data.preconditioner = 3;
-                    if (preconditioner.createLU(SLAE))
-                    {
-                        solver = new LOS();
+                        if (SLAE.Matrix.CheckSymmetry())
+                        {
+                            Data.preconditioner = 2;
+                            if (preconditioner.createLLT(SLAE))
+                            {
+                                solver = new LOS();
+                                solver.set_autotest(true);
+                                Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                                solver.set_autotest(false);
+                                if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " LOS_LLT.txt", Data.result);
+                            }
+                        }
+
+                        Data.preconditioner = 3;
+                        if (preconditioner.createLU(SLAE))
+                        {
+                            solver = new LOS();
+                            solver.set_autotest(true);
+                            Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                            solver.set_autotest(false);
+                            if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " LOS_LU.txt", Data.result);
+                        }
+
+                        Data.preconditioner = 4;
+                        if (preconditioner.createLUsq(SLAE))
+                        {
+                            solver = new LOS();
+                            solver.set_autotest(true);
+                            Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                            solver.set_autotest(false);
+                            if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " LOS_LUsq.txt", Data.result);
+                        }
+
+                        Data.preconditioner = 0;
+                        solver = new BSGstab();
                         solver.set_autotest(true);
                         Data.result = solver.Solve(SLAE, Initial, iter, eps);
                         solver.set_autotest(false);
-                        InputOutput.OutputVector("./tests/auto/x" + i + " LOS_LU.txt", Data.result);
-                    }
+                        if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " BSGStab.txt", Data.result);
 
-                    Data.preconditioner = 4;
-                    if (preconditioner.createLUsq(SLAE))
+                        if (SLAE.Matrix.getMatrix().N < 50)
+                        {
+                            solver = new GaussZeidel();
+                            solver.set_autotest(true);
+                            Data.result = solver.Solve(SLAE, Initial, iter, eps);
+                            solver.set_autotest(false);
+                            if (Data.result != null) InputOutput.OutputVector("./tests/auto/ans/x" + i + " GaussZeidel.txt", Data.result);
+                        }
+
+                        preconditioner.set_autotest(false);
+
+                        if (i % (n/10) == 0) MessageBox.Show("Матрица " + i + " протестирована.", "OK.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
                     {
-                        solver = new LOS();
-                        solver.set_autotest(true);
-                        Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                        solver.set_autotest(false);
-                        InputOutput.OutputVector("./tests/auto/x" + i + " LOS_LUsq.txt", Data.result);
+                        MessageBox.Show("Матрица " + i + " потеряна.", "OK.", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    Data.preconditioner = 0;
-                    solver = new BSGstab();
-                    solver.set_autotest(true);
-                    Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                    solver.set_autotest(false);
-                    InputOutput.OutputVector("./tests/auto/x" + i + " BSGStab.txt", Data.result);
-
-                    if (SLAE.Matrix.getMatrix().N < 50)
-                    {
-                        solver = new GaussZeidel();
-                        solver.set_autotest(true);
-                        Data.result = solver.Solve(SLAE, Initial, iter, eps);
-                        solver.set_autotest(false);
-                        InputOutput.OutputVector("./tests/auto/x" + i + " GaussZeidel.txt", Data.result);
-                    }
-
-                    preconditioner.set_autotest(false);
-                    MessageBox.Show("Матрица " + i + " протестирована.", "OK.", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 MessageBox.Show("Автотестирование завершено.", "OK.", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
