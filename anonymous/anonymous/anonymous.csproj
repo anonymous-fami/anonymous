@@ -237,9 +237,16 @@
     <Content Include="tests\auto\m46 кривой ввод.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tests\auto\m47.txt" />
+    <Content Include="tests\auto\m48.txt" />
+    <Content Include="tests\auto\m49.txt" />
     <Content Include="tests\auto\m5.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tests\auto\m50.txt" />
+    <Content Include="tests\auto\m51.txt" />
+    <Content Include="tests\auto\m52.txt" />
+    <Content Include="tests\auto\m53.txt" />
     <Content Include="tests\auto\m6.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -375,9 +382,16 @@
     <Content Include="tests\auto\r46.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tests\auto\r47.txt" />
+    <Content Include="tests\auto\r48.txt" />
+    <Content Include="tests\auto\r49.txt" />
     <Content Include="tests\auto\r5.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="tests\auto\r50.txt" />
+    <Content Include="tests\auto\r51.txt" />
+    <Content Include="tests\auto\r52.txt" />
+    <Content Include="tests\auto\r53.txt" />
     <Content Include="tests\auto\r6.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
