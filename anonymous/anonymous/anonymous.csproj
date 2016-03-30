@@ -56,6 +56,7 @@
     <Compile Include="DenseMatrix.cs" />
     <Compile Include="DiagonalMatrix.cs" />
     <Compile Include="DisperseMatrix.cs" />
+    <Compile Include="FullDisperseMatrix.cs" />
     <Compile Include="GaussZeidel.cs" />
     <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>

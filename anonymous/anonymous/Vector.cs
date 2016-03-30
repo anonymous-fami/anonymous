@@ -11,7 +11,7 @@ namespace anonymous
     {
         public int size;
         public double[] values;
-
+        
         public Vector(int size, double[] values) //Конструктор, получает данные на входе
         {
             this.size = size;

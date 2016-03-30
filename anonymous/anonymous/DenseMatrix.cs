@@ -97,9 +97,9 @@ namespace anonymous
                     temp[i] = (f.values[i] - s);
                 else
                     if (Plot[i, i] == 0)
-                    throw new Exception("DirectProgress: Нулевой элемент на диагонале. Деление на ноль.");
-                else
-                    temp[i] = (f.values[i] - s) / Plot[i, i];
+                        throw new Exception("DirectProgress: Нулевой элемент на диагонале. Деление на ноль.");
+                    else
+                        temp[i] = (f.values[i] - s) / Plot[i, i];
             }
             return new Vector(n, temp);
         }

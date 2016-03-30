@@ -327,6 +327,53 @@ namespace anonymous
                 return result;
         }
 
+
+        public Vector Solve(Slae<FullDisperseMatrix> SLAE, Vector Initial, int maxiter, double eps)
+        {
+            int iterNum;
+            double iner_p, alpha, betta, residual;
+            Vector Ar;
+
+            Vector result = new Vector(Initial);
+
+
+            if (Data.preconditioner == 0)//нет предобуславливания
+            {
+                Vector r = new Vector(SLAE.RightPart.Differ(SLAE.Matrix.Multiply(Initial)));
+                Vector z = new Vector(r);
+                Vector p = new Vector(SLAE.Matrix.Multiply(z));
+
+                residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
+
+                for (iterNum = 0; iterNum < maxiter && residual >= eps; iterNum++)
+                {
+                    iner_p = p.Scalar(p);
+                    alpha = p.Scalar(r) / iner_p;
+                    result = result.Sum(z.Mult(alpha));
+                    r = r.Differ(p.Mult(alpha));
+                    Ar = SLAE.Matrix.Multiply(r);
+                    betta = -p.Scalar(Ar) / iner_p;
+                    z = r.Sum(z.Mult(betta));
+                    p = Ar.Sum(p.Mult(betta));
+
+                    residual = Math.Sqrt(r.Scalar(r)) / SLAE.RightPart.Norm();
+                    if (!autotest)
+                    {
+                        if (!InputOutput.OutputIterationToForm(iterNum, residual, maxiter, false))
+                            MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                    }
+                }
+                if (!autotest)
+                {
+                    if (!InputOutput.OutputIterationToForm(iterNum - 1, residual, maxiter, true))
+                        MessageBox.Show("Ошибка при выводе данных на форму.", "Опаньки...", MessageBoxButtons.OK);
+                }
+            }
+           
+            return result;
+        }
+
+
         public void set_autotest(bool flag)
         {
             autotest = flag;

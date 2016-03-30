@@ -71,7 +71,7 @@ namespace anonymous
 
         public double MultiplyL(int index,Vector x)//функция для Гаусс-Зейделя, нижний треугольник
         {
-            double res=0;
+            double res = 0;
             for (int j = ia[index]; j < ia[index + 1]; j++)
                 res += al[j] * x.values[ja[j]];
   

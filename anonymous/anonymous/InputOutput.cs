@@ -15,6 +15,7 @@ namespace anonymous
         public static bool debug = false;
         public static PointPairList points = new PointPairList();
         private static int previt;
+        
         //
         //Ввод плотной матрицы
         // n - размерность матрицы
@@ -350,6 +351,52 @@ namespace anonymous
                 al = null;
                 au = null;
                 diag = null;
+                return false;
+            }
+        }
+
+        //
+        //Ввод матрицы в полном разреженном формате
+        // kol - количество ненулевых элементов
+        // row - номер строки
+        // col - номер столбца
+        // val - элемент 
+        // Возвращает false - если возникла любая ошибка, true - если все данные корректно считались
+        //
+        public static bool InputMatrix(string FileName, out int n, out List<FullDisperseMatrix.elem> matr)
+        {
+            matr = new List<FullDisperseMatrix.elem>();
+            try 
+            {
+                StreamReader sr = new StreamReader(FileName);
+                double[] a;
+                FullDisperseMatrix.elem el;
+
+                string[] lines = System.IO.File.ReadAllLines(FileName);
+                int kol = Int32.Parse(lines[0]);
+                a = new double[3];
+                
+
+                for (int i = 1; i <= kol; i++)
+                {
+                    lines[i] = lines[i].Trim();
+                    lines[i] = lines[i].Replace('\t', ' ');
+                    lines[i] = lines[i].Replace("  ", " ");
+                    lines[i] = lines[i].Replace('.', ',');
+                    a = lines[i].Split(' ').Select(nn => Convert.ToDouble(nn)).ToArray();
+                    el.row = Convert.ToInt32(a[0]);
+                    el.col = Convert.ToInt32(a[1]);
+                    el.val = a[2];               
+                    matr.Add(el);
+                }
+                n = matr[matr.Count - 1].row + 1;
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                if (debug) MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK);
+                n = 0;
                 return false;
             }
         }

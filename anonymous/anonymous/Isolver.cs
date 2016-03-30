@@ -12,6 +12,7 @@ namespace anonymous
         Vector Solve(Slae<ProfileMatrix> SLAE, Vector Initial, int maxiter, double eps);
         Vector Solve(Slae<DiagonalMatrix> SLAE, Vector Initial, int maxiter, double eps);
         Vector Solve(Slae<DisperseMatrix> SLAE, Vector Initial, int maxiter, double eps);
+        Vector Solve(Slae<FullDisperseMatrix> SLAE, Vector Initial, int maxiter, double eps);
         void set_autotest(bool flag);      
     }
 }

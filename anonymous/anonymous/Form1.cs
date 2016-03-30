@@ -13,6 +13,7 @@ namespace anonymous
 {
     public partial class Form1 : Form
     {
+       
         public Form1()
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace anonymous
             initial_textBox.ReadOnly = true;
 
             //Формат матрицы
-            string[] matrixformats = { "Плотный", "Профильный", "Диагональный", "Разреженный" };
+            string[] matrixformats = { "Плотный", "Профильный", "Диагональный", "Разреженный", "Полный разреженный" }; //добавить сюда
             
             matrix_combobox.Items.AddRange(matrixformats);
             matrix_combobox.SelectedItem = matrix_combobox.Items[0];
@@ -1157,6 +1158,79 @@ namespace anonymous
                             }
                             break;
                         }
+
+                    case 4: // Полностью разреженая
+                        {
+                            Slae<FullDisperseMatrix> SLAE = new Slae<FullDisperseMatrix>();
+                            SLAE.Matrix = new FullDisperseMatrix(Data.matrixPath);
+                            SLAE.RightPart = new Vector(Data.rightpartPath);
+
+                            if (initial_checkBox.Checked) Initial = new Vector(SLAE.Matrix.getMatrix().N);
+                            else Initial = new Vector(Data.initialPath);
+
+                            if ((SLAE.Matrix.getMatrix().N == 0) || (SLAE.RightPart.SIZE == 0) || (Initial.SIZE == 0))
+                            {
+                                MessageBox.Show("Размерность матрицы/вектора правой части/вектора приближения равна нулю.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
+                                break;
+                            }
+
+                            if ((SLAE.Matrix.getMatrix().N != SLAE.RightPart.SIZE) || (SLAE.Matrix.getMatrix().N != Initial.SIZE))
+                            {
+                                MessageBox.Show("Размерности матрицы/вектора правой части/вектора приближения не совпадают.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                success = false;
+                                break;
+                            }
+
+                            switch (Data.preconditioner)
+                            {
+                                case 0: //Нет предобуславливателя
+                                    {
+                                        switch (Data.solver)
+                                        {
+                                            case 0: //МСГ
+                                                {
+                                                    if (!SLAE.Matrix.CheckSymmetry())
+                                                    {
+                                                        MessageBox.Show("Для выбранного решателя ваша матрица должна быть симметричной.", "Ошибка.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                        success = false;
+                                                        break;
+                                                    }
+                                                    solver = new MSG();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 1: //ЛОС
+                                                {
+                                                    solver = new LOS();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 2: //БСГ стаб
+                                                {
+                                                    solver = new BSGstab();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                            case 3: //Гаусс-Зейдель
+                                                {
+                                                    solver = new GaussZeidel();
+                                                    Data.result = solver.Solve(SLAE, Initial, (int)maxiter_numericUpDown.Value, eps);
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        MessageBox.Show("Для полностью разреженного формата не реализован предобуславливатель :)", "");
+                                        success = false;
+                                        break;
+                                    }
+                                
+                            }
+                            break;
+                        }
                 }
             }
             else success = false;
@@ -1490,6 +1564,7 @@ namespace anonymous
                 }
             }
         }
+
     }
 
     public static class Data
